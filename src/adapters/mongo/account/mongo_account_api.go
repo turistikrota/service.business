@@ -34,14 +34,11 @@ func (r *repo) Update(ctx context.Context, u account.UserUnique, account *accoun
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UserUUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	setter := bson.M{
 		"$set": bson.M{
 			entity.Fields.UserName:  account.UserName,
-			entity.Fields.UserCode:  account.UserCode,
 			entity.Fields.FullName:  account.FullName,
-			entity.Fields.Avatar:    account.AvatarURL,
 			entity.Fields.BirthDate: account.BirthDate,
 		},
 	}
@@ -52,7 +49,6 @@ func (r *repo) Disable(ctx context.Context, u account.UserUnique) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UserUUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	setter := bson.M{
 		"$set": bson.M{
@@ -66,7 +62,6 @@ func (r *repo) Enable(ctx context.Context, u account.UserUnique) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UserUUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	setter := bson.M{
 		"$set": bson.M{
@@ -80,7 +75,6 @@ func (r *repo) Delete(ctx context.Context, u account.UserUnique) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UserUUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 	}
 	setter := bson.M{
 		"$set": bson.M{
@@ -93,7 +87,6 @@ func (r *repo) Delete(ctx context.Context, u account.UserUnique) *i18np.Error {
 func (r *repo) Get(ctx context.Context, u account.UserUnique) (*account.Entity, *i18np.Error) {
 	filter := bson.M{
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsDeleted: bson.M{
 			"$ne": true,
 		},
@@ -106,7 +99,6 @@ func (r *repo) GetByUserUUID(ctx context.Context, u account.UserUnique) (*accoun
 	filter := bson.M{
 		entity.Fields.UserUUID: u.UserUUID,
 		entity.Fields.UserName: u.Name,
-		entity.Fields.UserCode: u.Code,
 		entity.Fields.IsDeleted: bson.M{
 			"$ne": true,
 		},

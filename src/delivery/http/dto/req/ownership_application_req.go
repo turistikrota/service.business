@@ -27,9 +27,7 @@ type OwnerApplicationRequest struct {
 }
 
 func (r *OwnerApplicationRequest) LoadUser(user *AccountUserRequest) *OwnerApplicationRequest {
-	user.Parse()
-	r.UserName = user.UserName
-	r.UserCode = user.UserCode
+	r.UserName = user.CurrentUserName
 	return r
 }
 
@@ -37,7 +35,6 @@ func (r *OwnerApplicationRequest) ToCommand(userUUID string) command.OwnerApplic
 	ownerType := owner.Type(r.OwnerType)
 	cmd := command.OwnerApplicationCommand{
 		UserName:  r.UserName,
-		UserCode:  r.UserCode,
 		UserUUID:  userUUID,
 		NickName:  r.NickName,
 		RealName:  r.RealName,

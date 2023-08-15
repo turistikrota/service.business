@@ -17,7 +17,6 @@ import (
 type OwnerApplicationCommand struct {
 	UserUUID          string
 	UserName          string
-	UserCode          string
 	NickName          string
 	RealName          string
 	OwnerType         owner.Type
@@ -88,16 +87,15 @@ type ownerApplicationChain struct {
 }
 
 func (h ownerApplicationHandler) Handle(ctx context.Context, command OwnerApplicationCommand) (*OwnerApplicationResult, *i18np.Error) {
-	ch := chain.Make[*ownerApplicationChain, OwnerApplicationResult]()
+	ch := chain.New[*ownerApplicationChain, OwnerApplicationResult]()
 	ch.Use(h.checkAccount, h.create, h.hash, h.validate, h.verifyByType, h.checkNickName, h.save, h.end)
-	return ch.Start(ctx, &ownerApplicationChain{command: command})
+	return ch.Run(ctx, &ownerApplicationChain{command: command})
 }
 
 func (h ownerApplicationHandler) checkAccount(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
 	_, err := h.accountRepo.GetByUserUUID(ctx, account.UserUnique{
 		UserUUID: chain.command.UserUUID,
 		Name:     chain.command.UserName,
-		Code:     chain.command.UserCode,
 	})
 	if err != nil {
 		return nil, err
@@ -109,7 +107,6 @@ func (h ownerApplicationHandler) create(ctx context.Context, chain *ownerApplica
 	chain.entity = h.factory.NewOwner(owner.NewOwnerParams{
 		UserUUID:    chain.command.UserUUID,
 		UserName:    chain.command.UserName,
-		UserCode:    chain.command.UserCode,
 		NickName:    chain.command.NickName,
 		RealName:    chain.command.RealName,
 		OwnerType:   chain.command.OwnerType,

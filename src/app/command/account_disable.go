@@ -11,7 +11,6 @@ import (
 type AccountDisableCommand struct {
 	UserUUID string
 	Name     string
-	Code     string
 }
 type AccountDisableResult struct{}
 
@@ -39,7 +38,6 @@ func (h *accountDisableHandler) Handle(ctx context.Context, cmd AccountDisableCo
 	_ = h.repo.Disable(ctx, account.UserUnique{
 		UserUUID: cmd.UserUUID,
 		Name:     cmd.Name,
-		Code:     cmd.Code,
 	})
 	return &AccountDisableResult{}, nil
 }

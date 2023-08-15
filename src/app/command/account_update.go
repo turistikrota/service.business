@@ -12,9 +12,7 @@ import (
 type AccountUpdateCommand struct {
 	UserUUID    string
 	CurrentName string
-	CurrentCode string
 	NewName     string
-	NewCode     string
 	FullName    string
 	Avatar      string
 	BirthDate   *time.Time
@@ -45,12 +43,9 @@ func (h *accountUpdateHandler) Handle(ctx context.Context, cmd AccountUpdateComm
 	_ = h.repo.Update(ctx, account.UserUnique{
 		UserUUID: cmd.UserUUID,
 		Name:     cmd.CurrentName,
-		Code:     cmd.CurrentCode,
 	}, &account.Entity{
 		UserName:  cmd.NewName,
-		UserCode:  cmd.NewCode,
 		FullName:  cmd.FullName,
-		AvatarURL: cmd.Avatar,
 		BirthDate: cmd.BirthDate,
 	})
 	return &AccountUpdateResult{}, nil

@@ -11,7 +11,6 @@ import (
 type AccountDeleteCommand struct {
 	UserUUID string
 	Name     string
-	Code     string
 }
 type AccountDeleteResult struct{}
 
@@ -39,7 +38,6 @@ func (h *accountDeleteHandler) Handle(ctx context.Context, cmd AccountDeleteComm
 	_ = h.repo.Delete(ctx, account.UserUnique{
 		UserUUID: cmd.UserUUID,
 		Name:     cmd.Name,
-		Code:     cmd.Code,
 	})
 	return &AccountDeleteResult{}, nil
 }

@@ -8,12 +8,12 @@ import (
 	"github.com/mixarchitecture/microp/decorator"
 	"github.com/turistikrota/service.owner/src/domain/account"
 	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.shared/helper"
 )
 
 type ListMyOwnershipUsersQuery struct {
 	NickName string
 	UserName string
-	UserCode string
 }
 
 type ListMyOwnershipUserType struct {
@@ -61,7 +61,6 @@ func NewListMyOwnershipUsersQueryHandler(config ListMyOwnershipUsersQueryHandler
 func (h *listMyOwnershipUsersQueryHandler) Handle(ctx context.Context, query ListMyOwnershipUsersQuery) (*ListMyOwnershipUsersResult, *i18np.Error) {
 	users, err := h.ownerRepo.ListOwnershipUsers(ctx, query.NickName, owner.UserDetail{
 		Name: query.UserName,
-		Code: query.UserCode,
 	})
 	if err != nil {
 		return nil, h.ownerFactory.Errors.Failed("failed to list ownership users")
@@ -72,7 +71,6 @@ func (h *listMyOwnershipUsersQueryHandler) Handle(ctx context.Context, query Lis
 	for _, user := range users {
 		acc, err := h.accountRepo.Get(ctx, account.UserUnique{
 			Name: user.Name,
-			Code: user.Code,
 		})
 		if err != nil {
 			return nil, h.ownerFactory.Errors.Failed("failed to get account")
@@ -81,7 +79,7 @@ func (h *listMyOwnershipUsersQueryHandler) Handle(ctx context.Context, query Lis
 			Name:       user.Name,
 			Code:       user.Code,
 			FullName:   acc.FullName,
-			AvatarURL:  acc.AvatarURL,
+			AvatarURL:  helper.CDN.DressAvatar(acc.UserName),
 			Roles:      user.Roles,
 			IsVerified: acc.IsVerified,
 			JoinAt:     user.JoinAt,

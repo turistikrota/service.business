@@ -15,7 +15,6 @@ import (
 type OwnershipUserAddCommand struct {
 	OwnerNickName  string
 	UserName       string
-	UserCode       string
 	AccessUserUUID string
 }
 
@@ -53,7 +52,6 @@ func NewOwnershipUserAddHandler(config OwnershipUserAddHandlerConfig) OwnershipU
 func (h *ownershipUserAddHandler) Handle(ctx context.Context, cmd OwnershipUserAddCommand) (*OwnershipUserAddResult, *i18np.Error) {
 	user, _err := h.accountRepo.Get(ctx, account.UserUnique{
 		Name: cmd.UserName,
-		Code: cmd.UserCode,
 	})
 	if _err != nil {
 		return nil, _err
@@ -61,7 +59,6 @@ func (h *ownershipUserAddHandler) Handle(ctx context.Context, cmd OwnershipUserA
 	u := &owner.User{
 		UUID:   user.UserUUID,
 		Name:   cmd.UserName,
-		Code:   cmd.UserCode,
 		Roles:  []string{config.Roles.Owner.Member},
 		JoinAt: time.Now(),
 	}

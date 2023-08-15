@@ -2,13 +2,13 @@ package account
 
 import (
 	"context"
+
 	"github.com/mixarchitecture/i18np"
 )
 
 type UserUnique struct {
 	UserUUID string
 	Name     string
-	Code     string
 }
 
 type Repository interface {

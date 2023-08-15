@@ -11,7 +11,6 @@ import (
 type AccountEnableCommand struct {
 	UserUUID string
 	Name     string
-	Code     string
 }
 type AccountEnableResult struct{}
 
@@ -39,7 +38,6 @@ func (h *accountEnableHandler) Handle(ctx context.Context, cmd AccountEnableComm
 	_ = h.repo.Enable(ctx, account.UserUnique{
 		UserUUID: cmd.UserUUID,
 		Name:     cmd.Name,
-		Code:     cmd.Code,
 	})
 	return &AccountEnableResult{}, nil
 }
