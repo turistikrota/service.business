@@ -1,8 +1,8 @@
 package owner
 
 import (
+	"github.com/mixarchitecture/microp/events"
 	"github.com/turistikrota/service.owner/src/config"
-	"github.com/turistikrota/service.shared/events"
 )
 
 type Events interface {

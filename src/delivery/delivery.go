@@ -5,15 +5,15 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/mixarchitecture/i18np"
+	"github.com/mixarchitecture/microp/events"
+	sharedHttp "github.com/mixarchitecture/microp/server/http"
+	"github.com/mixarchitecture/microp/validator"
 	"github.com/turistikrota/service.owner/src/app"
 	"github.com/turistikrota/service.owner/src/config"
 	"github.com/turistikrota/service.owner/src/delivery/event_stream"
 	"github.com/turistikrota/service.owner/src/delivery/http"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
-	"github.com/turistikrota/service.shared/events"
-	sharedHttp "github.com/turistikrota/service.shared/server/http"
-	"github.com/turistikrota/service.shared/validator"
 )
 
 type Delivery interface {

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/mixarchitecture/i18np"
+	"github.com/mixarchitecture/microp/decorator"
 	"github.com/turistikrota/service.owner/src/domain/owner"
-	"github.com/turistikrota/service.shared/decorator"
 )
 
 type OwnershipEnableCommand struct {

@@ -3,9 +3,9 @@ package req
 import (
 	"time"
 
+	"github.com/mixarchitecture/microp/formats"
 	"github.com/turistikrota/service.owner/src/app/command"
 	"github.com/turistikrota/service.owner/src/domain/owner"
-	"github.com/turistikrota/service.shared/formats"
 )
 
 type OwnerApplicationRequest struct {

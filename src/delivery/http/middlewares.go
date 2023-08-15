@@ -2,11 +2,11 @@ package http
 
 import (
 	"github.com/gofiber/fiber/v2"
+	httpI18n "github.com/mixarchitecture/microp/server/http/i18n"
+	"github.com/mixarchitecture/microp/server/http/result"
 	"github.com/turistikrota/service.owner/src/delivery/http/dto"
 	"github.com/turistikrota/service.owner/src/domain/owner"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
-	httpI18n "github.com/turistikrota/service.shared/server/http/i18n"
-	"github.com/turistikrota/service.shared/server/http/result"
 )
 
 func (h Server) CurrentOwner() func(ctx *fiber.Ctx) error {

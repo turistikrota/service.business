@@ -6,12 +6,12 @@ import (
 
 	"github.com/turistikrota/service.owner/src/domain/account"
 
+	"github.com/mixarchitecture/chain"
 	"github.com/mixarchitecture/i18np"
+	"github.com/mixarchitecture/microp/decorator"
 	"github.com/ssibrahimbas/KPSPublic"
 	"github.com/turistikrota/service.owner/src/domain/owner"
-	"github.com/turistikrota/service.shared/chain"
 	"github.com/turistikrota/service.shared/cipher"
-	"github.com/turistikrota/service.shared/decorator"
 )
 
 type OwnerApplicationCommand struct {

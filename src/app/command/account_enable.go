@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/mixarchitecture/i18np"
+	"github.com/mixarchitecture/microp/decorator"
 	"github.com/turistikrota/service.owner/src/domain/account"
-	"github.com/turistikrota/service.shared/decorator"
 )
 
 type AccountEnableCommand struct {

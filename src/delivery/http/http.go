@@ -6,20 +6,20 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/mixarchitecture/i18np"
+	"github.com/mixarchitecture/microp/server/http"
+	"github.com/mixarchitecture/microp/server/http/parser"
 	"github.com/turistikrota/service.owner/src/config"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
-	"github.com/turistikrota/service.shared/server/http"
 	"github.com/turistikrota/service.shared/server/http/auth"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 	"github.com/turistikrota/service.shared/server/http/auth/device_uuid"
 	"github.com/turistikrota/service.shared/server/http/auth/required_access"
-	"github.com/turistikrota/service.shared/server/http/parser"
 
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/timeout"
+	"github.com/mixarchitecture/microp/validator"
 	"github.com/turistikrota/service.owner/src/app"
-	"github.com/turistikrota/service.shared/validator"
 )
 
 type Server struct {

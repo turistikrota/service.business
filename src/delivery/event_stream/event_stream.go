@@ -3,11 +3,11 @@ package event_stream
 import (
 	"context"
 
+	"github.com/mixarchitecture/microp/events"
 	"github.com/sirupsen/logrus"
 	"github.com/turistikrota/service.owner/src/app"
 	"github.com/turistikrota/service.owner/src/config"
 	"github.com/turistikrota/service.owner/src/delivery/event_stream/dto"
-	"github.com/turistikrota/service.shared/events"
 )
 
 type Server struct {
