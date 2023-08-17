@@ -93,6 +93,11 @@ type Nats struct {
 	Streams []string `env:"NATS_STREAMS" envDefault:""`
 }
 
+type RSA struct {
+	PrivateKeyFile string `env:"RSA_PRIVATE_KEY"`
+	PublicKeyFile  string `env:"RSA_PUBLIC_KEY"`
+}
+
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
@@ -107,4 +112,5 @@ type App struct {
 	Nats        Nats
 	Redis       Redis
 	TokenSrv    TokenSrv
+	Rsa         RSA
 }

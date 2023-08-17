@@ -45,7 +45,9 @@ func main() {
 		DB:       config.Redis.Db,
 	})
 	tknSrv := token.New(token.Config{
-		Expiration: config.TokenSrv.Expiration,
+		Expiration:     config.TokenSrv.Expiration,
+		PublicKeyFile:  config.Rsa.PublicKeyFile,
+		PrivateKeyFile: config.Rsa.PrivateKeyFile,
 	})
 	session := session.NewSessionApp(session.Config{
 		Redis:       redis,
