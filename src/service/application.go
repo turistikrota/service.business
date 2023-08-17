@@ -18,21 +18,21 @@ import (
 type Config struct {
 	App          config.App
 	EventEngine  events.Engine
-	OwnerMongo   *mongo.DB
+	Mongo        *mongo.DB
 	AccountMongo *mongo.DB
 	Validator    *validator.Validator
 }
 
 func NewApplication(config Config) app.Application {
 	ownerFactory := owner.NewFactory()
-	ownerRepo := adapters.Mongo.NewOwner(ownerFactory, config.OwnerMongo.GetCollection(config.App.DB.MongoOwner.Collection))
+	ownerRepo := adapters.Mongo.NewOwner(ownerFactory, config.Mongo.GetCollection(config.App.DB.MongoOwner.Collection))
 	ownerEvents := owner.NewEvents(owner.EventConfig{
 		Topics:    config.App.Topics,
 		Publisher: config.EventEngine,
 	})
 
 	accountFactory := account.NewFactory()
-	accountRepo := adapters.Mongo.NewAccount(accountFactory, config.AccountMongo.GetCollection(config.App.DB.MongoAccount.Collection))
+	accountRepo := adapters.Mongo.NewAccount(accountFactory, config.Mongo.GetCollection(config.App.DB.MongoAccount.Collection))
 
 	identitySrv := KPSPublic.New()
 

@@ -31,14 +31,12 @@ func main() {
 	valid := validator.New(i18n)
 	valid.ConnectCustom()
 	valid.RegisterTagName()
-	ownerMongo := loadOwnerMongo(config)
-	accountMongo := loadAccountMongo(config)
+	mongo := loadOwnerMongo(config)
 	app := service.NewApplication(service.Config{
-		App:          config,
-		EventEngine:  eventEngine,
-		OwnerMongo:   ownerMongo,
-		AccountMongo: accountMongo,
-		Validator:    valid,
+		App:         config,
+		EventEngine: eventEngine,
+		Mongo:       mongo,
+		Validator:   valid,
 	})
 	redis := redis.New(&redis.Config{
 		Host:     config.Redis.Host,
@@ -79,22 +77,6 @@ func loadOwnerMongo(cnf config.App) *mongo.DB {
 		Query: cnf.DB.MongoOwner.Query,
 	})
 	d, err := mongo.New(uri, cnf.DB.MongoOwner.Database)
-	if err != nil {
-		panic(err)
-	}
-	return d
-}
-
-func loadAccountMongo(cnf config.App) *mongo.DB {
-	uri := mongo.CalcMongoUri(mongo.UriParams{
-		Host:  cnf.DB.MongoAccount.Host,
-		Port:  cnf.DB.MongoAccount.Port,
-		User:  cnf.DB.MongoAccount.Username,
-		Pass:  cnf.DB.MongoAccount.Password,
-		Db:    cnf.DB.MongoAccount.Database,
-		Query: cnf.DB.MongoAccount.Query,
-	})
-	d, err := mongo.New(uri, cnf.DB.MongoAccount.Database)
 	if err != nil {
 		panic(err)
 	}
