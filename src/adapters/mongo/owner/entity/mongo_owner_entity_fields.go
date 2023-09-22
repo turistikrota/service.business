@@ -45,6 +45,8 @@ type corporationFields struct {
 	Province  string
 	District  string
 	Address   string
+	TaxOffice string
+	Title     string
 }
 
 var Fields = fields{
@@ -92,6 +94,8 @@ var CorporationFields = corporationFields{
 	Province:  "province",
 	District:  "district",
 	Address:   "address",
+	TaxOffice: "tax_office",
+	Title:     "title",
 }
 
 func CorporationField(field string) string {

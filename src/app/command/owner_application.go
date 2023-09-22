@@ -4,6 +4,7 @@ import (
 	"context"
 	"time"
 
+	"github.com/9ssi7/vkn"
 	"github.com/turistikrota/service.owner/src/domain/account"
 
 	"github.com/mixarchitecture/chain"
@@ -42,6 +43,8 @@ type OwnerApplicationCorporationCommand struct {
 	District  string
 	Address   string
 	Type      string
+	TaxOffice string
+	Title     string
 }
 
 type OwnerApplicationResult struct {
@@ -56,6 +59,7 @@ type ownerApplicationHandler struct {
 	events          owner.Events
 	accountRepo     account.Repository
 	identityService KPSPublic.Service
+	vknService      vkn.Vkn
 }
 
 type OwnerApplicationHandlerConfig struct {
@@ -88,7 +92,7 @@ type ownerApplicationChain struct {
 
 func (h ownerApplicationHandler) Handle(ctx context.Context, command OwnerApplicationCommand) (*OwnerApplicationResult, *i18np.Error) {
 	ch := chain.New[*ownerApplicationChain, OwnerApplicationResult]()
-	ch.Use(h.checkAccount, h.create, h.hash, h.validate, h.verifyByType, h.checkNickName, h.save, h.end)
+	ch.Use(h.checkAccount, h.create, h.hash, h.validate, h.verifyByType, h.checkExists, h.checkNickName, h.save, h.end)
 	return ch.Run(ctx, &ownerApplicationChain{command: command})
 }
 
@@ -99,6 +103,35 @@ func (h ownerApplicationHandler) checkAccount(ctx context.Context, chain *ownerA
 	})
 	if err != nil {
 		return nil, err
+	}
+	return nil, nil
+}
+
+func (h ownerApplicationHandler) checkExists(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
+	if chain.command.OwnerType == owner.Types.Individual {
+		return h.checkIndividualExists(ctx, chain)
+	}
+	return h.checkCorporationExists(ctx, chain)
+}
+
+func (h ownerApplicationHandler) checkIndividualExists(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
+	_, notFound, err := h.repo.GetByIndividual(ctx, chain.command.hashedIndividual)
+	if err != nil {
+		return nil, err
+	}
+	if !notFound {
+		return nil, h.factory.Errors.IndividualAlreadyExists()
+	}
+	return nil, nil
+}
+
+func (h ownerApplicationHandler) checkCorporationExists(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
+	_, notFound, err := h.repo.GetByCorporation(ctx, chain.command.hashedCorporation)
+	if err != nil {
+		return nil, err
+	}
+	if !notFound {
+		return nil, h.factory.Errors.CorporationAlreadyExists()
 	}
 	return nil, nil
 }
@@ -207,7 +240,17 @@ func (h ownerApplicationHandler) validateIndividual(ctx context.Context, chain *
 }
 
 func (h ownerApplicationHandler) validateCorporation(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
-	// TODO: send request to tax office
+	res, err := h.vknService.GetRecipient(chain.command.Corporation.TaxNumber)
+	if err != nil {
+		return nil, h.factory.Errors.Failed(err.Error())
+	}
+	if res == nil || res.Data.TaxOffice == "" || res.Data.Title == "" {
+		return nil, h.factory.Errors.CorporationVerificationFailed()
+	}
+	chain.command.hashedCorporation.Title = res.Data.Title
+	chain.command.hashedCorporation.TaxOffice = res.Data.TaxOffice
+	chain.entity.Corporation.TaxOffice = res.Data.TaxOffice
+	chain.entity.Corporation.Title = res.Data.Title
 	return nil, nil
 }
 

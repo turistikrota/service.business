@@ -36,6 +36,37 @@ func (r *repo) GetByNickName(ctx context.Context, nickName string) (*owner.Entit
 	return o.ToOwner(), nil
 }
 
+func (r *repo) GetByIndividual(ctx context.Context, individual owner.Individual) (*owner.Entity, bool, *i18np.Error) {
+	filter := bson.M{
+		entity.IndividualField(entity.IndividualFields.FirstName):   individual.FirstName,
+		entity.IndividualField(entity.IndividualFields.LastName):    individual.LastName,
+		entity.IndividualField(entity.IndividualFields.DateOfBirth): individual.DateOfBirth,
+	}
+	o, exist, err := r.helper.GetFilter(ctx, filter)
+	if err != nil {
+		return nil, false, err
+	}
+	if !exist {
+		return nil, true, nil
+	}
+	return o.ToOwner(), false, nil
+}
+
+func (r *repo) GetByCorporation(ctx context.Context, corporation owner.Corporation) (*owner.Entity, bool, *i18np.Error) {
+	filter := bson.M{
+		entity.CorporationField(entity.CorporationFields.TaxOffice): corporation.TaxOffice,
+		entity.CorporationField(entity.CorporationFields.Title):     corporation.Title,
+	}
+	o, exist, err := r.helper.GetFilter(ctx, filter)
+	if err != nil {
+		return nil, false, err
+	}
+	if !exist {
+		return nil, true, nil
+	}
+	return o.ToOwner(), false, nil
+}
+
 func (r *repo) CheckNickName(ctx context.Context, nickName string) (bool, *i18np.Error) {
 	filter := bson.M{
 		entity.Fields.NickName: nickName,

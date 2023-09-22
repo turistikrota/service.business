@@ -68,6 +68,8 @@ type Corporation struct {
 	Province  string
 	District  string
 	Address   string
+	TaxOffice string
+	Title     string
 	Type      CorporationType
 }
 

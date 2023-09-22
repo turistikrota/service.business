@@ -40,6 +40,8 @@ type MongoOwnerCorporation struct {
 	Province  string `bson:"province"`
 	District  string `bson:"district"`
 	Address   string `bson:"address"`
+	TaxOffice string `bson:"tax_office"`
+	Title     string `bson:"title"`
 	Type      string `bson:"type"`
 }
 
@@ -73,6 +75,8 @@ func (m *MongoOwner) FromOwner(owner *owner.Entity) *MongoOwner {
 		District:  owner.Corporation.District,
 		Address:   owner.Corporation.Address,
 		Type:      string(owner.Corporation.Type),
+		TaxOffice: owner.Corporation.TaxOffice,
+		Title:     owner.Corporation.Title,
 	}
 	m.Users = m.fromOwnerUsers(owner.Users)
 	m.IsEnabled = owner.IsEnabled
@@ -141,6 +145,8 @@ func (c *MongoOwnerCorporation) ToOwnerCorporation() owner.Corporation {
 		Province:  c.Province,
 		District:  c.District,
 		Address:   c.Address,
+		TaxOffice: c.TaxOffice,
+		Title:     c.Title,
 		Type:      owner.CorporationType(c.Type),
 	}
 }

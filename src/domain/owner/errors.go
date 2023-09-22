@@ -15,6 +15,9 @@ type Errors interface {
 	CorporationTypeRequired() *i18np.Error
 	CorporationTypeInvalid() *i18np.Error
 	IdentityVerificationFailed() *i18np.Error
+	CorporationVerificationFailed() *i18np.Error
+	IndividualAlreadyExists() *i18np.Error
+	CorporationAlreadyExists() *i18np.Error
 }
 
 type ownerErrors struct{}
@@ -61,4 +64,16 @@ func (e *ownerErrors) CorporationTypeInvalid() *i18np.Error {
 
 func (e *ownerErrors) IdentityVerificationFailed() *i18np.Error {
 	return i18np.NewError(I18nMessages.IdentityVerificationFailed)
+}
+
+func (e *ownerErrors) CorporationVerificationFailed() *i18np.Error {
+	return i18np.NewError(I18nMessages.CorporationVerificationFailed)
+}
+
+func (e *ownerErrors) IndividualAlreadyExists() *i18np.Error {
+	return i18np.NewError(I18nMessages.IndividualAlreadyExists)
+}
+
+func (e *ownerErrors) CorporationAlreadyExists() *i18np.Error {
+	return i18np.NewError(I18nMessages.CorporationAlreadyExists)
 }

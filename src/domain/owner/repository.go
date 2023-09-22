@@ -14,6 +14,8 @@ type UserDetail struct {
 
 type Repository interface {
 	Create(ctx context.Context, entity *Entity) (*Entity, *i18np.Error)
+	GetByIndividual(ctx context.Context, individual Individual) (*Entity, bool, *i18np.Error)
+	GetByCorporation(ctx context.Context, corporation Corporation) (*Entity, bool, *i18np.Error)
 	GetByNickName(ctx context.Context, nickName string) (*Entity, *i18np.Error)
 	CheckNickName(ctx context.Context, nickName string) (bool, *i18np.Error)
 	GetWithUser(ctx context.Context, nickName string, user UserDetail) (*EntityWithUser, *i18np.Error)
