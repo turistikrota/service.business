@@ -131,7 +131,6 @@ func (r *repo) ListByUserUUID(ctx context.Context, user owner.UserDetail) ([]*ow
 	opts := options.Find().SetProjection(bson.M{
 		entity.Fields.UUID:        0,
 		entity.Fields.Users:       0,
-		entity.Fields.IsEnabled:   0,
 		entity.Fields.Corporation: 0,
 		entity.Fields.Individual:  0,
 		entity.Fields.ActivatedAt: 0,
