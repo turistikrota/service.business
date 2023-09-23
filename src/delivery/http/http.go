@@ -66,9 +66,9 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Delete("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserRemove), h.wrapWithTimeout(h.OwnershipUserRemove))
 	admin.Put("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
 	admin.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
-	admin.Get("/selected", h.wrapWithTimeout(h.OwnershipGetSelected))
 	admin.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
 
+	router.Get("/@:currentUserName/selected", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
 	router.Post("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnerApplication))
 	router.Get("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.ListMyOwnerships))
 	router.Get("/~:nickName", h.wrapWithTimeout(h.ViewOwnership))
