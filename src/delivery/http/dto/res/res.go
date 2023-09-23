@@ -12,6 +12,8 @@ type Response interface {
 	ListMyOwnerships(res *query.ListMyOwnershipsResult) *ListMyOwnershipsResponse
 	ListMyOwnershipUsers(res *query.ListMyOwnershipUsersResult) []ListMyOwnershipUserItem
 	ViewOwnership(res *query.ViewOwnershipResult) *ViewOwnershipResponse
+	SelectOwnership(res *query.GetWithUserOwnershipResult) *SelectOwnershipResponse
+	OwnershipSelectNotFound() *OwnershipSelectNotSelectedResponse
 }
 
 type response struct{}

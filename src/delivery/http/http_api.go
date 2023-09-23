@@ -100,3 +100,27 @@ func (h Server) OwnershipDisable(ctx *fiber.Ctx) error {
 	_, err := h.app.Commands.OwnershipDisable.Handle(ctx.UserContext(), d.ToDisableCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, h.i18n, Messages.Success.OwnershipDisable)
 }
+
+func (h Server) OwnershipSelect(ctx *fiber.Ctx) error {
+	d := dto.Request.OwnerSelect()
+	h.parseParams(ctx, d)
+	res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID))
+	if err != nil {
+		return err
+	}
+	ctx.Cookie(h.CreateServerSideCookie(".s.o.n", res.Ownership.Entity.NickName))
+	return result.Success(Messages.Success.OwnershipSelect)
+}
+
+func (h Server) OwnershipGetSelected(ctx *fiber.Ctx) error {
+	nickName := ctx.Cookies(".s.o.n")
+	if nickName == "" {
+		return result.ErrorDetail(Messages.Error.OwnerNotSelected, dto.Response.OwnershipSelectNotFound())
+	}
+	d := dto.Request.UserAccount()
+	h.parseParams(ctx, d)
+	res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetOwnershipQuery(nickName, current_user.Parse(ctx).UUID))
+	return result.IfSuccessDetail(err, ctx, h.i18n, Messages.Success.OwnershipGetSelected, func() interface{} {
+		return dto.Response.SelectOwnership(res)
+	})
+}

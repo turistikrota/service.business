@@ -66,6 +66,8 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Delete("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserRemove), h.wrapWithTimeout(h.OwnershipUserRemove))
 	admin.Put("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
 	admin.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
+	admin.Get("/selected", h.wrapWithTimeout(h.OwnershipGetSelected))
+	admin.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
 
 	router.Post("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnerApplication))
 	router.Get("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.ListMyOwnerships))
@@ -133,4 +135,16 @@ func (h Server) cors() fiber.Handler {
 			return false
 		},
 	})
+}
+
+func (h Server) CreateServerSideCookie(key string, value string) *fiber.Cookie {
+	return &fiber.Cookie{
+		Name:     key,
+		Value:    value,
+		Path:     "/",
+		HTTPOnly: true,
+		Secure:   true,
+		SameSite: "Strict",
+		Domain:   h.httpHeaders.Domain,
+	}
 }

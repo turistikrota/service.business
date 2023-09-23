@@ -8,6 +8,7 @@ type Request interface {
 	UserAccount() *AccountUserRequest
 	OwnerPermissionAdd() *OwnershipUserPermAddRequest
 	OwnerPermissionRemove() *OwnershipUserPermRemoveRequest
+	OwnerSelect() *OwnershipSelectRequest
 }
 
 type request struct{}
@@ -42,4 +43,8 @@ func (r *request) OwnerPermissionAdd() *OwnershipUserPermAddRequest {
 
 func (r *request) OwnerPermissionRemove() *OwnershipUserPermRemoveRequest {
 	return &OwnershipUserPermRemoveRequest{}
+}
+
+func (r *request) OwnerSelect() *OwnershipSelectRequest {
+	return &OwnershipSelectRequest{}
 }

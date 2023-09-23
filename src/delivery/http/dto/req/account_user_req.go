@@ -14,3 +14,11 @@ func (r *AccountUserRequest) ToListMyOwnershipsQuery(userUUID string) query.List
 		UserUUID: userUUID,
 	}
 }
+
+func (r *AccountUserRequest) ToGetOwnershipQuery(nickName string, userUUID string) query.GetWithUserOwnershipQuery {
+	return query.GetWithUserOwnershipQuery{
+		NickName: nickName,
+		UserName: r.CurrentUserName,
+		UserUUID: userUUID,
+	}
+}

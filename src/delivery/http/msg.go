@@ -12,11 +12,14 @@ type successMessages struct {
 	OwnershipEnable         string
 	OwnershipDisable        string
 	OwnershipUserList       string
+	OwnershipSelect         string
+	OwnershipGetSelected    string
 }
 
 type errorMessages struct {
 	RequiredAuth      string
 	CurrentUserAccess string
+	OwnerNotSelected  string
 }
 
 type messages struct {
@@ -37,9 +40,12 @@ var Messages = messages{
 		OwnershipEnable:         "http_success_ownership_enable",
 		OwnershipDisable:        "http_success_ownership_disable",
 		OwnershipUserList:       "http_success_ownership_user_list",
+		OwnershipSelect:         "http_success_ownership_select",
+		OwnershipGetSelected:    "http_success_ownership_get_selected",
 	},
 	Error: errorMessages{
 		RequiredAuth:      "http_error_required_auth",
 		CurrentUserAccess: "http_error_current_user_access",
+		OwnerNotSelected:  "http_error_owner_not_selected",
 	},
 }

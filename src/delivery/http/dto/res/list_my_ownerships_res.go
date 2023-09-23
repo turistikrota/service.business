@@ -18,6 +18,8 @@ type ListMyOwnershipsItem struct {
 	CoverURL   string    `json:"coverURL"`
 	OwnerType  string    `json:"ownerType"`
 	IsVerified bool      `json:"isVerified"`
+	IsEnabled  bool      `json:"isEnabled"`
+	IsDeleted  bool      `json:"isDeleted"`
 	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
@@ -31,6 +33,8 @@ func (r *response) ListMyOwnerships(res *query.ListMyOwnershipsResult) *ListMyOw
 			CoverURL:   ownership.CoverURL,
 			OwnerType:  string(ownership.OwnerType),
 			IsVerified: ownership.IsVerified,
+			IsEnabled:  ownership.IsEnabled,
+			IsDeleted:  ownership.IsDeleted,
 			UpdatedAt:  *ownership.UpdatedAt,
 		})
 	}
