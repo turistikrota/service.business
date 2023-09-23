@@ -98,12 +98,18 @@ type RSA struct {
 	PublicKeyFile  string `env:"RSA_PUBLIC_KEY"`
 }
 
+type Vkn struct {
+	Username string `env:"VKN_USERNAME"`
+	Password string `env:"VKN_PASSWORD"`
+}
+
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
 		MongoOwner   MongoOwner
 		MongoAccount MongoAccount
 	}
+	Vkn         Vkn
 	HttpHeaders HttpHeaders
 	Server      Server
 	Session     Session

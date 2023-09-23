@@ -1,6 +1,7 @@
 package service
 
 import (
+	"github.com/9ssi7/vkn"
 	"github.com/mixarchitecture/microp/decorator"
 	"github.com/mixarchitecture/microp/events"
 	"github.com/mixarchitecture/microp/validator"
@@ -16,11 +17,10 @@ import (
 )
 
 type Config struct {
-	App          config.App
-	EventEngine  events.Engine
-	Mongo        *mongo.DB
-	AccountMongo *mongo.DB
-	Validator    *validator.Validator
+	App         config.App
+	EventEngine events.Engine
+	Mongo       *mongo.DB
+	Validator   *validator.Validator
 }
 
 func NewApplication(config Config) app.Application {
@@ -38,6 +38,11 @@ func NewApplication(config Config) app.Application {
 
 	base := decorator.NewBase()
 
+	vknSrv := vkn.New(vkn.Config{
+		Username: config.App.Vkn.Username,
+		Password: config.App.Vkn.Password,
+	})
+
 	return app.Application{
 		Commands: app.Commands{
 			OwnerApplication: command.NewOwnerApplicationHandler(command.OwnerApplicationHandlerConfig{
@@ -45,6 +50,7 @@ func NewApplication(config Config) app.Application {
 				Factory:         ownerFactory,
 				AccountRepo:     accountRepo,
 				IdentityService: identitySrv,
+				VknService:      vknSrv,
 				Events:          ownerEvents,
 				CqrsBase:        base,
 			}),

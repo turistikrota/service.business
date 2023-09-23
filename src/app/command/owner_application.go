@@ -69,6 +69,7 @@ type OwnerApplicationHandlerConfig struct {
 	AccountRepo     account.Repository
 	IdentityService KPSPublic.Service
 	CqrsBase        decorator.Base
+	VknService      vkn.Vkn
 }
 
 func NewOwnerApplicationHandler(config OwnerApplicationHandlerConfig) OwnerApplicationHandler {
@@ -79,6 +80,7 @@ func NewOwnerApplicationHandler(config OwnerApplicationHandlerConfig) OwnerAppli
 			events:          config.Events,
 			accountRepo:     config.AccountRepo,
 			identityService: config.IdentityService,
+			vknService:      config.VknService,
 		},
 		config.CqrsBase,
 	)
