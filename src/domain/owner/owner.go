@@ -3,21 +3,21 @@ package owner
 import "time"
 
 type Entity struct {
-	UUID        string
-	NickName    string
-	RealName    string
-	AvatarURL   string
-	CoverURL    string
-	OwnerType   Type
-	Individual  Individual
-	Corporation Corporation
-	Users       []User
-	IsEnabled   bool
-	IsVerified  bool
-	IsDeleted   bool
-	VerifiedAt  *time.Time
-	CreatedAt   *time.Time
-	UpdatedAt   *time.Time
+	UUID        string      `json:"uuid"`
+	NickName    string      `json:"nickName"`
+	RealName    string      `json:"realName"`
+	AvatarURL   string      `json:"avatarURL"`
+	CoverURL    string      `json:"coverURL"`
+	OwnerType   Type        `json:"ownerType"`
+	Individual  Individual  `json:"individual"`
+	Corporation Corporation `json:"corporation"`
+	Users       []User      `json:"users"`
+	IsEnabled   bool        `json:"isEnabled"`
+	IsVerified  bool        `json:"isVerified"`
+	IsDeleted   bool        `json:"isDeleted"`
+	VerifiedAt  *time.Time  `json:"verifiedAt"`
+	CreatedAt   *time.Time  `json:"createdAt"`
+	UpdatedAt   *time.Time  `json:"updatedAt"`
 }
 
 type EntityWithUser struct {
@@ -85,11 +85,11 @@ type Individual struct {
 }
 
 type User struct {
-	UUID   string
-	Name   string
-	Code   string
-	Roles  []string
-	JoinAt time.Time
+	UUID   string    `json:"uuid"`
+	Name   string    `json:"name"`
+	Code   string    `json:"code"`
+	Roles  []string  `json:"roles"`
+	JoinAt time.Time `json:"joinAt"`
 }
 
 func (u *User) HasPermission(permission string) bool {
