@@ -82,7 +82,6 @@ func (r *repo) GetWithUser(ctx context.Context, nickName string, user owner.User
 	filter := bson.M{
 		entity.Fields.NickName:                   nickName,
 		entity.UserField(entity.UserFields.Name): user.Name,
-		entity.UserField(entity.UserFields.Code): user.Code,
 		entity.UserField(entity.UserFields.UUID): user.UUID,
 	}
 	o, exist, err := r.helper.GetFilter(ctx, filter)
@@ -125,7 +124,6 @@ func (r *repo) ProfileView(ctx context.Context, nickName string) (*owner.Entity,
 func (r *repo) ListByUserUUID(ctx context.Context, user owner.UserDetail) ([]*owner.Entity, *i18np.Error) {
 	filter := bson.M{
 		entity.UserField(entity.UserFields.Name): user.Name,
-		entity.UserField(entity.UserFields.Code): user.Code,
 		entity.UserField(entity.UserFields.UUID): user.UUID,
 	}
 	opts := options.Find().SetProjection(bson.M{
@@ -172,14 +170,12 @@ func (r *repo) RemoveUser(ctx context.Context, nickName string, user owner.UserD
 	filter := bson.M{
 		entity.Fields.NickName:                   nickName,
 		entity.UserField(entity.UserFields.Name): user.Name,
-		entity.UserField(entity.UserFields.Code): user.Code,
 	}
 	t := time.Now()
 	setter := bson.M{
 		"$pull": bson.M{
 			entity.Fields.Users: bson.M{
 				entity.UserFields.Name: user.Name,
-				entity.UserFields.Code: user.Code,
 			},
 		},
 		"$set": bson.M{
@@ -193,7 +189,6 @@ func (r *repo) RemoveUserPermission(ctx context.Context, nickName string, user o
 	filter := bson.M{
 		entity.Fields.NickName:                   nickName,
 		entity.UserField(entity.UserFields.Name): user.Name,
-		entity.UserField(entity.UserFields.Code): user.Code,
 	}
 	t := time.Now()
 	setter := bson.M{
@@ -211,7 +206,6 @@ func (r *repo) AddUserPermission(ctx context.Context, nickName string, user owne
 	filter := bson.M{
 		entity.Fields.NickName:                   nickName,
 		entity.UserField(entity.UserFields.Name): user.Name,
-		entity.UserField(entity.UserFields.Code): user.Code,
 		entity.UserField(entity.UserFields.Roles): bson.M{
 			"$ne": permission,
 		},
@@ -307,7 +301,6 @@ func (r *repo) ListOwnershipUsers(ctx context.Context, nickName string, user own
 	filter := bson.M{
 		entity.Fields.NickName:                   nickName,
 		entity.UserField(entity.UserFields.Name): user.Name,
-		entity.UserField(entity.UserFields.Code): user.Code,
 	}
 	opts := options.FindOne().SetProjection(bson.M{
 		entity.Fields.Users: 1,

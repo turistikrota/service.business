@@ -8,7 +8,6 @@ import (
 
 type UserDetail struct {
 	Name string
-	Code string
 	UUID string
 }
 

@@ -116,7 +116,7 @@ func (m *MongoOwner) ToOwner() *owner.Entity {
 
 func (m *MongoOwner) ToOwnerWithUser(u owner.UserDetail) *owner.EntityWithUser {
 	for _, user := range m.Users {
-		if user.Name == u.Name && user.Code == u.Code {
+		if user.Name == u.Name {
 			return &owner.EntityWithUser{
 				Entity: *m.ToOwner(),
 				User:   user.ToOwnerUser(),

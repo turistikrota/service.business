@@ -11,7 +11,6 @@ import (
 type OwnershipUserPermRemoveCommand struct {
 	OwnerNickName  string
 	UserName       string
-	UserCode       string
 	AccessUserUUID string
 	PermissionName string
 }
@@ -47,7 +46,6 @@ func NewOwnershipUserPermRemoveHandler(config OwnershipUserPermRemoveHandlerConf
 func (h *ownershipUserPermRemoveHandler) Handle(ctx context.Context, cmd OwnershipUserPermRemoveCommand) (*OwnershipUserPermRemoveResult, *i18np.Error) {
 	err := h.repo.RemoveUserPermission(ctx, cmd.OwnerNickName, owner.UserDetail{
 		Name: cmd.UserName,
-		Code: cmd.UserCode,
 	}, cmd.PermissionName)
 	if err != nil {
 		return nil, h.factory.Errors.Failed("failed to remove user permission from ownership")
@@ -58,7 +56,6 @@ func (h *ownershipUserPermRemoveHandler) Handle(ctx context.Context, cmd Ownersh
 		PermissionName: cmd.PermissionName,
 		User: owner.EventUser{
 			Name: cmd.UserName,
-			Code: cmd.UserCode,
 		},
 	})
 	return &OwnershipUserPermRemoveResult{}, nil

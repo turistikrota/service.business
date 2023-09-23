@@ -10,7 +10,6 @@ import (
 
 type OwnerApplicationRequest struct {
 	UserName        string
-	UserCode        string
 	NickName        string `json:"nickName" validate:"required"`
 	RealName        string `json:"realName" validate:"required"`
 	OwnerType       string `json:"ownerType" validate:"required,oneof=individual corporation"`

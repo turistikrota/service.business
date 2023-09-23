@@ -10,7 +10,7 @@ import (
 
 type ListMyOwnershipsQuery struct {
 	UserName string
-	UserCode string
+	UserUUID string
 }
 
 type ListMyOwnershipsResult struct {
@@ -43,7 +43,7 @@ func NewListMyOwnershipsHandler(config ListMyOwnershipsHandlerConfig) ListMyOwne
 func (h *listMyOwnershipsHandler) Handle(ctx context.Context, cmd ListMyOwnershipsQuery) (*ListMyOwnershipsResult, *i18np.Error) {
 	ownerships, err := h.repo.ListByUserUUID(ctx, owner.UserDetail{
 		Name: cmd.UserName,
-		Code: cmd.UserCode,
+		UUID: cmd.UserUUID,
 	})
 	if err != nil {
 		return nil, h.factory.Errors.Failed(err.Error())

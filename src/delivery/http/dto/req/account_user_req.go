@@ -8,8 +8,9 @@ type AccountUserRequest struct {
 	CurrentUserName string `params:"currentUserName" validate:"required,username"`
 }
 
-func (r *AccountUserRequest) ToListMyOwnershipsQuery() query.ListMyOwnershipsQuery {
+func (r *AccountUserRequest) ToListMyOwnershipsQuery(userUUID string) query.ListMyOwnershipsQuery {
 	return query.ListMyOwnershipsQuery{
 		UserName: r.CurrentUserName,
+		UserUUID: userUUID,
 	}
 }

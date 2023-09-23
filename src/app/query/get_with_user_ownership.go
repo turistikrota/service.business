@@ -11,7 +11,6 @@ import (
 type GetWithUserOwnershipQuery struct {
 	NickName string
 	UserName string
-	UserCode string
 	UserUUID string
 }
 
@@ -45,7 +44,6 @@ func NewGetWithUserOwnershipHandler(config GetWithUserOwnershipHandlerConfig) Ge
 func (h *getWithUserOwnershipHandler) Handle(ctx context.Context, query GetWithUserOwnershipQuery) (*GetWithUserOwnershipResult, *i18np.Error) {
 	ownership, err := h.repo.GetWithUser(ctx, query.NickName, owner.UserDetail{
 		Name: query.UserName,
-		Code: query.UserCode,
 		UUID: query.UserUUID,
 	})
 	if err != nil {
