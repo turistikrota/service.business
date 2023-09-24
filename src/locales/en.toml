@@ -53,7 +53,10 @@ error_owner_type_required = "Owner type is required."
 error_owner_type_invalid = "Owner type is invalid."
 error_owner_corporation_type_required = "Corporation type is required."
 error_owner_corporation_type_invalid = "Corporation type is invalid."
-error_owner_identity_verification_failed = "Identity verification failed."
+error_owner_identity_verification_failed = "Identity verification failed. Please check your identity information."
+error_owner_corporation_verification_failed = "Corporation verification failed. Please check your corporation information."
+error_owner_individual_already_exists = "Individual owner already exists."
+error_owner_corporation_already_exists = "Corporation owner already exists."
 
 # Account Module Messages
 error_account_failed = "Failed to account. {{.Action}}"

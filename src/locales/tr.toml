@@ -52,7 +52,10 @@ error_owner_type_required = "Sahiplik türü gereklidir."
 error_owner_type_invalid = "Geçersiz sahiplik türü."
 error_owner_corporation_type_required = "Kuruluş türü gereklidir."
 error_owner_corporation_type_invalid = "Geçersiz kuruluş türü."
-error_owner_identity_verification_failed = "Kimlik doğrulaması başarısız oldu."
+error_owner_identity_verification_failed = "Kimlik doğrulaması başarısız oldu. Lütfen kimlik bilgilerini kontrol edin."
+error_owner_corporation_verification_failed = "Kuruluş doğrulaması başarısız oldu. Lütfen vergi numarasını kontrol edin."
+error_owner_individual_already_exists = "Bu kimlik numarası veya vergi numarası zaten kullanılıyor."
+error_owner_corporation_already_exists = "Bu vergi numarası zaten kullanılıyor."
 
 # Account Module Settings
 error_account_failed = "Hesap oluşturulamadı."
