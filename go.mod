@@ -3,7 +3,9 @@ module github.com/turistikrota/service.owner
 go 1.20
 
 require (
+	github.com/9ssi7/vkn v0.0.2
 	github.com/gofiber/fiber/v2 v2.47.0
+	github.com/mixarchitecture/cache v1.0.0
 	github.com/mixarchitecture/chain v0.0.2
 	github.com/mixarchitecture/i18np v0.0.0-20230331235711-ece4c5f1bb52
 	github.com/mixarchitecture/microp v0.0.1
@@ -14,7 +16,6 @@ require (
 )
 
 require (
-	github.com/9ssi7/vkn v0.0.2 // indirect
 	github.com/BurntSushi/toml v1.2.1 // indirect
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect

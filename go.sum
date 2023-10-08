@@ -36,7 +36,6 @@ github.com/golang/snappy v0.0.4 h1:yAGX7huGHXlcLOEtBnF4w7FQwA26wojNCwOYAEhLjQM=
 github.com/golang/snappy v0.0.4/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
 github.com/google/go-cmp v0.5.2/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/google/go-cmp v0.5.9 h1:O2Tfq5qg4qc4AmwVlvv0oLiVAGB7enBSJ2x2DqQFi38=
-github.com/google/uuid v1.3.0 h1:t6JiXgmwXMjEs8VusXIJk2BXHsn+wx8BZdTaoZ5fu7I=
 github.com/google/uuid v1.3.0/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
 github.com/google/uuid v1.3.1 h1:KjJaJ9iWZ3jOFZIf1Lqf4laDRCasjl0BCmnEGxkdLb4=
 github.com/google/uuid v1.3.1/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
@@ -56,6 +55,8 @@ github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d h1:5PJl274Y63IEHC+7izoQ
 github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d/go.mod h1:01TrycV0kFyexm33Z7vhZRXopbI8J3TDReVlkTgMUxE=
 github.com/minio/highwayhash v1.0.2 h1:Aak5U0nElisjDCfPSG79Tgzkn2gl66NxOMspRrKnA/g=
 github.com/minio/highwayhash v1.0.2/go.mod h1:BQskDq+xkJ12lmlUUi7U0M5Swg3EWR+dLTk+kldvVxY=
+github.com/mixarchitecture/cache v1.0.0 h1:Nk5Y3Yyzilltcam1G9c9Yazju9mn8is3x/HxIQTOsuk=
+github.com/mixarchitecture/cache v1.0.0/go.mod h1:OnngeoIGIzAYRLEIOdqofKOiZhh8+19VzN/qNR44VXU=
 github.com/mixarchitecture/chain v0.0.2 h1:lPUdwhBLxdjbjNRA5fJDUp1uxrhWVTXTmaHPHMgF7G8=
 github.com/mixarchitecture/chain v0.0.2/go.mod h1:Tk1rBiEAh4x5wEyPToJMOi7rBAKXV3/uqDVPjk5ac+A=
 github.com/mixarchitecture/i18np v0.0.0-20230331235711-ece4c5f1bb52 h1:b9XRD7B5UsGZt7pIy6m3oFQNoSUKpNPxLIvG2x4lips=
