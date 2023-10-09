@@ -38,10 +38,12 @@ http_success_ownership_user_list = "Ownership user list success."
 http_success_ownership_disable = "Ownership disable success."
 http_success_ownership_select = "Ownership select success."
 http_success_ownership_get_selected = "Ownership get selected success."
+http_success_admin_list_all = "Admin list all success."
 
 http_error_required_auth = "Authentication required."
 http_error_current_user_access = "Authorization failed."
 http_error_owner_not_selected = "Owner not selected."
+http_error_admin_route = "Admin route."
 
 # Owner Module Messages
 error_owner_failed = "Failed to owner. {{.Operation}}"

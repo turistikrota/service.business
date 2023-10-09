@@ -9,6 +9,7 @@ type Request interface {
 	OwnerPermissionAdd() *OwnershipUserPermAddRequest
 	OwnerPermissionRemove() *OwnershipUserPermRemoveRequest
 	OwnerSelect() *OwnershipSelectRequest
+	Pagination() *PaginationRequest
 }
 
 type request struct{}

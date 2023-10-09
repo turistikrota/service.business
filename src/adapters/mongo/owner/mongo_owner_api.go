@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/mixarchitecture/i18np"
+	"github.com/mixarchitecture/microp/types/list"
 	"github.com/turistikrota/service.owner/src/adapters/mongo/owner/entity"
 	"github.com/turistikrota/service.owner/src/domain/owner"
 	"go.mongodb.org/mongo-driver/bson"
@@ -313,4 +314,45 @@ func (r *repo) ListOwnershipUsers(ctx context.Context, nickName string, user own
 		return nil, r.factory.Errors.NotFound()
 	}
 	return o.ToOwnerUsers(), nil
+}
+
+func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.Result[*owner.AdminListDto], *i18np.Error) {
+	filter := bson.M{}
+	l, err := r.helper.GetListFilterTransform(ctx, filter, func(o *entity.MongoOwner) *owner.Entity {
+		return o.ToOwner()
+	})
+	if err != nil {
+		return nil, err
+	}
+	filtered, _err := r.helper.GetFilterCount(ctx, bson.M{})
+	if _err != nil {
+		return nil, _err
+	}
+	total, err := r.helper.GetFilterCount(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	li := make([]*owner.AdminListDto, len(l))
+	for _, o := range l {
+		li = append(li, &owner.AdminListDto{
+			UUID:       o.UUID,
+			NickName:   o.NickName,
+			RealName:   o.RealName,
+			OwnerType:  string(o.OwnerType),
+			IsEnabled:  o.IsEnabled,
+			IsVerified: o.IsVerified,
+			IsDeleted:  o.IsDeleted,
+			VerifiedAt: o.VerifiedAt.String(),
+			CreatedAt:  o.CreatedAt.String(),
+			UpdatedAt:  o.UpdatedAt.String(),
+		})
+	}
+	return &list.Result[*owner.AdminListDto]{
+		IsNext:        filtered > listConfig.Offset+listConfig.Limit,
+		IsPrev:        listConfig.Offset > 0,
+		FilteredTotal: filtered,
+		Total:         total,
+		Page:          listConfig.Offset/listConfig.Limit + 1,
+		List:          li,
+	}, nil
 }

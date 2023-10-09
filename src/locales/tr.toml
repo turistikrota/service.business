@@ -37,10 +37,12 @@ http_success_ownership_user_list = "Sahiplik kullanıcıları başarıyla listel
 http_success_ownership_disable = "Sahiplik başarıyla devre dışı bırakıldı."
 http_success_ownership_select = "Sahiplik başarıyla seçildi."
 http_success_ownership_get_selected = "Seçili sahiplik başarıyla alındı."
+http_success_admin_list_all = "Tüm sahiplikler başarıyla listelendi."
 
 http_error_required_auth = "Bu işlem için kimlik doğrulaması gerekiyor."
 http_error_current_user_access = "Bu işlem için geçerli kullanıcı erişimi gerekiyor."
 http_error_owner_not_selected = "Bu işlem için sahiplik seçimi gerekiyor."
+http_error_admin_route = "Bu işlem için yönetici erişimi gerekiyor."
 
 # Owner Module Messages
 error_owner_failed = "Sahiplik oluşturulamadı."

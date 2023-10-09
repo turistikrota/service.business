@@ -29,6 +29,7 @@ type Commands struct {
 }
 
 type Queries struct {
+	AdminListAll         query.AdminListOwnershipHandler
 	AdminViewOwnership   query.AdminViewOwnershipHandler
 	ListMyOwnerships     query.ListMyOwnershipsHandler
 	ListMyOwnershipUsers query.ListMyOwnershipUsersQueryHandler

@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	httpI18n "github.com/mixarchitecture/microp/server/http/i18n"
 	"github.com/mixarchitecture/microp/server/http/result"
+	"github.com/turistikrota/service.owner/src/app/query"
 	"github.com/turistikrota/service.owner/src/delivery/http/dto"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 )
@@ -75,6 +76,19 @@ func (h Server) ListMyOwnerships(ctx *fiber.Ctx) error {
 	res, err := h.app.Queries.ListMyOwnerships.Handle(ctx.UserContext(), d.ToListMyOwnershipsQuery(current_user.Parse(ctx).UUID))
 	return result.IfSuccessDetail(err, ctx, h.i18n, Messages.Success.ListMyOwnerships, func() interface{} {
 		return dto.Response.ListMyOwnerships(res)
+	})
+}
+
+func (h Server) AdminListAll(ctx *fiber.Ctx) error {
+	d := dto.Request.Pagination()
+	h.parseQuery(ctx, d)
+	d.Default()
+	res, err := h.app.Queries.AdminListAll.Handle(ctx.UserContext(), query.AdminListOwnershipQuery{
+		Offset: (*d.Page - 1) * *d.Limit,
+		Limit:  *d.Limit,
+	})
+	return result.IfSuccessDetail(err, ctx, h.i18n, Messages.Success.AdminListAll, func() interface{} {
+		return dto.Response.AdminListAll(res)
 	})
 }
 
