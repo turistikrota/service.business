@@ -316,7 +316,7 @@ func (r *repo) ListOwnershipUsers(ctx context.Context, nickName string, user own
 	return o.ToOwnerUsers(), nil
 }
 
-func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.Result[*owner.Entity], *i18np.Error) {
+func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.Result[*owner.AdminListDto], *i18np.Error) {
 	filter := bson.M{}
 	l, err := r.helper.GetListFilterTransform(ctx, filter, func(o *entity.MongoOwner) *owner.Entity {
 		return o.ToOwner()
@@ -332,12 +332,27 @@ func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.
 	if err != nil {
 		return nil, err
 	}
-	return &list.Result[*owner.Entity]{
+	li := make([]*owner.AdminListDto, len(l))
+	for _, o := range l {
+		li = append(li, &owner.AdminListDto{
+			UUID:       o.UUID,
+			NickName:   o.NickName,
+			RealName:   o.RealName,
+			OwnerType:  string(o.OwnerType),
+			IsEnabled:  o.IsEnabled,
+			IsVerified: o.IsVerified,
+			IsDeleted:  o.IsDeleted,
+			VerifiedAt: o.VerifiedAt.String(),
+			CreatedAt:  o.CreatedAt.String(),
+			UpdatedAt:  o.UpdatedAt.String(),
+		})
+	}
+	return &list.Result[*owner.AdminListDto]{
 		IsNext:        filtered > listConfig.Offset+listConfig.Limit,
 		IsPrev:        listConfig.Offset > 0,
 		FilteredTotal: filtered,
 		Total:         total,
 		Page:          listConfig.Offset/listConfig.Limit + 1,
-		List:          l,
+		List:          li,
 	}, nil
 }

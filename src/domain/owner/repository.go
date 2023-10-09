@@ -31,5 +31,5 @@ type Repository interface {
 	Disable(ctx context.Context, nickName string) *i18np.Error
 	Delete(ctx context.Context, nickName string) *i18np.Error
 	Recover(ctx context.Context, nickName string) *i18np.Error
-	AdminListAll(ctx context.Context, listConfig list.Config) (*list.Result[*Entity], *i18np.Error)
+	AdminListAll(ctx context.Context, listConfig list.Config) (*list.Result[*AdminListDto], *i18np.Error)
 }

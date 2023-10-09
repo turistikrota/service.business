@@ -13,6 +13,7 @@ import (
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 	"github.com/turistikrota/service.shared/server/http/auth"
+	"github.com/turistikrota/service.shared/server/http/auth/claim_guard"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 	"github.com/turistikrota/service.shared/server/http/auth/device_uuid"
 	"github.com/turistikrota/service.shared/server/http/auth/required_access"
@@ -57,6 +58,7 @@ func New(config Config) Server {
 
 func (h Server) Load(router fiber.Router) fiber.Router {
 	router.Use(h.cors(), h.deviceUUID())
+
 	admin := router.Group("/@:currentUserName/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.CurrentOwner())
 	admin.Get("/", h.OwnerPermissions(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.OwnershipAdminView))
 	admin.Get("/user", h.OwnerPermissions(config.Roles.Owner.UserList), h.wrapWithTimeout(h.OwnershipUserList))
@@ -67,6 +69,8 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Put("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
 	admin.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
 	admin.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
+
+	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.adminRoute(config.Roles.Owner.AdminList), h.wrapWithTimeout(h.AdminListAll))
 
 	router.Get("/@:currentUserName/selected", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
 	router.Post("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnerApplication))
@@ -89,6 +93,18 @@ func (h Server) parseQuery(c *fiber.Ctx, d interface{}) {
 
 func (h Server) wrapWithTimeout(fn fiber.Handler) fiber.Handler {
 	return timeout.NewWithContext(fn, 10*time.Second)
+}
+
+func (h Server) adminRoute(extra ...string) fiber.Handler {
+	claims := []string{config.Roles.Admin}
+	if len(extra) > 0 {
+		claims = append(claims, extra...)
+	}
+	return claim_guard.New(claim_guard.Config{
+		Claims: claims,
+		I18n:   h.i18n,
+		MsgKey: Messages.Error.AdminRoute,
+	})
 }
 
 func (h Server) currentUserAccess() fiber.Handler {

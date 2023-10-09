@@ -1,6 +1,7 @@
 package res
 
 import (
+	"github.com/mixarchitecture/microp/types/list"
 	"github.com/turistikrota/service.owner/src/app/command"
 	"github.com/turistikrota/service.owner/src/app/query"
 	"github.com/turistikrota/service.owner/src/domain/owner"
@@ -14,6 +15,7 @@ type Response interface {
 	ViewOwnership(res *query.ViewOwnershipResult) *ViewOwnershipResponse
 	SelectOwnership(res *query.GetWithUserOwnershipResult) *SelectOwnershipResponse
 	OwnershipSelectNotFound() *OwnershipSelectNotSelectedResponse
+	AdminListAll(res *query.AdminListOwnershipResult) *list.Result[*owner.AdminListDto]
 }
 
 type response struct{}

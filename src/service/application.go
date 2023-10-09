@@ -136,6 +136,11 @@ func NewApplication(config Config) app.Application {
 				Factory:  ownerFactory,
 				CqrsBase: base,
 			}),
+			AdminListAll: query.NewAdminListOwnershipHandler(query.AdminListOwnershipHandlerConfig{
+				Repo:     ownerRepo,
+				Factory:  ownerFactory,
+				CqrsBase: base,
+			}),
 			ListMyOwnerships: query.NewListMyOwnershipsHandler(query.ListMyOwnershipsHandlerConfig{
 				Repo:     ownerRepo,
 				Factory:  ownerFactory,

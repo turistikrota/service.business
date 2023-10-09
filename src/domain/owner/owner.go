@@ -20,6 +20,19 @@ type Entity struct {
 	UpdatedAt   *time.Time  `json:"updatedAt"`
 }
 
+type AdminListDto struct {
+	UUID       string `json:"uuid"`
+	NickName   string `json:"nickName"`
+	RealName   string `json:"realName"`
+	OwnerType  string `json:"ownerType"`
+	IsEnabled  bool   `json:"isEnabled"`
+	IsVerified bool   `json:"isVerified"`
+	IsDeleted  bool   `json:"isDeleted"`
+	VerifiedAt string `json:"verifiedAt"`
+	CreatedAt  string `json:"createdAt"`
+	UpdatedAt  string `json:"updatedAt"`
+}
+
 type EntityWithUser struct {
 	Entity Entity
 	User   User

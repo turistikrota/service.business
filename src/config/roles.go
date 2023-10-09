@@ -5,6 +5,7 @@ import "github.com/turistikrota/service.shared/base_roles"
 type ownerRoles struct {
 	Member         string
 	AdminView      string
+	AdminList      string
 	UserAdd        string
 	UserRemove     string
 	UserPermAdd    string
@@ -24,6 +25,7 @@ var Roles = roles{
 	Owner: ownerRoles{
 		Member:         "owner.member",
 		AdminView:      "owner.admin_view",
+		AdminList:      "owner.admin_list",
 		UserAdd:        "owner.user_add",
 		UserRemove:     "owner.user_remove",
 		UserPermAdd:    "owner.user_perm_add",
