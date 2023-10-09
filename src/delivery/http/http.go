@@ -70,7 +70,7 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
 	admin.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
 
-	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.adminRoute(config.Roles.Owner.AdminList), h.wrapWithTimeout(h.AdminListAll))
+	router.Get("/admin", h.currentUserAccess(), h.requiredAccess(), h.adminRoute(config.Roles.Owner.AdminList), h.wrapWithTimeout(h.AdminListAll))
 
 	router.Get("/@:currentUserName/selected", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
 	router.Post("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnerApplication))
