@@ -74,7 +74,7 @@ func (h Server) ListMyOwnerships(ctx *fiber.Ctx) error {
 	account := current_account.Parse(ctx)
 	res, err := h.app.Queries.ListMyOwnerships.Handle(ctx.UserContext(), query.ListMyOwnershipsQuery{
 		UserName: account.Name,
-		UserUUID: account.ID,
+		UserUUID: current_user.Parse(ctx).UUID,
 	})
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.ListMyOwnerships, func() interface{} {
 		return dto.Response.ListMyOwnerships(res)

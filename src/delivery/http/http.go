@@ -60,7 +60,7 @@ func New(config Config) Server {
 func (h Server) Load(router fiber.Router) fiber.Router {
 	router.Use(h.cors(), h.deviceUUID())
 
-	admin := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.CurrentOwner(), h.currentAccountAccess())
+	admin := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.CurrentOwner())
 	admin.Get("/", h.OwnerPermissions(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.OwnershipAdminView))
 	admin.Get("/user", h.OwnerPermissions(config.Roles.Owner.UserList), h.wrapWithTimeout(h.OwnershipUserList))
 	admin.Post("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermAdd), h.wrapWithTimeout(h.OwnershipUserPermAdd))

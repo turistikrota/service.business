@@ -134,6 +134,7 @@ func NewApplication(config Config) app.Application {
 				OwnerRepo:    ownerRepo,
 				OwnerFactory: ownerFactory,
 				CqrsBase:     base,
+				Rpc:          config.App.Rpc,
 			}),
 		},
 	}

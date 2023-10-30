@@ -31,8 +31,9 @@ type Server struct {
 	Group string `env:"SERVER_GROUP" envDefault:"verify"`
 }
 
-type RpcHosts struct {
-	Account string `env:"RPC_HOST_ACCOUNT" envDefault:"localhost:3001"`
+type Rpc struct {
+	AccountHost    string `env:"RPC_ACCOUNT_HOST" envDefault:"localhost:3001"`
+	AccountUsesSsl bool   `env:"RPC_ACCOUNT_USES_SSL" envDefault:"localhost:3001"`
 }
 
 type Redis struct {
@@ -113,7 +114,7 @@ type App struct {
 		MongoOwner   MongoOwner
 		MongoAccount MongoAccount
 	}
-	RpcHosts    RpcHosts
+	Rpc         Rpc
 	Vkn         Vkn
 	HttpHeaders HttpHeaders
 	Server      Server
