@@ -11,7 +11,7 @@ type Response interface {
 	OwnerApplication(res *command.OwnerApplicationResult) *OwnerApplicationResponse
 	OwnershipAdminView(ownership *owner.Entity) *OwnershipAdminViewResponse
 	ListMyOwnerships(res *query.ListMyOwnershipsResult) *ListMyOwnershipsResponse
-	ListMyOwnershipUsers(res *query.ListMyOwnershipUsersResult) []ListMyOwnershipUserItem
+	ListMyOwnershipUsers(res *query.ListMyOwnershipUsersResult) []query.ListMyOwnershipUserType
 	ViewOwnership(res *query.ViewOwnershipResult) *ViewOwnershipResponse
 	SelectOwnership(res *query.GetWithUserOwnershipResult) *SelectOwnershipResponse
 	OwnershipSelectNotFound() *OwnershipSelectNotSelectedResponse

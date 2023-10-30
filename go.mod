@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/9ssi7/vkn v0.0.2
 	github.com/gofiber/fiber/v2 v2.48.0
+	github.com/golang/protobuf v1.5.3
 	github.com/mixarchitecture/chain v0.0.2
 	github.com/mixarchitecture/i18np v0.0.0-20230822003812-2969b27e32d7
 	github.com/mixarchitecture/microp v0.0.1
@@ -12,6 +13,8 @@ require (
 	github.com/ssibrahimbas/KPSPublic v1.0.0
 	github.com/turistikrota/service.shared v0.0.27-0.20231030200320-c6b4ae8db80e
 	go.mongodb.org/mongo-driver v1.12.1
+	google.golang.org/grpc v1.56.1
+	google.golang.org/protobuf v1.30.0
 )
 
 require (
@@ -58,4 +61,5 @@ require (
 	golang.org/x/term v0.10.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
+	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
 )
