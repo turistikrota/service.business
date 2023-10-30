@@ -163,7 +163,6 @@ func (u *MongoOwnerUser) ToOwnerUser() owner.User {
 	return owner.User{
 		UUID:   u.UUID,
 		Name:   u.Name,
-		Code:   u.Code,
 		Roles:  u.Roles,
 		JoinAt: u.JoinAt,
 	}
