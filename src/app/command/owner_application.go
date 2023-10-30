@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/9ssi7/vkn"
-	"github.com/turistikrota/service.owner/src/domain/account"
 
 	"github.com/mixarchitecture/chain"
 	"github.com/mixarchitecture/i18np"
@@ -57,7 +56,6 @@ type ownerApplicationHandler struct {
 	repo            owner.Repository
 	factory         owner.Factory
 	events          owner.Events
-	accountRepo     account.Repository
 	identityService KPSPublic.Service
 	vknService      vkn.Vkn
 }
@@ -66,7 +64,6 @@ type OwnerApplicationHandlerConfig struct {
 	Repo            owner.Repository
 	Factory         owner.Factory
 	Events          owner.Events
-	AccountRepo     account.Repository
 	IdentityService KPSPublic.Service
 	CqrsBase        decorator.Base
 	VknService      vkn.Vkn
@@ -78,7 +75,6 @@ func NewOwnerApplicationHandler(config OwnerApplicationHandlerConfig) OwnerAppli
 			repo:            config.Repo,
 			factory:         config.Factory,
 			events:          config.Events,
-			accountRepo:     config.AccountRepo,
 			identityService: config.IdentityService,
 			vknService:      config.VknService,
 		},
@@ -94,19 +90,8 @@ type ownerApplicationChain struct {
 
 func (h ownerApplicationHandler) Handle(ctx context.Context, command OwnerApplicationCommand) (*OwnerApplicationResult, *i18np.Error) {
 	ch := chain.New[*ownerApplicationChain, OwnerApplicationResult]()
-	ch.Use(h.checkAccount, h.create, h.hash, h.validate, h.verifyByType, h.checkExists, h.checkNickName, h.save, h.end)
+	ch.Use(h.create, h.hash, h.validate, h.verifyByType, h.checkExists, h.checkNickName, h.save, h.end)
 	return ch.Run(ctx, &ownerApplicationChain{command: command})
-}
-
-func (h ownerApplicationHandler) checkAccount(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
-	_, err := h.accountRepo.GetByUserUUID(ctx, account.UserUnique{
-		UserUUID: chain.command.UserUUID,
-		Name:     chain.command.UserName,
-	})
-	if err != nil {
-		return nil, err
-	}
-	return nil, nil
 }
 
 func (h ownerApplicationHandler) checkExists(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {

@@ -11,7 +11,6 @@ import (
 	"github.com/turistikrota/service.owner/src/app/command"
 	"github.com/turistikrota/service.owner/src/app/query"
 	"github.com/turistikrota/service.owner/src/config"
-	"github.com/turistikrota/service.owner/src/domain/account"
 	"github.com/turistikrota/service.owner/src/domain/owner"
 	"github.com/turistikrota/service.shared/db/mongo"
 )
@@ -31,9 +30,6 @@ func NewApplication(config Config) app.Application {
 		Publisher: config.EventEngine,
 	})
 
-	accountFactory := account.NewFactory()
-	accountRepo := adapters.Mongo.NewAccount(accountFactory, config.Mongo.GetCollection(config.App.DB.MongoAccount.Collection))
-
 	identitySrv := KPSPublic.New()
 
 	base := decorator.NewBase()
@@ -48,18 +44,16 @@ func NewApplication(config Config) app.Application {
 			OwnerApplication: command.NewOwnerApplicationHandler(command.OwnerApplicationHandlerConfig{
 				Repo:            ownerRepo,
 				Factory:         ownerFactory,
-				AccountRepo:     accountRepo,
 				IdentityService: identitySrv,
 				VknService:      vknSrv,
 				Events:          ownerEvents,
 				CqrsBase:        base,
 			}),
 			OwnershipUserAdd: command.NewOwnershipUserAddHandler(command.OwnershipUserAddHandlerConfig{
-				Repo:        ownerRepo,
-				AccountRepo: accountRepo,
-				Factory:     ownerFactory,
-				Events:      ownerEvents,
-				CqrsBase:    base,
+				Repo:     ownerRepo,
+				Factory:  ownerFactory,
+				Events:   ownerEvents,
+				CqrsBase: base,
 			}),
 			OwnershipUserRemove: command.NewOwnershipUserRemoveHandler(command.OwnershipUserRemoveHandlerConfig{
 				Repo:     ownerRepo,
@@ -138,7 +132,6 @@ func NewApplication(config Config) app.Application {
 			}),
 			ListMyOwnershipUsers: query.NewListMyOwnershipUsersQueryHandler(query.ListMyOwnershipUsersQueryHandlerConfig{
 				OwnerRepo:    ownerRepo,
-				AccountRepo:  accountRepo,
 				OwnerFactory: ownerFactory,
 				CqrsBase:     base,
 			}),
