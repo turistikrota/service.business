@@ -21,11 +21,6 @@ type Commands struct {
 	OwnershipVerifyByAdmin  command.AdminOwnershipVerifyHandler
 	OwnershipDeleteByAdmin  command.AdminOwnershipDeleteHandler
 	OwnershipRecoverByAdmin command.AdminOwnershipRecoverHandler
-	AccountCreate           command.AccountCreateHandler
-	AccountUpdate           command.AccountUpdateHandler
-	AccountDelete           command.AccountDeleteHandler
-	AccountEnable           command.AccountEnableHandler
-	AccountDisable          command.AccountDisableHandler
 }
 
 type Queries struct {

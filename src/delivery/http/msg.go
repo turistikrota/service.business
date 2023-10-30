@@ -18,10 +18,12 @@ type successMessages struct {
 }
 
 type errorMessages struct {
-	RequiredAuth      string
-	CurrentUserAccess string
-	OwnerNotSelected  string
-	AdminRoute        string
+	RequiredAuth          string
+	CurrentUserAccess     string
+	OwnerNotSelected      string
+	AdminRoute            string
+	RequiredAccountSelect string
+	AccountNotFound       string
 }
 
 type messages struct {
@@ -47,9 +49,11 @@ var Messages = messages{
 		OwnershipGetSelected:    "http_success_ownership_get_selected",
 	},
 	Error: errorMessages{
-		RequiredAuth:      "http_error_required_auth",
-		CurrentUserAccess: "http_error_current_user_access",
-		OwnerNotSelected:  "http_error_owner_not_selected",
-		AdminRoute:        "http_error_admin_route",
+		RequiredAuth:          "http_error_required_auth",
+		CurrentUserAccess:     "http_error_current_user_access",
+		OwnerNotSelected:      "http_error_owner_not_selected",
+		AdminRoute:            "http_error_admin_route",
+		RequiredAccountSelect: "http_error_required_account_select",
+		AccountNotFound:       "http_error_account_not_found",
 	},
 }

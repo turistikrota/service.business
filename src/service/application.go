@@ -109,26 +109,6 @@ func NewApplication(config Config) app.Application {
 				Events:   ownerEvents,
 				CqrsBase: base,
 			}),
-			AccountCreate: command.NewAccountCreateHandler(command.AccountCreateHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
-			AccountUpdate: command.NewAccountUpdateHandler(command.AccountUpdateHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
-			AccountDelete: command.NewAccountDeleteHandler(command.AccountDeleteHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
-			AccountDisable: command.NewAccountDisableHandler(command.AccountDisableHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
-			AccountEnable: command.NewAccountEnableHandler(command.AccountEnableHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
 		},
 		Queries: app.Queries{
 			AdminViewOwnership: query.NewAdminViewOwnershipHandler(query.AdminViewOwnershipHandlerConfig{

@@ -6,6 +6,7 @@ import (
 	"github.com/mixarchitecture/microp/server/http/result"
 	"github.com/turistikrota/service.owner/src/delivery/http/dto"
 	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.shared/server/http/auth/current_account"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 )
 
@@ -14,8 +15,9 @@ func (h Server) CurrentOwner() func(ctx *fiber.Ctx) error {
 		d := dto.Request.OwnerShipDetail()
 		h.parseParams(ctx, d)
 		u := current_user.Parse(ctx)
-		res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetWithUserOwnershipQuery(u.UUID))
-		l, a := httpI18n.GetLanguagesInContext(h.i18n, ctx)
+		account := current_account.Parse(ctx)
+		res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetWithUserOwnershipQuery(u.UUID, account.Name))
+		l, a := httpI18n.GetLanguagesInContext(*h.i18n, ctx)
 		if err != nil {
 			return result.Error(h.i18n.TranslateFromError(*err, l, a))
 		}

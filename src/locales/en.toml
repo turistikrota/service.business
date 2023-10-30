@@ -44,6 +44,8 @@ http_error_required_auth = "Authentication required."
 http_error_current_user_access = "Authorization failed."
 http_error_owner_not_selected = "Owner not selected."
 http_error_admin_route = "Admin route."
+http_error_required_account_select = "Account select required."
+http_error_account_not_found = "Account not found."
 
 # Owner Module Messages
 error_owner_failed = "Failed to owner. {{.Operation}}"

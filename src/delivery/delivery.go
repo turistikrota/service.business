@@ -68,7 +68,7 @@ func (d *delivery) loadHTTP() *delivery {
 		CreateHandler: func(router fiber.Router) fiber.Router {
 			return http.New(http.Config{
 				App:         d.app,
-				I18n:        *d.i18n,
+				I18n:        d.i18n,
 				Validator:   *d.validator,
 				Context:     d.ctx,
 				HttpHeaders: d.config.HttpHeaders,

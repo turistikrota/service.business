@@ -43,6 +43,8 @@ http_error_required_auth = "Bu işlem için kimlik doğrulaması gerekiyor."
 http_error_current_user_access = "Bu işlem için geçerli kullanıcı erişimi gerekiyor."
 http_error_owner_not_selected = "Bu işlem için sahiplik seçimi gerekiyor."
 http_error_admin_route = "Bu işlem için yönetici erişimi gerekiyor."
+http_error_required_account_select = "Bu işlem için hesap seçimi gerekiyor."
+http_error_account_not_found = "Hesap bulunamadı."
 
 # Owner Module Messages
 error_owner_failed = "Sahiplik oluşturulamadı."

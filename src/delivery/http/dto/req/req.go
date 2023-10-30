@@ -5,7 +5,6 @@ type Request interface {
 	Ownership() *OwnershipRequest
 	OwnerApplication() *OwnerApplicationRequest
 	OwnerShipDetailUser() *OwnerShipDetailUserRequest
-	UserAccount() *AccountUserRequest
 	OwnerPermissionAdd() *OwnershipUserPermAddRequest
 	OwnerPermissionRemove() *OwnershipUserPermRemoveRequest
 	OwnerSelect() *OwnershipSelectRequest
@@ -28,10 +27,6 @@ func (r *request) OwnerApplication() *OwnerApplicationRequest {
 
 func (r *request) OwnerShipDetailUser() *OwnerShipDetailUserRequest {
 	return &OwnerShipDetailUserRequest{}
-}
-
-func (r *request) UserAccount() *AccountUserRequest {
-	return &AccountUserRequest{}
 }
 
 func (r *request) Ownership() *OwnershipRequest {

@@ -10,7 +10,6 @@ type OwnershipRequest struct {
 }
 
 type OwnerShipDetailRequest struct {
-	AccountUserRequest
 	OwnershipRequest
 }
 
@@ -20,33 +19,33 @@ func (o *OwnershipRequest) ToViewQuery() query.ViewOwnershipQuery {
 	}
 }
 
-func (o *OwnerShipDetailRequest) ToGetWithUserOwnershipQuery(userUUID string) query.GetWithUserOwnershipQuery {
+func (o *OwnerShipDetailRequest) ToGetWithUserOwnershipQuery(userUUID string, userName string) query.GetWithUserOwnershipQuery {
 	return query.GetWithUserOwnershipQuery{
 		NickName: o.NickName,
-		UserName: o.CurrentUserName,
+		UserName: userName,
 		UserUUID: userUUID,
 	}
 }
 
-func (o *OwnerShipDetailRequest) ToDisableCommand(userUUID string) command.OwnershipDisableCommand {
+func (o *OwnerShipDetailRequest) ToDisableCommand(userUUID string, userName string) command.OwnershipDisableCommand {
 	return command.OwnershipDisableCommand{
 		OwnerNickName: o.NickName,
-		UserName:      o.CurrentUserName,
+		UserName:      userName,
 		UserUUID:      userUUID,
 	}
 }
 
-func (o *OwnerShipDetailRequest) ToEnableCommand(userUUID string) command.OwnershipEnableCommand {
+func (o *OwnerShipDetailRequest) ToEnableCommand(userUUID string, userName string) command.OwnershipEnableCommand {
 	return command.OwnershipEnableCommand{
 		OwnerNickName: o.NickName,
-		UserName:      o.CurrentUserName,
+		UserName:      userName,
 		UserUUID:      userUUID,
 	}
 }
 
-func (o *OwnerShipDetailRequest) ToUserListQuery() query.ListMyOwnershipUsersQuery {
+func (o *OwnerShipDetailRequest) ToUserListQuery(userName string) query.ListMyOwnershipUsersQuery {
 	return query.ListMyOwnershipUsersQuery{
 		NickName: o.NickName,
-		UserName: o.CurrentUserName,
+		UserName: userName,
 	}
 }
