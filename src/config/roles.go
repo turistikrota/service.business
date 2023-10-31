@@ -13,6 +13,7 @@ type ownerRoles struct {
 	Enable         string
 	Disable        string
 	UserList       string
+	Super          string
 }
 
 type roles struct {
@@ -23,6 +24,7 @@ type roles struct {
 var Roles = roles{
 	Roles: base_roles.BaseRoles,
 	Owner: ownerRoles{
+		Super:          "owner.super",
 		Member:         "owner.member",
 		AdminView:      "owner.admin_view",
 		AdminList:      "owner.admin_list",

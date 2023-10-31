@@ -8,6 +8,7 @@ import (
 	"github.com/mixarchitecture/microp/types/list"
 	"github.com/turistikrota/service.owner/src/adapters/mongo/owner/entity"
 	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -141,13 +142,16 @@ func (r *repo) ListByUserUUID(ctx context.Context, user owner.UserDetail) ([]*ow
 	}, opts)
 }
 
-func (r *repo) AddUser(ctx context.Context, nickName string, user *owner.User) *i18np.Error {
-	// filter with nickName and users array not contains user
+func (r *repo) AddUser(ctx context.Context, ownerUUID string, user *owner.User) *i18np.Error {
+	id, err := mongo.TransformId(ownerUUID)
+	if err != nil {
+		return r.factory.Errors.Failed("add user")
+	}
 	filter := bson.M{
-		entity.Fields.NickName: nickName,
+		entity.Fields.UUID: id,
 		"$or": []bson.M{
 			{entity.UserField(entity.UserFields.Name): bson.M{"$ne": user.Name}},
-			{entity.UserField(entity.UserFields.Code): bson.M{"$ne": user.Code}},
+			{entity.UserField(entity.UserFields.UUID): bson.M{"$ne": user.UUID}},
 		},
 	}
 	setter := bson.M{
@@ -155,7 +159,6 @@ func (r *repo) AddUser(ctx context.Context, nickName string, user *owner.User) *
 			entity.Fields.Users: bson.M{
 				entity.UserFields.UUID:   user.UUID,
 				entity.UserFields.Name:   user.Name,
-				entity.UserFields.Code:   user.Code,
 				entity.UserFields.Roles:  user.Roles,
 				entity.UserFields.JoinAt: user.JoinAt,
 			},

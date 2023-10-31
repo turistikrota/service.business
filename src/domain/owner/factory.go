@@ -30,6 +30,17 @@ type NewOwnerParams struct {
 	Corporation Corporation
 }
 
+func (f Factory) NewUser(uuid string, name string) *User {
+	return &User{
+		UUID: uuid,
+		Name: name,
+		Roles: []string{
+			config.Roles.Owner.Member,
+		},
+		JoinAt: time.Now(),
+	}
+}
+
 func (f Factory) NewOwner(params NewOwnerParams) *Entity {
 	t := time.Now()
 	e := &Entity{
@@ -42,8 +53,8 @@ func (f Factory) NewOwner(params NewOwnerParams) *Entity {
 			{
 				UUID: params.UserUUID,
 				Name: params.UserName,
-				Code: params.UserCode,
 				Roles: []string{
+					config.Roles.Owner.Super,
 					config.Roles.Owner.AdminView,
 					config.Roles.Owner.Enable,
 					config.Roles.Owner.Disable,

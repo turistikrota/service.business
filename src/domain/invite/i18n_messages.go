@@ -9,6 +9,7 @@ type messages struct {
 	Timeout     string
 
 	InviteSubject string
+	EmailMismatch string
 }
 
 var I18nMessages = messages{
@@ -20,4 +21,5 @@ var I18nMessages = messages{
 	Timeout:     "error_invite_timeout",
 
 	InviteSubject: "invite_subject",
+	EmailMismatch: "error_invite_email_mismatch",
 }

@@ -5,6 +5,7 @@ import "github.com/mixarchitecture/i18np"
 type Errors interface {
 	InvalidUUID() *i18np.Error
 	Failed(operation string) *i18np.Error
+	EmailMismatch() *i18np.Error
 	NotFound() *i18np.Error
 	Used() *i18np.Error
 	Deleted() *i18np.Error
@@ -15,6 +16,10 @@ type inviteErrors struct{}
 
 func newInviteErrors() Errors {
 	return &inviteErrors{}
+}
+
+func (e *inviteErrors) EmailMismatch() *i18np.Error {
+	return i18np.NewError(I18nMessages.EmailMismatch)
 }
 
 func (e *inviteErrors) InvalidUUID() *i18np.Error {
