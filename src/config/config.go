@@ -53,6 +53,7 @@ type Cors struct {
 type Topics struct {
 	Owner   OwnerTopics
 	Account AccountEvents
+	Notify  NotifyTopics
 }
 
 type AccountEvents struct {
@@ -78,6 +79,10 @@ type HttpHeaders struct {
 	AllowedHeaders   string `env:"CORS_ALLOWED_HEADERS" envDefault:"*"`
 	AllowCredentials bool   `env:"CORS_ALLOW_CREDENTIALS" envDefault:"true"`
 	Domain           string `env:"HTTP_HEADER_DOMAIN" envDefault:"*"`
+}
+
+type NotifyTopics struct {
+	SendMail string `env:"STREAMING_TOPIC_NOTIFY_EMAIL"`
 }
 
 type OwnerTopics struct {
@@ -108,6 +113,10 @@ type Vkn struct {
 	Password string `env:"VKN_PASSWORD"`
 }
 
+type Urls struct {
+	InviteAccept string `env:"URL_INVITE_ACCEPT"`
+}
+
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
@@ -125,4 +134,5 @@ type App struct {
 	Redis       Redis
 	TokenSrv    TokenSrv
 	Rsa         RSA
+	Urls        Urls
 }

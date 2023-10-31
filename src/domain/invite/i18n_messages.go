@@ -7,6 +7,8 @@ type messages struct {
 	Used        string
 	Deleted     string
 	Timeout     string
+
+	InviteSubject string
 }
 
 var I18nMessages = messages{
@@ -16,4 +18,6 @@ var I18nMessages = messages{
 	Used:        "error_invite_used",
 	Deleted:     "error_invite_deleted",
 	Timeout:     "error_invite_timeout",
+
+	InviteSubject: "invite_subject",
 }
