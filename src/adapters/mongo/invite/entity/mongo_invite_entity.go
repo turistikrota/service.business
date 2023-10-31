@@ -7,18 +7,20 @@ import (
 )
 
 type MongoInvite struct {
-	UUID      string     `bson:"_id,omitempty"`
-	OwnerUUID string     `bson:"owner_uuid"`
-	Email     string     `bson:"email"`
-	IsUsed    bool       `bson:"is_used"`
-	IsDeleted bool       `bson:"is_deleted"`
-	CreatedAt *time.Time `bson:"created_at"`
-	UpdatedAt *time.Time `bson:"updated_at"`
+	UUID            string     `bson:"_id,omitempty"`
+	OwnerUUID       string     `bson:"owner_uuid"`
+	CreatorUserName string     `bson:"creator_user_name"`
+	Email           string     `bson:"email"`
+	IsUsed          bool       `bson:"is_used"`
+	IsDeleted       bool       `bson:"is_deleted"`
+	CreatedAt       *time.Time `bson:"created_at"`
+	UpdatedAt       *time.Time `bson:"updated_at"`
 }
 
 func (m *MongoInvite) FromInvite(invite *invite.Entity) *MongoInvite {
 	m.UUID = invite.UUID
 	m.OwnerUUID = invite.OwnerUUID
+	m.CreatorUserName = invite.CreatorUserName
 	m.Email = invite.Email
 	m.IsUsed = invite.IsUsed
 	m.IsDeleted = invite.IsDeleted
@@ -29,12 +31,13 @@ func (m *MongoInvite) FromInvite(invite *invite.Entity) *MongoInvite {
 
 func (m *MongoInvite) ToInvite() *invite.Entity {
 	return &invite.Entity{
-		UUID:      m.UUID,
-		OwnerUUID: m.OwnerUUID,
-		Email:     m.Email,
-		IsUsed:    m.IsUsed,
-		IsDeleted: m.IsDeleted,
-		CreatedAt: m.CreatedAt,
-		UpdatedAt: m.UpdatedAt,
+		UUID:            m.UUID,
+		OwnerUUID:       m.OwnerUUID,
+		Email:           m.Email,
+		IsUsed:          m.IsUsed,
+		CreatorUserName: m.CreatorUserName,
+		IsDeleted:       m.IsDeleted,
+		CreatedAt:       m.CreatedAt,
+		UpdatedAt:       m.UpdatedAt,
 	}
 }
