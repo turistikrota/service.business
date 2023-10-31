@@ -159,7 +159,7 @@ func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 
 func (h Server) InviteDelete(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteDetail()
-	h.parseBody(ctx, &d)
+	h.parseParams(ctx, &d)
 	res, err := h.app.Commands.InviteDelete.Handle(ctx.UserContext(), d.ToDelete())
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
@@ -168,10 +168,39 @@ func (h Server) InviteDelete(ctx *fiber.Ctx) error {
 
 func (h Server) InviteUse(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteDetail()
-	h.parseBody(ctx, &d)
+	h.parseParams(ctx, &d)
 	u := current_user.Parse(ctx)
 	account := current_account.Parse(ctx)
 	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.ID, u.Email, account.Name))
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
+		return res
+	})
+}
+
+func (h Server) InviteGetByUUID(ctx *fiber.Ctx) error {
+	d := dto.Request.InviteDetail()
+	h.parseParams(ctx, &d)
+	res, err := h.app.Queries.InviteGetByUUID.Handle(ctx.UserContext(), d.ToGet())
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
+		return res
+	})
+}
+
+func (h Server) InviteGetByEmail(ctx *fiber.Ctx) error {
+	u := current_user.Parse(ctx)
+	res, err := h.app.Queries.InviteGetByEmail.Handle(ctx.UserContext(), query.InviteGetByEmailQuery{
+		UserEmail: u.Email,
+	})
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
+		return res
+	})
+}
+
+func (h Server) InviteGetByOwnerUUID(ctx *fiber.Ctx) error {
+	ownership := h.parseOwner(ctx)
+	res, err := h.app.Queries.InviteGetByOwnerUUID.Handle(ctx.UserContext(), query.InviteGetByOwnerUUIDQuery{
+		OwnerUUID: ownership.Entity.UUID,
+	})
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})
