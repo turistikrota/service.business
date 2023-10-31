@@ -53,11 +53,17 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 	if err != nil {
 		return nil, err
 	}
-	if res.CreatedAt.Add(24 * time.Hour).Before(time.Now()) {
-		return nil, h.factory.Errors.Timeout()
-	}
 	if res.Email != cmd.UserEmail {
 		return nil, h.factory.Errors.EmailMismatch()
+	}
+	if res.IsUsed {
+		return nil, h.factory.Errors.Used()
+	}
+	if res.IsDeleted {
+		return nil, h.factory.Errors.Deleted()
+	}
+	if res.CreatedAt.Add(24 * time.Hour).Before(time.Now()) {
+		return nil, h.factory.Errors.Timeout()
 	}
 	err = h.ownerRepo.AddUser(ctx, res.OwnerUUID, h.ownerFactory.NewUser(cmd.UserUUID, cmd.UserName))
 	if err != nil {
