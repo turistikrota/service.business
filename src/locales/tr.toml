@@ -77,3 +77,5 @@ error_invite_timeout = "Davet zaman aşımına uğradı."
 
 invite_subject = "Organizasyon Daveti"
 error_invite_email_mismatch = "Davet e-postası e-posta adresiyle eşleşmiyor."
+
+update_query_not_found = "Veri bulunamadı."
