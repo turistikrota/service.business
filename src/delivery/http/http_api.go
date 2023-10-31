@@ -151,7 +151,7 @@ func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 	h.parseBody(ctx, d)
 	account := current_account.Parse(ctx)
 	ownership := h.parseOwner(ctx)
-	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.NickName, account.Name))
+	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.NickName, ownership.Entity.UUID, account.Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})

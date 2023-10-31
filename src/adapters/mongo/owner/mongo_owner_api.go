@@ -145,7 +145,7 @@ func (r *repo) ListByUserUUID(ctx context.Context, user owner.UserDetail) ([]*ow
 func (r *repo) AddUser(ctx context.Context, ownerUUID string, user *owner.User) *i18np.Error {
 	id, err := mongo.TransformId(ownerUUID)
 	if err != nil {
-		return r.factory.Errors.Failed("add user")
+		return r.factory.Errors.Failed("add user" + ownerUUID)
 	}
 	filter := bson.M{
 		entity.Fields.UUID: id,
