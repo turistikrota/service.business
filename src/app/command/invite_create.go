@@ -9,7 +9,7 @@ import (
 )
 
 type InviteCreateCommand struct {
-	ownerNickName   string
+	OwnerNickName   string
 	CreatorUserName string
 	Email           string
 	Locale          string
@@ -44,7 +44,7 @@ func NewInviteCreateHandler(config InviteCreateConfig) InviteCreateHandler {
 }
 
 func (h *inviteCreateHandler) Handle(ctx context.Context, cmd InviteCreateCommand) (*InviteCreateResult, *i18np.Error) {
-	res, err := h.repo.Create(ctx, h.factory.New(cmd.Email, cmd.ownerNickName, cmd.CreatorUserName))
+	res, err := h.repo.Create(ctx, h.factory.New(cmd.Email, cmd.OwnerNickName, cmd.CreatorUserName))
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func (h *inviteCreateHandler) Handle(ctx context.Context, cmd InviteCreateComman
 		Locale:     cmd.Locale,
 		Email:      cmd.Email,
 		InviteUUID: res.UUID,
-		OwnerName:  cmd.ownerNickName,
+		OwnerName:  cmd.OwnerNickName,
 	})
 	return &InviteCreateResult{}, nil
 }

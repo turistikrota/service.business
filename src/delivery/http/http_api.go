@@ -145,3 +145,34 @@ func (h Server) OwnershipGetSelected(ctx *fiber.Ctx) error {
 		return dto.Response.SelectOwnership(res)
 	})
 }
+
+func (h Server) InviteCreate(ctx *fiber.Ctx) error {
+	d := dto.Request.InviteCreate()
+	h.parseBody(ctx, &d)
+	account := current_account.Parse(ctx)
+	ownership := h.parseOwner(ctx)
+	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.UUID, account.Name))
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
+		return res
+	})
+}
+
+func (h Server) InviteDelete(ctx *fiber.Ctx) error {
+	d := dto.Request.InviteDetail()
+	h.parseBody(ctx, &d)
+	res, err := h.app.Commands.InviteDelete.Handle(ctx.UserContext(), d.ToDelete())
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
+		return res
+	})
+}
+
+func (h Server) InviteUse(ctx *fiber.Ctx) error {
+	d := dto.Request.InviteDetail()
+	h.parseBody(ctx, &d)
+	u := current_user.Parse(ctx)
+	account := current_account.Parse(ctx)
+	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.ID, u.Email, account.Name))
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
+		return res
+	})
+}

@@ -15,6 +15,7 @@ type successMessages struct {
 	OwnershipUserList       string
 	OwnershipSelect         string
 	OwnershipGetSelected    string
+	Ok                      string
 }
 
 type errorMessages struct {
@@ -47,6 +48,7 @@ var Messages = messages{
 		OwnershipUserList:       "http_success_ownership_user_list",
 		OwnershipSelect:         "http_success_ownership_select",
 		OwnershipGetSelected:    "http_success_ownership_get_selected",
+		Ok:                      "http_success_ok",
 	},
 	Error: errorMessages{
 		RequiredAuth:          "http_error_required_auth",
