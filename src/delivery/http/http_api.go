@@ -122,7 +122,8 @@ func (h Server) OwnershipDisable(ctx *fiber.Ctx) error {
 func (h Server) OwnershipSelect(ctx *fiber.Ctx) error {
 	d := dto.Request.OwnerSelect()
 	h.parseParams(ctx, d)
-	res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID))
+	account := current_account.Parse(ctx)
+	res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID, account.Name))
 	if err != nil {
 		return err
 	}
