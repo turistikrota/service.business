@@ -71,11 +71,22 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
 	admin.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
 
+	// invite admin routes
+	admin.Post("/invite", h.OwnerPermissions(config.Roles.Owner.InviteCreate), h.wrapWithTimeout(h.InviteCreate))
+	admin.Delete("/invite/:uuid", h.OwnerPermissions(config.Roles.Owner.InviteDelete), h.wrapWithTimeout(h.InviteDelete))
+	admin.Get("/invite", h.OwnerPermissions(config.Roles.Owner.InviteView), h.wrapWithTimeout(h.InviteGetByOwnerUUID))
+
 	router.Get("/admin", h.currentUserAccess(), h.requiredAccess(), h.adminRoute(config.Roles.Owner.AdminList), h.wrapWithTimeout(h.AdminListAll))
 
 	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
 	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnerApplication))
 	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.ListMyOwnerships))
+
+	// invite public routes
+	router.Post("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteUse))
+	router.Post("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteUse))
+	router.Get("/invites", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByEmail))
+
 	router.Get("/~:nickName", h.wrapWithTimeout(h.ViewOwnership))
 	return router
 }
