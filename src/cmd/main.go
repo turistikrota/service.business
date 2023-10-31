@@ -37,6 +37,7 @@ func main() {
 		EventEngine: eventEngine,
 		Mongo:       mongo,
 		Validator:   valid,
+		I18n:        i18n,
 	})
 	redis := redis.New(&redis.Config{
 		Host:     config.Redis.Host,

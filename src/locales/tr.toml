@@ -64,6 +64,7 @@ error_owner_corporation_already_exists = "Bu vergi numarası zaten kullanılıyo
 # Account Module Settings
 error_account_failed = "Hesap oluşturulamadı."
 error_account_not_found = "Hesap bulunamadı."
+http_success_ok = "İşlem başarılı."
 
 user_expired = "Kullanıcı süresi doldu."
 

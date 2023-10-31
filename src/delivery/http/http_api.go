@@ -148,10 +148,10 @@ func (h Server) OwnershipGetSelected(ctx *fiber.Ctx) error {
 
 func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteCreate()
-	h.parseBody(ctx, &d)
+	h.parseBody(ctx, d)
 	account := current_account.Parse(ctx)
 	ownership := h.parseOwner(ctx)
-	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.UUID, account.Name))
+	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.NickName, account.Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})
@@ -159,7 +159,7 @@ func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 
 func (h Server) InviteDelete(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteDetail()
-	h.parseParams(ctx, &d)
+	h.parseParams(ctx, d)
 	res, err := h.app.Commands.InviteDelete.Handle(ctx.UserContext(), d.ToDelete())
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
@@ -168,7 +168,7 @@ func (h Server) InviteDelete(ctx *fiber.Ctx) error {
 
 func (h Server) InviteUse(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteDetail()
-	h.parseParams(ctx, &d)
+	h.parseParams(ctx, d)
 	u := current_user.Parse(ctx)
 	account := current_account.Parse(ctx)
 	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.ID, u.Email, account.Name))
@@ -179,10 +179,10 @@ func (h Server) InviteUse(ctx *fiber.Ctx) error {
 
 func (h Server) InviteGetByUUID(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteDetail()
-	h.parseParams(ctx, &d)
+	h.parseParams(ctx, d)
 	res, err := h.app.Queries.InviteGetByUUID.Handle(ctx.UserContext(), d.ToGet())
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
-		return res
+		return res.Invite
 	})
 }
 
@@ -192,7 +192,7 @@ func (h Server) InviteGetByEmail(ctx *fiber.Ctx) error {
 		UserEmail: u.Email,
 	})
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
-		return res
+		return res.Invites
 	})
 }
 
@@ -202,6 +202,6 @@ func (h Server) InviteGetByOwnerUUID(ctx *fiber.Ctx) error {
 		OwnerUUID: ownership.Entity.UUID,
 	})
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
-		return res
+		return res.Invites
 	})
 }

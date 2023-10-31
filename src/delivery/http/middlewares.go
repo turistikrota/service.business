@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	httpI18n "github.com/mixarchitecture/microp/server/http/i18n"
 	"github.com/mixarchitecture/microp/server/http/result"
+	"github.com/turistikrota/service.owner/src/config"
 	"github.com/turistikrota/service.owner/src/delivery/http/dto"
 	"github.com/turistikrota/service.owner/src/domain/owner"
 	"github.com/turistikrota/service.shared/server/http/auth/current_account"
@@ -40,7 +41,8 @@ func (h Server) OwnerPermissions(perms ...string) func(ctx *fiber.Ctx) error {
 		if ownership == nil {
 			return result.Error("ownership not found")
 		}
-		if !ownership.HasPermissions(perms...) {
+		perms = append(perms, config.Roles.Owner.Super)
+		if !ownership.HasAnyPermissions(perms...) {
 			return result.Error("access denied")
 		}
 		return ctx.Next()

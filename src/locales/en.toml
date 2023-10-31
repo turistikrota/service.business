@@ -65,6 +65,7 @@ error_owner_corporation_already_exists = "Corporation owner already exists."
 # Account Module Messages
 error_account_failed = "Failed to account. {{.Action}}"
 error_account_not_found = "Account not found."
+http_success_ok = "OK"
 
 user_expired = "User expired."
 
