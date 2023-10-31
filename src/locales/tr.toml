@@ -43,6 +43,8 @@ http_error_required_auth = "Bu işlem için kimlik doğrulaması gerekiyor."
 http_error_current_user_access = "Bu işlem için geçerli kullanıcı erişimi gerekiyor."
 http_error_owner_not_selected = "Bu işlem için sahiplik seçimi gerekiyor."
 http_error_admin_route = "Bu işlem için yönetici erişimi gerekiyor."
+http_error_required_account_select = "Bu işlem için hesap seçimi gerekiyor."
+http_error_account_not_found = "Hesap bulunamadı."
 
 # Owner Module Messages
 error_owner_failed = "Sahiplik oluşturulamadı."
@@ -62,3 +64,18 @@ error_owner_corporation_already_exists = "Bu vergi numarası zaten kullanılıyo
 # Account Module Settings
 error_account_failed = "Hesap oluşturulamadı."
 error_account_not_found = "Hesap bulunamadı."
+http_success_ok = "İşlem başarılı."
+
+user_expired = "Kullanıcı süresi doldu."
+
+error_invite_invalid_uuid = "Geçersiz davet kimliği."
+error_invite_failed = "Davet oluşturulamadı."
+error_invite_not_found = "Davet bulunamadı."
+error_invite_used = "Davet zaten kullanıldı."
+error_invite_deleted = "Davet silinmiş."
+error_invite_timeout = "Davet zaman aşımına uğradı."
+
+invite_subject = "Organizasyon Daveti"
+error_invite_email_mismatch = "Davet e-postası e-posta adresiyle eşleşmiyor."
+
+update_query_not_found = "Veri bulunamadı."

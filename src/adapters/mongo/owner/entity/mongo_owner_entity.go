@@ -163,7 +163,6 @@ func (u *MongoOwnerUser) ToOwnerUser() owner.User {
 	return owner.User{
 		UUID:   u.UUID,
 		Name:   u.Name,
-		Code:   u.Code,
 		Roles:  u.Roles,
 		JoinAt: u.JoinAt,
 	}
@@ -172,7 +171,6 @@ func (u *MongoOwnerUser) ToOwnerUser() owner.User {
 func (u *MongoOwnerUser) FromOwnerUser(user *owner.User) *MongoOwnerUser {
 	u.UUID = user.UUID
 	u.Name = user.Name
-	u.Code = user.Code
 	u.Roles = user.Roles
 	u.JoinAt = user.JoinAt
 	return u
@@ -184,7 +182,6 @@ func (m *MongoOwner) fromOwnerUsers(users []owner.User) []*MongoOwnerUser {
 		mongoUsers = append(mongoUsers, &MongoOwnerUser{
 			UUID:   user.UUID,
 			Name:   user.Name,
-			Code:   user.Code,
 			Roles:  user.Roles,
 			JoinAt: user.JoinAt,
 		})

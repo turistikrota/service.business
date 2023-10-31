@@ -13,6 +13,10 @@ type ownerRoles struct {
 	Enable         string
 	Disable        string
 	UserList       string
+	Super          string
+	InviteCreate   string
+	InviteDelete   string
+	InviteView     string
 }
 
 type roles struct {
@@ -23,6 +27,7 @@ type roles struct {
 var Roles = roles{
 	Roles: base_roles.BaseRoles,
 	Owner: ownerRoles{
+		Super:          "owner.super",
 		Member:         "owner.member",
 		AdminView:      "owner.admin_view",
 		AdminList:      "owner.admin_list",
@@ -33,5 +38,8 @@ var Roles = roles{
 		Enable:         "owner.enable",
 		Disable:        "owner.disable",
 		UserList:       "owner.user_list",
+		InviteCreate:   "owner.invite_create",
+		InviteDelete:   "owner.invite_delete",
+		InviteView:     "owner.invite_view",
 	},
 }

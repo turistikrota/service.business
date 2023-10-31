@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/9ssi7/vkn"
+	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
 	"github.com/mixarchitecture/microp/events"
 	"github.com/mixarchitecture/microp/validator"
@@ -11,7 +12,7 @@ import (
 	"github.com/turistikrota/service.owner/src/app/command"
 	"github.com/turistikrota/service.owner/src/app/query"
 	"github.com/turistikrota/service.owner/src/config"
-	"github.com/turistikrota/service.owner/src/domain/account"
+	"github.com/turistikrota/service.owner/src/domain/invite"
 	"github.com/turistikrota/service.owner/src/domain/owner"
 	"github.com/turistikrota/service.shared/db/mongo"
 )
@@ -21,6 +22,7 @@ type Config struct {
 	EventEngine events.Engine
 	Mongo       *mongo.DB
 	Validator   *validator.Validator
+	I18n        *i18np.I18n
 }
 
 func NewApplication(config Config) app.Application {
@@ -31,8 +33,14 @@ func NewApplication(config Config) app.Application {
 		Publisher: config.EventEngine,
 	})
 
-	accountFactory := account.NewFactory()
-	accountRepo := adapters.Mongo.NewAccount(accountFactory, config.Mongo.GetCollection(config.App.DB.MongoAccount.Collection))
+	inviteFactory := invite.NewFactory()
+	inviteRepo := adapters.Mongo.NewInvite(inviteFactory, config.Mongo.GetCollection(config.App.DB.MongoInvite.Collection))
+	inviteEvents := invite.NewEvents(invite.EventConfig{
+		Topics:    config.App.Topics,
+		Publisher: config.EventEngine,
+		Urls:      config.App.Urls,
+		I18n:      config.I18n,
+	})
 
 	identitySrv := KPSPublic.New()
 
@@ -48,18 +56,16 @@ func NewApplication(config Config) app.Application {
 			OwnerApplication: command.NewOwnerApplicationHandler(command.OwnerApplicationHandlerConfig{
 				Repo:            ownerRepo,
 				Factory:         ownerFactory,
-				AccountRepo:     accountRepo,
 				IdentityService: identitySrv,
 				VknService:      vknSrv,
 				Events:          ownerEvents,
 				CqrsBase:        base,
 			}),
 			OwnershipUserAdd: command.NewOwnershipUserAddHandler(command.OwnershipUserAddHandlerConfig{
-				Repo:        ownerRepo,
-				AccountRepo: accountRepo,
-				Factory:     ownerFactory,
-				Events:      ownerEvents,
-				CqrsBase:    base,
+				Repo:     ownerRepo,
+				Factory:  ownerFactory,
+				Events:   ownerEvents,
+				CqrsBase: base,
 			}),
 			OwnershipUserRemove: command.NewOwnershipUserRemoveHandler(command.OwnershipUserRemoveHandlerConfig{
 				Repo:     ownerRepo,
@@ -109,24 +115,22 @@ func NewApplication(config Config) app.Application {
 				Events:   ownerEvents,
 				CqrsBase: base,
 			}),
-			AccountCreate: command.NewAccountCreateHandler(command.AccountCreateHandlerConfig{
-				Repo:     accountRepo,
+			InviteCreate: command.NewInviteCreateHandler(command.InviteCreateConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				Events:   inviteEvents,
 				CqrsBase: base,
 			}),
-			AccountUpdate: command.NewAccountUpdateHandler(command.AccountUpdateHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
+			InviteUse: command.NewInviteUseHandler(command.InviteUseConfig{
+				Repo:         inviteRepo,
+				Factory:      inviteFactory,
+				CqrsBase:     base,
+				OwnerRepo:    ownerRepo,
+				OwnerFactory: ownerFactory,
 			}),
-			AccountDelete: command.NewAccountDeleteHandler(command.AccountDeleteHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
-			AccountDisable: command.NewAccountDisableHandler(command.AccountDisableHandlerConfig{
-				Repo:     accountRepo,
-				CqrsBase: base,
-			}),
-			AccountEnable: command.NewAccountEnableHandler(command.AccountEnableHandlerConfig{
-				Repo:     accountRepo,
+			InviteDelete: command.NewInviteDeleteHandler(command.InviteDeleteConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
 				CqrsBase: base,
 			}),
 		},
@@ -158,9 +162,24 @@ func NewApplication(config Config) app.Application {
 			}),
 			ListMyOwnershipUsers: query.NewListMyOwnershipUsersQueryHandler(query.ListMyOwnershipUsersQueryHandlerConfig{
 				OwnerRepo:    ownerRepo,
-				AccountRepo:  accountRepo,
 				OwnerFactory: ownerFactory,
 				CqrsBase:     base,
+				Rpc:          config.App.Rpc,
+			}),
+			InviteGetByEmail: query.NewInviteGetByEmailHandler(query.InviteGetByEmailHandlerConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
+			}),
+			InviteGetByUUID: query.NewInviteGetByUUIDHandler(query.InviteGetByUUIDHandlerConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
+			}),
+			InviteGetByOwnerUUID: query.NewInviteGetByOwnerUUIDHandler(query.InviteGetByOwnerUUIDHandlerConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
 			}),
 		},
 	}

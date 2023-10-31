@@ -9,14 +9,8 @@ type MongoOwner struct {
 	Collection string `env:"MONGO_OWNER_COLLECTION" envDefault:"empties"`
 	Query      string `env:"MONGO_OWNER_QUERY" envDefault:""`
 }
-type MongoAccount struct {
-	Host       string `env:"MONGO_ACCOUNT_HOST" envDefault:"localhost"`
-	Port       string `env:"MONGO_ACCOUNT_PORT" envDefault:"27017"`
-	Username   string `env:"MONGO_ACCOUNT_USERNAME" envDefault:""`
-	Password   string `env:"MONGO_ACCOUNT_PASSWORD" envDefault:""`
-	Database   string `env:"MONGO_ACCOUNT_DATABASE" envDefault:"empty"`
-	Collection string `env:"MONGO_ACCOUNT_COLLECTION" envDefault:"empties"`
-	Query      string `env:"MONGO_ACCOUNT_QUERY" envDefault:""`
+type MongoInvite struct {
+	Collection string `env:"MONGO_INVITE_COLLECTION" envDefault:"invite"`
 }
 
 type I18n struct {
@@ -29,6 +23,11 @@ type Server struct {
 	Host  string `env:"SERVER_HOST" envDefault:"localhost"`
 	Port  int    `env:"SERVER_PORT" envDefault:"3000"`
 	Group string `env:"SERVER_GROUP" envDefault:"verify"`
+}
+
+type Rpc struct {
+	AccountHost    string `env:"RPC_ACCOUNT_HOST" envDefault:"localhost:3001"`
+	AccountUsesSsl bool   `env:"RPC_ACCOUNT_USES_SSL" envDefault:"localhost:3001"`
 }
 
 type Redis struct {
@@ -48,6 +47,7 @@ type Cors struct {
 type Topics struct {
 	Owner   OwnerTopics
 	Account AccountEvents
+	Notify  NotifyTopics
 }
 
 type AccountEvents struct {
@@ -73,6 +73,10 @@ type HttpHeaders struct {
 	AllowedHeaders   string `env:"CORS_ALLOWED_HEADERS" envDefault:"*"`
 	AllowCredentials bool   `env:"CORS_ALLOW_CREDENTIALS" envDefault:"true"`
 	Domain           string `env:"HTTP_HEADER_DOMAIN" envDefault:"*"`
+}
+
+type NotifyTopics struct {
+	SendMail string `env:"STREAMING_TOPIC_NOTIFY_EMAIL"`
 }
 
 type OwnerTopics struct {
@@ -103,12 +107,17 @@ type Vkn struct {
 	Password string `env:"VKN_PASSWORD"`
 }
 
+type Urls struct {
+	InviteAccept string `env:"URL_INVITE_ACCEPT"`
+}
+
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
-		MongoOwner   MongoOwner
-		MongoAccount MongoAccount
+		MongoOwner  MongoOwner
+		MongoInvite MongoInvite
 	}
+	Rpc         Rpc
 	Vkn         Vkn
 	HttpHeaders HttpHeaders
 	Server      Server
@@ -119,4 +128,5 @@ type App struct {
 	Redis       Redis
 	TokenSrv    TokenSrv
 	Rsa         RSA
+	Urls        Urls
 }

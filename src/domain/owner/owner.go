@@ -100,7 +100,6 @@ type Individual struct {
 type User struct {
 	UUID   string    `json:"uuid"`
 	Name   string    `json:"name"`
-	Code   string    `json:"code"`
 	Roles  []string  `json:"roles"`
 	JoinAt time.Time `json:"joinAt"`
 }
@@ -121,4 +120,13 @@ func (u *EntityWithUser) HasPermissions(permissions ...string) bool {
 		}
 	}
 	return true
+}
+
+func (u *EntityWithUser) HasAnyPermissions(permissions ...string) bool {
+	for _, permission := range permissions {
+		if u.User.HasPermission(permission) {
+			return true
+		}
+	}
+	return false
 }

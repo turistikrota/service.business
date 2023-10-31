@@ -9,7 +9,6 @@ import (
 )
 
 type OwnerApplicationRequest struct {
-	UserName        string
 	NickName        string `json:"nickName" validate:"required"`
 	RealName        string `json:"realName" validate:"required"`
 	OwnerType       string `json:"ownerType" validate:"required,oneof=individual corporation"`
@@ -25,15 +24,10 @@ type OwnerApplicationRequest struct {
 	CorporationType string `json:"type" validate:"required_if=OwnerType corporation"`
 }
 
-func (r *OwnerApplicationRequest) LoadUser(user *AccountUserRequest) *OwnerApplicationRequest {
-	r.UserName = user.CurrentUserName
-	return r
-}
-
-func (r *OwnerApplicationRequest) ToCommand(userUUID string) command.OwnerApplicationCommand {
+func (r *OwnerApplicationRequest) ToCommand(userUUID string, userName string) command.OwnerApplicationCommand {
 	ownerType := owner.Type(r.OwnerType)
 	cmd := command.OwnerApplicationCommand{
-		UserName:  r.UserName,
+		UserName:  userName,
 		UserUUID:  userUUID,
 		NickName:  r.NickName,
 		RealName:  r.RealName,

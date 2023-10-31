@@ -14,6 +14,7 @@ import (
 	"github.com/turistikrota/service.shared/auth/token"
 	"github.com/turistikrota/service.shared/server/http/auth"
 	"github.com/turistikrota/service.shared/server/http/auth/claim_guard"
+	"github.com/turistikrota/service.shared/server/http/auth/current_account"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 	"github.com/turistikrota/service.shared/server/http/auth/device_uuid"
 	"github.com/turistikrota/service.shared/server/http/auth/required_access"
@@ -26,7 +27,7 @@ import (
 
 type Server struct {
 	app         app.Application
-	i18n        i18np.I18n
+	i18n        *i18np.I18n
 	validator   validator.Validator
 	ctx         context.Context
 	sessionSrv  session.Service
@@ -36,7 +37,7 @@ type Server struct {
 
 type Config struct {
 	App         app.Application
-	I18n        i18np.I18n
+	I18n        *i18np.I18n
 	Validator   validator.Validator
 	Context     context.Context
 	HttpHeaders config.HttpHeaders
@@ -59,7 +60,7 @@ func New(config Config) Server {
 func (h Server) Load(router fiber.Router) fiber.Router {
 	router.Use(h.cors(), h.deviceUUID())
 
-	admin := router.Group("/@:currentUserName/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.CurrentOwner())
+	admin := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.CurrentOwner())
 	admin.Get("/", h.OwnerPermissions(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.OwnershipAdminView))
 	admin.Get("/user", h.OwnerPermissions(config.Roles.Owner.UserList), h.wrapWithTimeout(h.OwnershipUserList))
 	admin.Post("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermAdd), h.wrapWithTimeout(h.OwnershipUserPermAdd))
@@ -70,25 +71,44 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
 	admin.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
 
+	// invite admin routes
+	admin.Post("/invite", h.OwnerPermissions(config.Roles.Owner.InviteCreate), h.wrapWithTimeout(h.InviteCreate))
+	admin.Delete("/invite/:uuid", h.OwnerPermissions(config.Roles.Owner.InviteDelete), h.wrapWithTimeout(h.InviteDelete))
+	admin.Get("/invite", h.OwnerPermissions(config.Roles.Owner.InviteView), h.wrapWithTimeout(h.InviteGetByOwnerUUID))
+
 	router.Get("/admin", h.currentUserAccess(), h.requiredAccess(), h.adminRoute(config.Roles.Owner.AdminList), h.wrapWithTimeout(h.AdminListAll))
 
-	router.Get("/@:currentUserName/selected", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
-	router.Post("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.OwnerApplication))
-	router.Get("/@:currentUserName", h.currentUserAccess(), h.requiredAccess(), h.wrapWithTimeout(h.ListMyOwnerships))
+	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
+	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnerApplication))
+	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.ListMyOwnerships))
+
+	// invite public routes
+	router.Post("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteUse))
+	router.Get("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByUUID))
+	router.Get("/invites", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByEmail))
+
 	router.Get("/~:nickName", h.wrapWithTimeout(h.ViewOwnership))
 	return router
 }
 
 func (h Server) parseBody(c *fiber.Ctx, d interface{}) {
-	parser.ParseBody(c, h.validator, h.i18n, d)
+	parser.ParseBody(c, h.validator, *h.i18n, d)
 }
 
 func (h Server) parseParams(c *fiber.Ctx, d interface{}) {
-	parser.ParseParams(c, h.validator, h.i18n, d)
+	parser.ParseParams(c, h.validator, *h.i18n, d)
 }
 
 func (h Server) parseQuery(c *fiber.Ctx, d interface{}) {
-	parser.ParseQuery(c, h.validator, h.i18n, d)
+	parser.ParseQuery(c, h.validator, *h.i18n, d)
+}
+
+func (h Server) currentAccountAccess() fiber.Handler {
+	return current_account.New(current_account.Config{
+		I18n:         h.i18n,
+		RequiredKey:  Messages.Error.RequiredAccountSelect,
+		ForbiddenKey: Messages.Error.AccountNotFound,
+	})
 }
 
 func (h Server) wrapWithTimeout(fn fiber.Handler) fiber.Handler {
@@ -102,7 +122,7 @@ func (h Server) adminRoute(extra ...string) fiber.Handler {
 	}
 	return claim_guard.New(claim_guard.Config{
 		Claims: claims,
-		I18n:   h.i18n,
+		I18n:   *h.i18n,
 		MsgKey: Messages.Error.AdminRoute,
 	})
 }
@@ -111,7 +131,7 @@ func (h Server) currentUserAccess() fiber.Handler {
 	return current_user.New(current_user.Config{
 		TokenSrv:   h.tknSrv,
 		SessionSrv: h.sessionSrv,
-		I18n:       &h.i18n,
+		I18n:       h.i18n,
 		MsgKey:     Messages.Error.CurrentUserAccess,
 		HeaderKey:  http.Headers.Authorization,
 		CookieKey:  auth.Cookies.AccessToken,
@@ -130,7 +150,7 @@ func (h Server) deviceUUID() fiber.Handler {
 
 func (h Server) requiredAccess() fiber.Handler {
 	return required_access.New(required_access.Config{
-		I18n:   h.i18n,
+		I18n:   *h.i18n,
 		MsgKey: Messages.Error.RequiredAuth,
 	})
 }

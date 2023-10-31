@@ -23,7 +23,6 @@ type fields struct {
 type userFields struct {
 	UUID   string
 	Name   string
-	Code   string
 	Roles  string
 	JoinAt string
 }
@@ -50,7 +49,7 @@ type corporationFields struct {
 }
 
 var Fields = fields{
-	UUID:        "uuid",
+	UUID:        "_id",
 	NickName:    "nick_name",
 	RealName:    "real_name",
 	AvatarURL:   "avatar_url",
@@ -72,7 +71,6 @@ var Fields = fields{
 var UserFields = userFields{
 	UUID:   "uuid",
 	Name:   "name",
-	Code:   "code",
 	Roles:  "roles",
 	JoinAt: "join_at",
 }

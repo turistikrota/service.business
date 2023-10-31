@@ -37,9 +37,4 @@ func New(config Config) Server {
 
 func (s Server) Load() {
 	logrus.Info("Loading event stream server")
-	_ = s.engine.Subscribe(s.Topics.Account.Created, s.ListenAccountCreated)
-	_ = s.engine.Subscribe(s.Topics.Account.Updated, s.ListenAccountUpdated)
-	_ = s.engine.Subscribe(s.Topics.Account.Deleted, s.ListenAccountDeleted)
-	_ = s.engine.Subscribe(s.Topics.Account.Enabled, s.ListenAccountEnabled)
-	_ = s.engine.Subscribe(s.Topics.Account.Disabled, s.ListenAccountDisabled)
 }

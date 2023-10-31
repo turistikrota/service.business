@@ -21,11 +21,9 @@ type Commands struct {
 	OwnershipVerifyByAdmin  command.AdminOwnershipVerifyHandler
 	OwnershipDeleteByAdmin  command.AdminOwnershipDeleteHandler
 	OwnershipRecoverByAdmin command.AdminOwnershipRecoverHandler
-	AccountCreate           command.AccountCreateHandler
-	AccountUpdate           command.AccountUpdateHandler
-	AccountDelete           command.AccountDeleteHandler
-	AccountEnable           command.AccountEnableHandler
-	AccountDisable          command.AccountDisableHandler
+	InviteCreate            command.InviteCreateHandler
+	InviteUse               command.InviteUseHandler
+	InviteDelete            command.InviteDeleteHandler
 }
 
 type Queries struct {
@@ -35,4 +33,7 @@ type Queries struct {
 	ListMyOwnershipUsers query.ListMyOwnershipUsersQueryHandler
 	ViewOwnership        query.ViewOwnershipHandler
 	GetWithUserOwnership query.GetWithUserOwnershipHandler
+	InviteGetByEmail     query.InviteGetByEmailHandler
+	InviteGetByUUID      query.InviteGetByUUIDHandler
+	InviteGetByOwnerUUID query.InviteGetByOwnerUUIDHandler
 }

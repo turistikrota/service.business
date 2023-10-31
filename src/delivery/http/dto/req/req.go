@@ -5,11 +5,12 @@ type Request interface {
 	Ownership() *OwnershipRequest
 	OwnerApplication() *OwnerApplicationRequest
 	OwnerShipDetailUser() *OwnerShipDetailUserRequest
-	UserAccount() *AccountUserRequest
 	OwnerPermissionAdd() *OwnershipUserPermAddRequest
 	OwnerPermissionRemove() *OwnershipUserPermRemoveRequest
 	OwnerSelect() *OwnershipSelectRequest
 	Pagination() *PaginationRequest
+	InviteCreate() *InviteCreateRequest
+	InviteDetail() *InviteDetailRequest
 }
 
 type request struct{}
@@ -30,10 +31,6 @@ func (r *request) OwnerShipDetailUser() *OwnerShipDetailUserRequest {
 	return &OwnerShipDetailUserRequest{}
 }
 
-func (r *request) UserAccount() *AccountUserRequest {
-	return &AccountUserRequest{}
-}
-
 func (r *request) Ownership() *OwnershipRequest {
 	return &OwnershipRequest{}
 }
@@ -48,4 +45,12 @@ func (r *request) OwnerPermissionRemove() *OwnershipUserPermRemoveRequest {
 
 func (r *request) OwnerSelect() *OwnershipSelectRequest {
 	return &OwnershipSelectRequest{}
+}
+
+func (r *request) InviteCreate() *InviteCreateRequest {
+	return &InviteCreateRequest{}
+}
+
+func (r *request) InviteDetail() *InviteDetailRequest {
+	return &InviteDetailRequest{}
 }

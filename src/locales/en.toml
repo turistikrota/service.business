@@ -44,6 +44,8 @@ http_error_required_auth = "Authentication required."
 http_error_current_user_access = "Authorization failed."
 http_error_owner_not_selected = "Owner not selected."
 http_error_admin_route = "Admin route."
+http_error_required_account_select = "Account select required."
+http_error_account_not_found = "Account not found."
 
 # Owner Module Messages
 error_owner_failed = "Failed to owner. {{.Operation}}"
@@ -63,3 +65,18 @@ error_owner_corporation_already_exists = "Corporation owner already exists."
 # Account Module Messages
 error_account_failed = "Failed to account. {{.Action}}"
 error_account_not_found = "Account not found."
+http_success_ok = "OK"
+
+user_expired = "User expired."
+
+error_invite_invalid_uuid = "Invalid invite uuid."
+error_invite_failed = "Failed to invite."
+error_invite_not_found = "Invite not found."
+error_invite_used = "Invite already used."
+error_invite_deleted = "Invite deleted."
+error_invite_timeout = "Invite timeout."
+
+invite_subject = "Organization Invitation"
+error_invite_email_mismatch = "Email mismatch."
+
+update_query_not_found = "Data not found."
