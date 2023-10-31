@@ -9,14 +9,8 @@ type MongoOwner struct {
 	Collection string `env:"MONGO_OWNER_COLLECTION" envDefault:"empties"`
 	Query      string `env:"MONGO_OWNER_QUERY" envDefault:""`
 }
-type MongoAccount struct {
-	Host       string `env:"MONGO_ACCOUNT_HOST" envDefault:"localhost"`
-	Port       string `env:"MONGO_ACCOUNT_PORT" envDefault:"27017"`
-	Username   string `env:"MONGO_ACCOUNT_USERNAME" envDefault:""`
-	Password   string `env:"MONGO_ACCOUNT_PASSWORD" envDefault:""`
-	Database   string `env:"MONGO_ACCOUNT_DATABASE" envDefault:"empty"`
-	Collection string `env:"MONGO_ACCOUNT_COLLECTION" envDefault:"empties"`
-	Query      string `env:"MONGO_ACCOUNT_QUERY" envDefault:""`
+type MongoInvite struct {
+	Collection string `env:"MONGO_INVITE_COLLECTION" envDefault:"invite"`
 }
 
 type I18n struct {
@@ -120,8 +114,8 @@ type Urls struct {
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
-		MongoOwner   MongoOwner
-		MongoAccount MongoAccount
+		MongoOwner  MongoOwner
+		MongoInvite MongoInvite
 	}
 	Rpc         Rpc
 	Vkn         Vkn

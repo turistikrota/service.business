@@ -2,6 +2,7 @@ package service
 
 import (
 	"github.com/9ssi7/vkn"
+	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
 	"github.com/mixarchitecture/microp/events"
 	"github.com/mixarchitecture/microp/validator"
@@ -11,6 +12,7 @@ import (
 	"github.com/turistikrota/service.owner/src/app/command"
 	"github.com/turistikrota/service.owner/src/app/query"
 	"github.com/turistikrota/service.owner/src/config"
+	"github.com/turistikrota/service.owner/src/domain/invite"
 	"github.com/turistikrota/service.owner/src/domain/owner"
 	"github.com/turistikrota/service.shared/db/mongo"
 )
@@ -20,6 +22,7 @@ type Config struct {
 	EventEngine events.Engine
 	Mongo       *mongo.DB
 	Validator   *validator.Validator
+	I18n        *i18np.I18n
 }
 
 func NewApplication(config Config) app.Application {
@@ -28,6 +31,15 @@ func NewApplication(config Config) app.Application {
 	ownerEvents := owner.NewEvents(owner.EventConfig{
 		Topics:    config.App.Topics,
 		Publisher: config.EventEngine,
+	})
+
+	inviteFactory := invite.NewFactory()
+	inviteRepo := adapters.Mongo.NewInvite(inviteFactory, config.Mongo.GetCollection(config.App.DB.MongoInvite.Collection))
+	inviteEvents := invite.NewEvents(invite.EventConfig{
+		Topics:    config.App.Topics,
+		Publisher: config.EventEngine,
+		Urls:      config.App.Urls,
+		I18n:      config.I18n,
 	})
 
 	identitySrv := KPSPublic.New()
@@ -103,6 +115,24 @@ func NewApplication(config Config) app.Application {
 				Events:   ownerEvents,
 				CqrsBase: base,
 			}),
+			InviteCreate: command.NewInviteCreateHandler(command.InviteCreateConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				Events:   inviteEvents,
+				CqrsBase: base,
+			}),
+			InviteUse: command.NewInviteUseHandler(command.InviteUseConfig{
+				Repo:         inviteRepo,
+				Factory:      inviteFactory,
+				CqrsBase:     base,
+				OwnerRepo:    ownerRepo,
+				OwnerFactory: ownerFactory,
+			}),
+			InviteDelete: command.NewInviteDeleteHandler(command.InviteDeleteConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
+			}),
 		},
 		Queries: app.Queries{
 			AdminViewOwnership: query.NewAdminViewOwnershipHandler(query.AdminViewOwnershipHandlerConfig{
@@ -135,6 +165,21 @@ func NewApplication(config Config) app.Application {
 				OwnerFactory: ownerFactory,
 				CqrsBase:     base,
 				Rpc:          config.App.Rpc,
+			}),
+			InviteGetByEmail: query.NewInviteGetByEmailHandler(query.InviteGetByEmailHandlerConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
+			}),
+			InviteGetByUUID: query.NewInviteGetByUUIDHandler(query.InviteGetByUUIDHandlerConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
+			}),
+			InviteGetByOwnerUUID: query.NewInviteGetByOwnerUUIDHandler(query.InviteGetByOwnerUUIDHandlerConfig{
+				Repo:     inviteRepo,
+				Factory:  inviteFactory,
+				CqrsBase: base,
 			}),
 		},
 	}
