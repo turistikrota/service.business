@@ -7,21 +7,22 @@ import (
 )
 
 type MongoOwner struct {
-	UUID        string                 `bson:"_id,omitempty"`
-	NickName    string                 `bson:"nick_name"`
-	RealName    string                 `bson:"real_name"`
-	AvatarURL   string                 `bson:"avatar_url"`
-	CoverURL    string                 `bson:"cover_url"`
-	OwnerType   string                 `bson:"owner_type"`
-	Individual  *MongoOwnerIndividual  `bson:"individual"`
-	Corporation *MongoOwnerCorporation `bson:"corporation"`
-	Users       []*MongoOwnerUser      `bson:"users"`
-	IsEnabled   bool                   `bson:"is_enabled"`
-	IsVerified  bool                   `bson:"is_verified"`
-	IsDeleted   bool                   `bson:"is_deleted"`
-	VerifiedAt  *time.Time             `bson:"verified_at"`
-	CreatedAt   *time.Time             `bson:"created_at"`
-	UpdatedAt   *time.Time             `bson:"updated_at"`
+	UUID         string                 `bson:"_id,omitempty"`
+	NickName     string                 `bson:"nick_name"`
+	RealName     string                 `bson:"real_name"`
+	AvatarURL    string                 `bson:"avatar_url"`
+	CoverURL     string                 `bson:"cover_url"`
+	OwnerType    string                 `bson:"owner_type"`
+	Individual   *MongoOwnerIndividual  `bson:"individual"`
+	Corporation  *MongoOwnerCorporation `bson:"corporation"`
+	Users        []*MongoOwnerUser      `bson:"users"`
+	RejectReason *string                `bson:"reject_reason,omitempty"`
+	IsEnabled    bool                   `bson:"is_enabled"`
+	IsVerified   bool                   `bson:"is_verified"`
+	IsDeleted    bool                   `bson:"is_deleted"`
+	VerifiedAt   *time.Time             `bson:"verified_at"`
+	CreatedAt    *time.Time             `bson:"created_at"`
+	UpdatedAt    *time.Time             `bson:"updated_at"`
 }
 
 type MongoOwnerIndividual struct {

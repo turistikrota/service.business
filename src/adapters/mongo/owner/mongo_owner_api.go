@@ -256,6 +256,22 @@ func (r *repo) Verify(ctx context.Context, nickName string) *i18np.Error {
 	return r.helper.UpdateOne(ctx, filter, setter)
 }
 
+func (r *repo) Reject(ctx context.Context, nickName string, reason string) *i18np.Error {
+	filter := bson.M{
+		entity.Fields.NickName: nickName,
+	}
+	t := time.Now()
+	setter := bson.M{
+		"$set": bson.M{
+			entity.Fields.RejectReason: reason,
+			entity.Fields.UpdatedAt:    t,
+			entity.Fields.IsVerified:   false,
+			entity.Fields.VerifiedAt:   nil,
+		},
+	}
+	return r.helper.UpdateOne(ctx, filter, setter)
+}
+
 func (r *repo) Disable(ctx context.Context, nickName string) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.NickName: nickName,

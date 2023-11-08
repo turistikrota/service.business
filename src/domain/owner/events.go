@@ -14,6 +14,7 @@ type Events interface {
 	VerifiedByAdmin(event *EventOwnerVerifiedByAdmin)
 	DeletedByAdmin(event *EventOwnerDeletedByAdmin)
 	RecoverByAdmin(event *EventOwnerRecoverByAdmin)
+	RejectedByAdmin(event *EventOwnerRejectedByAdmin)
 	Disabled(event *EventOwnerDisabled)
 	Enabled(event *EventOwnerEnabled)
 }
@@ -48,6 +49,10 @@ type (
 		PermissionName string    `json:"permission"`
 	}
 	EventOwnerVerifiedByAdmin struct {
+		OwnerNickName string `json:"nickName"`
+		AdminUUID     string `json:"adminUUID"`
+	}
+	EventOwnerRejectedByAdmin struct {
 		OwnerNickName string `json:"nickName"`
 		Reason        string `json:"reason"`
 		AdminUUID     string `json:"adminUUID"`
@@ -119,6 +124,10 @@ func (e *ownerEvents) VerifiedByAdmin(event *EventOwnerVerifiedByAdmin) {
 
 func (e *ownerEvents) DeletedByAdmin(event *EventOwnerDeletedByAdmin) {
 	_ = e.publisher.Publish(e.topics.Owner.DeletedByAdmin, event)
+}
+
+func (e *ownerEvents) RejectedByAdmin(event *EventOwnerRejectedByAdmin) {
+	_ = e.publisher.Publish(e.topics.Owner.RejectedByAdmin, event)
 }
 
 func (e *ownerEvents) RecoverByAdmin(event *EventOwnerRecoverByAdmin) {

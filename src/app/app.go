@@ -21,6 +21,7 @@ type Commands struct {
 	OwnershipVerifyByAdmin  command.AdminOwnershipVerifyHandler
 	OwnershipDeleteByAdmin  command.AdminOwnershipDeleteHandler
 	OwnershipRecoverByAdmin command.AdminOwnershipRecoverHandler
+	OwnershipRejectByAdmin  command.AdminOwnershipRejectHandler
 	InviteCreate            command.InviteCreateHandler
 	InviteUse               command.InviteUseHandler
 	InviteDelete            command.InviteDeleteHandler

@@ -115,6 +115,12 @@ func NewApplication(config Config) app.Application {
 				Events:   ownerEvents,
 				CqrsBase: base,
 			}),
+			OwnershipRejectByAdmin: command.NewAdminOwnershipRejectHandler(command.AdminOwnershipRejectConfig{
+				Repo:     ownerRepo,
+				Factory:  ownerFactory,
+				Events:   ownerEvents,
+				CqrsBase: base,
+			}),
 			InviteCreate: command.NewInviteCreateHandler(command.InviteCreateConfig{
 				Repo:     inviteRepo,
 				Factory:  inviteFactory,

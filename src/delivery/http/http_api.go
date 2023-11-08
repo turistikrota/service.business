@@ -34,6 +34,22 @@ func (h Server) OwnershipUserRemove(ctx *fiber.Ctx) error {
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserRemove)
 }
 
+func (h Server) AdminOwnershipVerify(ctx *fiber.Ctx) error {
+	d := dto.Request.OwnerShipDetail()
+	h.parseParams(ctx, &d)
+	_, err := h.app.Commands.OwnershipVerifyByAdmin.Handle(ctx.UserContext(), d.ToVerifyCommand(current_user.Parse(ctx).UUID))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.Ok)
+}
+
+func (h Server) AdminOwnershipReject(ctx *fiber.Ctx) error {
+	detail := dto.Request.OwnerShipDetail()
+	h.parseParams(ctx, &detail)
+	d := dto.Request.OwnershipReject()
+	h.parseBody(ctx, &d)
+	_, err := h.app.Commands.OwnershipRejectByAdmin.Handle(ctx.UserContext(), d.ToCommand(detail.NickName, current_user.Parse(ctx).UUID))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.Ok)
+}
+
 func (h Server) OwnershipUserPermAdd(ctx *fiber.Ctx) error {
 	detail := dto.Request.OwnerShipDetailUser()
 	d := dto.Request.OwnerPermissionAdd()

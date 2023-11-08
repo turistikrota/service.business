@@ -19,6 +19,13 @@ func (o *OwnershipRequest) ToViewQuery() query.ViewOwnershipQuery {
 	}
 }
 
+func (o *OwnershipRequest) ToVerifyCommand(adminUUID string) command.AdminOwnershipVerifyCommand {
+	return command.AdminOwnershipVerifyCommand{
+		OwnerNickName: o.NickName,
+		AdminUUID:     adminUUID,
+	}
+}
+
 func (o *OwnerShipDetailRequest) ToGetWithUserOwnershipQuery(userUUID string, userName string) query.GetWithUserOwnershipQuery {
 	return query.GetWithUserOwnershipQuery{
 		NickName: o.NickName,
