@@ -59,12 +59,10 @@ type (
 	}
 	EventOwnerDeletedByAdmin struct {
 		OwnerNickName string `json:"nickName"`
-		Reason        string `json:"reason"`
 		AdminUUID     string `json:"adminUUID"`
 	}
 	EventOwnerRecoverByAdmin struct {
 		OwnerNickName string `json:"nickName"`
-		Reason        string `json:"reason"`
 		AdminUUID     string `json:"adminUUID"`
 	}
 	EventOwnerDisabled struct {

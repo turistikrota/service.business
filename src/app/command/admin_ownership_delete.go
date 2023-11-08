@@ -11,7 +11,6 @@ import (
 type AdminOwnershipDeleteCommand struct {
 	OwnerNickName string
 	AdminUUID     string
-	Reason        string
 }
 
 type AdminOwnershipDeleteResult struct{}
@@ -49,7 +48,6 @@ func (h *adminOwnershipDeleteHandler) Handle(ctx context.Context, cmd AdminOwner
 	}
 	h.events.DeletedByAdmin(&owner.EventOwnerDeletedByAdmin{
 		OwnerNickName: cmd.OwnerNickName,
-		Reason:        cmd.Reason,
 		AdminUUID:     cmd.AdminUUID,
 	})
 	return &AdminOwnershipDeleteResult{}, nil

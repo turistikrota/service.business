@@ -11,7 +11,6 @@ import (
 type AdminOwnershipRecoverCommand struct {
 	OwnerNickName string
 	AdminUUID     string
-	Reason        string
 }
 
 type AdminOwnershipRecoverResult struct{}
@@ -49,7 +48,6 @@ func (h *adminOwnershipRecoverHandler) Handle(ctx context.Context, cmd AdminOwne
 	}
 	h.events.RecoverByAdmin(&owner.EventOwnerRecoverByAdmin{
 		OwnerNickName: cmd.OwnerNickName,
-		Reason:        cmd.Reason,
 		AdminUUID:     cmd.AdminUUID,
 	})
 	return &AdminOwnershipRecoverResult{}, nil

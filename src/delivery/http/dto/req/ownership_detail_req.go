@@ -26,6 +26,26 @@ func (o *OwnershipRequest) ToVerifyCommand(adminUUID string) command.AdminOwners
 	}
 }
 
+func (o *OwnershipRequest) ToDeleteCommand(adminUUID string) command.AdminOwnershipDeleteCommand {
+	return command.AdminOwnershipDeleteCommand{
+		OwnerNickName: o.NickName,
+		AdminUUID:     adminUUID,
+	}
+}
+
+func (o *OwnershipRequest) ToRecoverCommand(adminUUID string) command.AdminOwnershipRecoverCommand {
+	return command.AdminOwnershipRecoverCommand{
+		OwnerNickName: o.NickName,
+		AdminUUID:     adminUUID,
+	}
+}
+
+func (o *OwnershipRequest) ToAdminViewQuery() query.AdminViewOwnershipQuery {
+	return query.AdminViewOwnershipQuery{
+		NickName: o.NickName,
+	}
+}
+
 func (o *OwnerShipDetailRequest) ToGetWithUserOwnershipQuery(userUUID string, userName string) query.GetWithUserOwnershipQuery {
 	return query.GetWithUserOwnershipQuery{
 		NickName: o.NickName,

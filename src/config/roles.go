@@ -6,6 +6,10 @@ type ownerRoles struct {
 	Member         string
 	AdminView      string
 	AdminList      string
+	AdminReject    string
+	AdminVerify    string
+	AdminDelete    string
+	AdminRecover   string
 	UserAdd        string
 	UserRemove     string
 	UserPermAdd    string
@@ -31,6 +35,10 @@ var Roles = roles{
 		Member:         "owner.member",
 		AdminView:      "owner.admin_view",
 		AdminList:      "owner.admin_list",
+		AdminReject:    "owner.admin_reject",
+		AdminVerify:    "owner.admin_verify",
+		AdminDelete:    "owner.admin_delete",
+		AdminRecover:   "owner.admin_recover",
 		UserAdd:        "owner.user_add",
 		UserRemove:     "owner.user_remove",
 		UserPermAdd:    "owner.user_perm_add",
