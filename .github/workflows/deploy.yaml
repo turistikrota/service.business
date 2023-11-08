@@ -4,6 +4,9 @@ on:
   release:
     types: [published]
 
+env:
+  IMAGE_TAG: ${{ github.event.release.tag_name }}
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -44,9 +47,8 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
-          envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,DOCKER_PASSWORD,DOCKER_USERNAME
+          envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,DOCKER_PASSWORD,DOCKER_USERNAME,IMAGE_TAG
           script: |
-            IMAGE_TAG=${GITHUB_REF#refs/tags/}
             echo "$DOCKER_PASSWORD" | docker login docker.io --username $DOCKER_USERNAME --password-stdin
             docker pull turistikrota/service.owner:$IMAGE_TAG
             docker service rm service.owner || true
