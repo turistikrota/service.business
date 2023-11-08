@@ -1,4 +1,4 @@
-name: Go Application Release and Deploy
+name: Build, Publish and Deploy
 
 on:
   release:
