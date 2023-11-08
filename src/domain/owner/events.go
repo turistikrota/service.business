@@ -21,7 +21,9 @@ type Events interface {
 
 type (
 	EventOwnerCreated struct {
-		Owner *Entity `json:"owner"`
+		Owner    *Entity `json:"owner"`
+		UserUUID string  `json:"userUUID"`
+		UserName string  `json:"userName"`
 	}
 	EventUser struct {
 		UUID string `json:"uuid"`
