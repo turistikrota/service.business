@@ -129,7 +129,7 @@ func (h Server) AdminView(ctx *fiber.Ctx) error {
 	h.parseParams(ctx, d)
 	res, err := h.app.Queries.AdminViewOwnership.Handle(ctx.UserContext(), d.ToAdminViewQuery())
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
-		return res.Ownership
+		return dto.Response.AdminView(res)
 	})
 }
 
