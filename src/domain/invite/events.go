@@ -20,17 +20,20 @@ type (
 		Locale     string `json:"locale"`
 		Email      string `json:"email"`
 		InviteUUID string `json:"inviteUUID"`
+		OwnerUUID  string `json:"ownerUUID"`
 		OwnerName  string `json:"ownerName"`
 		UserUUID   string `json:"userUUID"`
 		UserName   string `json:"userName"`
 	}
 	InviteDeleteEvent struct {
 		InviteUUID string `json:"inviteUUID"`
+		OwnerUUID  string `json:"ownerUUID"`
 		UserUUID   string `json:"userUUID"`
 		UserName   string `json:"userName"`
 	}
 	InviteUseEvent struct {
 		InviteUUID string `json:"inviteUUID"`
+		OwnerUUID  string `json:"ownerUUID"`
 		UserEmail  string `json:"userEmail"`
 		UserUUID   string `json:"userUUID"`
 		UserName   string `json:"userName"`

@@ -44,15 +44,19 @@ func NewOwnershipEnableHandler(config OwnershipEnableConfig) OwnershipEnableHand
 }
 
 func (h *ownershipEnableHandler) Handle(ctx context.Context, cmd OwnershipEnableCommand) (*OwnershipEnableResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.Enable(ctx, cmd.OwnerNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.Enabled(&owner.EventOwnerEnabled{
-		OwnerNickName: cmd.OwnerNickName,
-		UserName:      cmd.UserName,
-		UserCode:      cmd.UserCode,
-		UserUUID:      cmd.UserUUID,
+		OwnerUUID: res.UUID,
+		UserName:  cmd.UserName,
+		UserCode:  cmd.UserCode,
+		UserUUID:  cmd.UserUUID,
 	})
 	return &OwnershipEnableResult{}, nil
 }

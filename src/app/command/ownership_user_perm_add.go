@@ -44,6 +44,10 @@ func NewOwnershipUserPermAddHandler(config OwnershipUserPermAddHandlerConfig) Ow
 }
 
 func (h *ownershipUserPermAddHandler) Handle(ctx context.Context, cmd OwnershipUserPermAddCommand) (*OwnershipUserPermAddResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.AddUserPermission(ctx, cmd.OwnerNickName, owner.UserDetail{
 		Name: cmd.UserName,
 	}, cmd.PermissionName)
@@ -51,7 +55,7 @@ func (h *ownershipUserPermAddHandler) Handle(ctx context.Context, cmd OwnershipU
 		return nil, h.factory.Errors.Failed(err.Error())
 	}
 	h.events.UserPermissionAdded(&owner.EventOwnerPermissionAdded{
-		OwnerNickName:  cmd.OwnerNickName,
+		OwnerUUID:      res.UUID,
 		AccessUserUUID: cmd.AccessUserUUID,
 		PermissionName: cmd.PermissionName,
 		User: owner.EventUser{

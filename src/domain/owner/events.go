@@ -28,54 +28,54 @@ type (
 		Name string `json:"name"`
 	}
 	EventOwnerUserAdded struct {
-		OwnerNickName string `json:"nickName"`
-		User          *User  `json:"user"`
+		OwnerUUID string `json:"ownerUUID"`
+		User      *User  `json:"user"`
 	}
 	EventOwnerUserRemoved struct {
-		OwnerNickName  string    `json:"nickName"`
+		OwnerUUID      string    `json:"ownerUUID"`
 		AccessUserUUID string    `json:"accessUserUUID"`
 		User           EventUser `json:"user"`
 	}
 	EventOwnerPermissionRemoved struct {
-		OwnerNickName  string    `json:"nickName"`
+		OwnerUUID      string    `json:"ownerUUID"`
 		AccessUserUUID string    `json:"accessUserUUID"`
 		User           EventUser `json:"user"`
 		PermissionName string    `json:"permission"`
 	}
 	EventOwnerPermissionAdded struct {
-		OwnerNickName  string    `json:"nickName"`
+		OwnerUUID      string    `json:"ownerUUID"`
 		AccessUserUUID string    `json:"accessUserUUID"`
 		User           EventUser `json:"user"`
 		PermissionName string    `json:"permission"`
 	}
 	EventOwnerVerifiedByAdmin struct {
-		OwnerNickName string `json:"nickName"`
-		AdminUUID     string `json:"adminUUID"`
+		OwnerUUID string `json:"ownerUUID"`
+		AdminUUID string `json:"adminUUID"`
 	}
 	EventOwnerRejectedByAdmin struct {
-		OwnerNickName string `json:"nickName"`
-		Reason        string `json:"reason"`
-		AdminUUID     string `json:"adminUUID"`
+		OwnerUUID string `json:"ownerUUID"`
+		Reason    string `json:"reason"`
+		AdminUUID string `json:"adminUUID"`
 	}
 	EventOwnerDeletedByAdmin struct {
-		OwnerNickName string `json:"nickName"`
-		AdminUUID     string `json:"adminUUID"`
+		OwnerUUID string `json:"ownerUUID"`
+		AdminUUID string `json:"adminUUID"`
 	}
 	EventOwnerRecoverByAdmin struct {
-		OwnerNickName string `json:"nickName"`
-		AdminUUID     string `json:"adminUUID"`
+		OwnerUUID string `json:"ownerUUID"`
+		AdminUUID string `json:"adminUUID"`
 	}
 	EventOwnerDisabled struct {
-		UserName      string `json:"nickName"`
-		UserUUID      string `json:"userUUID"`
-		UserCode      string `json:"userCode"`
-		OwnerNickName string `json:"ownership"`
+		UserName  string `json:"nickName"`
+		UserUUID  string `json:"userUUID"`
+		UserCode  string `json:"userCode"`
+		OwnerUUID string `json:"ownerUUID"`
 	}
 	EventOwnerEnabled struct {
-		UserName      string `json:"nickName"`
-		UserUUID      string `json:"userUUID"`
-		UserCode      string `json:"userCode"`
-		OwnerNickName string `json:"ownership"`
+		UserName  string `json:"nickName"`
+		UserUUID  string `json:"userUUID"`
+		UserCode  string `json:"userCode"`
+		OwnerUUID string `json:"ownerUUID"`
 	}
 )
 

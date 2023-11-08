@@ -81,6 +81,7 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 		UserUUID:   cmd.UserUUID,
 		UserName:   cmd.UserName,
 		UserEmail:  cmd.UserEmail,
+		OwnerUUID:  res.OwnerUUID,
 	})
 	return &InviteUseResult{}, nil
 }
