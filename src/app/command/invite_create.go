@@ -55,6 +55,7 @@ func (h *inviteCreateHandler) Handle(ctx context.Context, cmd InviteCreateComman
 		Email:      cmd.Email,
 		InviteUUID: res.UUID,
 		OwnerName:  cmd.OwnerNickName,
+		OwnerUUID:  cmd.OwnerUUID,
 		UserUUID:   cmd.UserUUID,
 		UserName:   cmd.CreatorUserName,
 	})

@@ -42,13 +42,17 @@ func NewAdminOwnershipDeleteHandler(config AdminOwnershipDeleteConfig) AdminOwne
 }
 
 func (h *adminOwnershipDeleteHandler) Handle(ctx context.Context, cmd AdminOwnershipDeleteCommand) (*AdminOwnershipDeleteResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.Delete(ctx, cmd.OwnerNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.DeletedByAdmin(&owner.EventOwnerDeletedByAdmin{
-		OwnerNickName: cmd.OwnerNickName,
-		AdminUUID:     cmd.AdminUUID,
+		AdminUUID: cmd.AdminUUID,
+		OwnerUUID: res.UUID,
 	})
 	return &AdminOwnershipDeleteResult{}, nil
 }

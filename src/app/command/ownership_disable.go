@@ -44,16 +44,20 @@ func NewOwnershipDisableHandler(config OwnershipDisableConfig) OwnershipDisableH
 }
 
 func (h *ownershipDisableHandler) Handle(ctx context.Context, cmd OwnershipDisableCommand) (*OwnershipDisableResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.Disable(ctx, cmd.OwnerNickName)
 	if err != nil {
 		return nil, err
 	}
 
 	h.events.Disabled(&owner.EventOwnerDisabled{
-		OwnerNickName: cmd.OwnerNickName,
-		UserName:      cmd.UserName,
-		UserCode:      cmd.UserCode,
-		UserUUID:      cmd.UserUUID,
+		OwnerUUID: res.UUID,
+		UserName:  cmd.UserName,
+		UserCode:  cmd.UserCode,
+		UserUUID:  cmd.UserUUID,
 	})
 	return &OwnershipDisableResult{}, nil
 }

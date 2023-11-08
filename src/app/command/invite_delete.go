@@ -43,14 +43,19 @@ func NewInviteDeleteHandler(config InviteDeleteConfig) InviteDeleteHandler {
 }
 
 func (h *inviteDeleteHandler) Handle(ctx context.Context, cmd InviteDeleteCommand) (*InviteDeleteResult, *i18np.Error) {
-	err := h.repo.Delete(ctx, cmd.InviteUUID)
+	res, err := h.repo.GetByUUID(ctx, cmd.InviteUUID)
 	if err != nil {
 		return nil, err
+	}
+	_err := h.repo.Delete(ctx, cmd.InviteUUID)
+	if _err != nil {
+		return nil, _err
 	}
 	h.events.Delete(invite.InviteDeleteEvent{
 		InviteUUID: cmd.InviteUUID,
 		UserUUID:   cmd.UserUUID,
 		UserName:   cmd.UserName,
+		OwnerUUID:  res.OwnerUUID,
 	})
 	return &InviteDeleteResult{}, nil
 }

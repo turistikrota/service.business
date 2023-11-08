@@ -43,6 +43,10 @@ func NewOwnershipUserRemoveHandler(config OwnershipUserRemoveHandlerConfig) Owne
 }
 
 func (h *ownershipUserRemoveHandler) Handle(ctx context.Context, cmd OwnershipUserRemoveCommand) (*OwnershipUserRemoveResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.RemoveUser(ctx, cmd.OwnerNickName, owner.UserDetail{
 		Name: cmd.UserName,
 	})
@@ -50,7 +54,7 @@ func (h *ownershipUserRemoveHandler) Handle(ctx context.Context, cmd OwnershipUs
 		return nil, h.factory.Errors.Failed("failed to remove user from ownership")
 	}
 	h.events.UserRemoved(&owner.EventOwnerUserRemoved{
-		OwnerNickName:  cmd.OwnerNickName,
+		OwnerUUID:      res.UUID,
 		AccessUserUUID: cmd.AccessUserUUID,
 		User: owner.EventUser{
 			Name: cmd.UserName,

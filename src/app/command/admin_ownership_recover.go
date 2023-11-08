@@ -42,13 +42,17 @@ func NewAdminOwnershipRecoverHandler(config AdminOwnershipRecoverConfig) AdminOw
 }
 
 func (h *adminOwnershipRecoverHandler) Handle(ctx context.Context, cmd AdminOwnershipRecoverCommand) (*AdminOwnershipRecoverResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.Recover(ctx, cmd.OwnerNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.RecoverByAdmin(&owner.EventOwnerRecoverByAdmin{
-		OwnerNickName: cmd.OwnerNickName,
-		AdminUUID:     cmd.AdminUUID,
+		OwnerUUID: res.UUID,
+		AdminUUID: cmd.AdminUUID,
 	})
 	return &AdminOwnershipRecoverResult{}, nil
 }

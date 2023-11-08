@@ -43,14 +43,18 @@ func NewAdminOwnershipRejectHandler(config AdminOwnershipRejectConfig) AdminOwne
 }
 
 func (h *adminOwnershipRejectHandler) Handle(ctx context.Context, cmd AdminOwnershipRejectCommand) (*AdminOwnershipRejectResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.Reject(ctx, cmd.OwnerNickName, cmd.Reason)
 	if err != nil {
 		return nil, err
 	}
 	h.events.RejectedByAdmin(&owner.EventOwnerRejectedByAdmin{
-		OwnerNickName: cmd.OwnerNickName,
-		AdminUUID:     cmd.AdminUUID,
-		Reason:        cmd.Reason,
+		OwnerUUID: res.UUID,
+		AdminUUID: cmd.AdminUUID,
+		Reason:    cmd.Reason,
 	})
 	return &AdminOwnershipRejectResult{}, nil
 }

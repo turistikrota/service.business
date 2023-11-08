@@ -42,13 +42,17 @@ func NewAdminOwnershipVerifyHandler(config AdminOwnershipVerifyConfig) AdminOwne
 }
 
 func (h *adminOwnershipVerifyHandler) Handle(ctx context.Context, cmd AdminOwnershipVerifyCommand) (*AdminOwnershipVerifyResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.Verify(ctx, cmd.OwnerNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.VerifiedByAdmin(&owner.EventOwnerVerifiedByAdmin{
-		OwnerNickName: cmd.OwnerNickName,
-		AdminUUID:     cmd.AdminUUID,
+		OwnerUUID: res.UUID,
+		AdminUUID: cmd.AdminUUID,
 	})
 	return &AdminOwnershipVerifyResult{}, nil
 }

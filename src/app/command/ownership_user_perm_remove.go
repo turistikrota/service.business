@@ -44,6 +44,10 @@ func NewOwnershipUserPermRemoveHandler(config OwnershipUserPermRemoveHandlerConf
 }
 
 func (h *ownershipUserPermRemoveHandler) Handle(ctx context.Context, cmd OwnershipUserPermRemoveCommand) (*OwnershipUserPermRemoveResult, *i18np.Error) {
+	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	if _err != nil {
+		return nil, _err
+	}
 	err := h.repo.RemoveUserPermission(ctx, cmd.OwnerNickName, owner.UserDetail{
 		Name: cmd.UserName,
 	}, cmd.PermissionName)
@@ -51,7 +55,7 @@ func (h *ownershipUserPermRemoveHandler) Handle(ctx context.Context, cmd Ownersh
 		return nil, h.factory.Errors.Failed("failed to remove user permission from ownership")
 	}
 	h.events.UserPermissionRemoved(&owner.EventOwnerPermissionRemoved{
-		OwnerNickName:  cmd.OwnerNickName,
+		OwnerUUID:      res.UUID,
 		AccessUserUUID: cmd.AccessUserUUID,
 		PermissionName: cmd.PermissionName,
 		User: owner.EventUser{
