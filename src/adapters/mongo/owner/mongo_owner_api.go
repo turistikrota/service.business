@@ -248,9 +248,10 @@ func (r *repo) Verify(ctx context.Context, nickName string) *i18np.Error {
 	t := time.Now()
 	setter := bson.M{
 		"$set": bson.M{
-			entity.Fields.IsVerified: true,
-			entity.Fields.UpdatedAt:  t,
-			entity.Fields.VerifiedAt: t,
+			entity.Fields.RejectReason: nil,
+			entity.Fields.IsVerified:   true,
+			entity.Fields.UpdatedAt:    t,
+			entity.Fields.VerifiedAt:   t,
 		},
 	}
 	return r.helper.UpdateOne(ctx, filter, setter)
