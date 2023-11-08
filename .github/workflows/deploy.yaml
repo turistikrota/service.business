@@ -47,7 +47,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,IMAGE_TAG
           script: |
-            docker pull turistikrota/service.owner:$IMAGE_TAG
             docker service rm service.owner || true
             cd $DIR
             docker service create --name service.owner --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT turistikrota/service.owner:$IMAGE_TAG 
