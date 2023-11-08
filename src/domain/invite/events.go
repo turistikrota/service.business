@@ -17,23 +17,23 @@ type Events interface {
 
 type (
 	InviteEvent struct {
-		Locale     string
-		Email      string
-		InviteUUID string
-		OwnerName  string
-		UserUUID   string
-		UserName   string
+		Locale     string `json:"locale"`
+		Email      string `json:"email"`
+		InviteUUID string `json:"inviteUUID"`
+		OwnerName  string `json:"ownerName"`
+		UserUUID   string `json:"userUUID"`
+		UserName   string `json:"userName"`
 	}
 	InviteDeleteEvent struct {
-		InviteUUID string
-		UserUUID   string
-		UserName   string
+		InviteUUID string `json:"inviteUUID"`
+		UserUUID   string `json:"userUUID"`
+		UserName   string `json:"userName"`
 	}
 	InviteUseEvent struct {
-		InviteUUID string
-		UserEmail  string
-		UserUUID   string
-		UserName   string
+		InviteUUID string `json:"inviteUUID"`
+		UserEmail  string `json:"userEmail"`
+		UserUUID   string `json:"userUUID"`
+		UserName   string `json:"userName"`
 	}
 )
 

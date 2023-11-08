@@ -65,7 +65,6 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	owner.Get("/user", h.OwnerPermissions(config.Roles.Owner.UserList), h.wrapWithTimeout(h.OwnershipUserList))
 	owner.Post("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermAdd), h.wrapWithTimeout(h.OwnershipUserPermAdd))
 	owner.Delete("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermRemove), h.wrapWithTimeout(h.OwnershipUserPermRemove))
-	owner.Post("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserAdd), h.wrapWithTimeout(h.OwnershipUserAdd))
 	owner.Delete("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserRemove), h.wrapWithTimeout(h.OwnershipUserRemove))
 	owner.Put("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
 	owner.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
@@ -83,6 +82,7 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Delete("/:nickName", h.adminRoute(config.Roles.Owner.AdminDelete), h.wrapWithTimeout(h.AdminOwnershipDelete))
 	admin.Patch("/:nickName/recover", h.adminRoute(config.Roles.Owner.AdminRecover), h.wrapWithTimeout(h.AdminOwnershipRecover))
 	admin.Get("/:nickName", h.adminRoute(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.AdminView))
+	admin.Get("/invites/:uuid", h.adminRoute(config.Roles.Owner.InviteView), h.wrapWithTimeout(h.InviteGetByUUID))
 
 	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
 	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnerApplication))

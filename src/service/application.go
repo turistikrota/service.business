@@ -61,12 +61,6 @@ func NewApplication(config Config) app.Application {
 				Events:          ownerEvents,
 				CqrsBase:        base,
 			}),
-			OwnershipUserAdd: command.NewOwnershipUserAddHandler(command.OwnershipUserAddHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
-				CqrsBase: base,
-			}),
 			OwnershipUserRemove: command.NewOwnershipUserRemoveHandler(command.OwnershipUserRemoveHandlerConfig{
 				Repo:     ownerRepo,
 				Factory:  ownerFactory,

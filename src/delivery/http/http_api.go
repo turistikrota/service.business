@@ -20,13 +20,6 @@ func (h Server) OwnerApplication(ctx *fiber.Ctx) error {
 	})
 }
 
-func (h Server) OwnershipUserAdd(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetailUser()
-	h.parseParams(ctx, d)
-	_, err := h.app.Commands.OwnershipUserAdd.Handle(ctx.UserContext(), d.ToAddUserCommand(current_user.Parse(ctx).UUID))
-	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserAdd)
-}
-
 func (h Server) OwnershipUserRemove(ctx *fiber.Ctx) error {
 	d := dto.Request.OwnerShipDetailUser()
 	h.parseParams(ctx, d)
