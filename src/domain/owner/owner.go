@@ -29,7 +29,7 @@ type AdminListDto struct {
 	IsEnabled  bool   `json:"isEnabled"`
 	IsVerified bool   `json:"isVerified"`
 	IsDeleted  bool   `json:"isDeleted"`
-	VerifiedAt string `json:"verifiedAt"`
+	VerifiedAt string `json:"verifiedAt,omitempty"`
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`
 }

@@ -82,7 +82,7 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	admin.Patch("/:nickName/reject", h.adminRoute(config.Roles.Owner.AdminReject), h.wrapWithTimeout(h.AdminOwnershipReject))
 	admin.Delete("/:nickName", h.adminRoute(config.Roles.Owner.AdminDelete), h.wrapWithTimeout(h.AdminOwnershipDelete))
 	admin.Patch("/:nickName/recover", h.adminRoute(config.Roles.Owner.AdminRecover), h.wrapWithTimeout(h.AdminOwnershipRecover))
-	admin.Get("/:nickName", h.adminRoute(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.OwnershipAdminView))
+	admin.Get("/:nickName", h.adminRoute(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.AdminView))
 
 	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
 	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnerApplication))

@@ -351,9 +351,9 @@ func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.
 	if err != nil {
 		return nil, err
 	}
-	li := make([]*owner.AdminListDto, len(l))
+	li := make([]*owner.AdminListDto, 0)
 	for _, o := range l {
-		li = append(li, &owner.AdminListDto{
+		dto := &owner.AdminListDto{
 			UUID:       o.UUID,
 			NickName:   o.NickName,
 			RealName:   o.RealName,
@@ -361,10 +361,13 @@ func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.
 			IsEnabled:  o.IsEnabled,
 			IsVerified: o.IsVerified,
 			IsDeleted:  o.IsDeleted,
-			VerifiedAt: o.VerifiedAt.String(),
 			CreatedAt:  o.CreatedAt.String(),
 			UpdatedAt:  o.UpdatedAt.String(),
-		})
+		}
+		if o.VerifiedAt != nil {
+			dto.VerifiedAt = o.VerifiedAt.String()
+		}
+		li = append(li, dto)
 	}
 	return &list.Result[*owner.AdminListDto]{
 		IsNext:        filtered > listConfig.Offset+listConfig.Limit,
