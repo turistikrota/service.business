@@ -191,7 +191,7 @@ func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 	h.parseBody(ctx, d)
 	account := current_account.Parse(ctx)
 	ownership := h.parseOwner(ctx)
-	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.NickName, ownership.Entity.UUID, account.Name))
+	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.NickName, ownership.Entity.UUID, current_user.Parse(ctx).UUID, account.Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})
@@ -200,7 +200,7 @@ func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 func (h Server) InviteDelete(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteDetail()
 	h.parseParams(ctx, d)
-	res, err := h.app.Commands.InviteDelete.Handle(ctx.UserContext(), d.ToDelete())
+	res, err := h.app.Commands.InviteDelete.Handle(ctx.UserContext(), d.ToDelete(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})

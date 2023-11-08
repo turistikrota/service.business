@@ -9,9 +9,11 @@ type InviteDetailRequest struct {
 	UUID string `params:"uuid" validate:"required,object_id"`
 }
 
-func (r *InviteDetailRequest) ToDelete() command.InviteDeleteCommand {
+func (r *InviteDetailRequest) ToDelete(userUUID string, accountName string) command.InviteDeleteCommand {
 	return command.InviteDeleteCommand{
 		InviteUUID: r.UUID,
+		UserUUID:   userUUID,
+		UserName:   accountName,
 	}
 }
 

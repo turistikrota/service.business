@@ -132,11 +132,13 @@ func NewApplication(config Config) app.Application {
 				Factory:      inviteFactory,
 				CqrsBase:     base,
 				OwnerRepo:    ownerRepo,
+				Events:       inviteEvents,
 				OwnerFactory: ownerFactory,
 			}),
 			InviteDelete: command.NewInviteDeleteHandler(command.InviteDeleteConfig{
 				Repo:     inviteRepo,
 				Factory:  inviteFactory,
+				Events:   inviteEvents,
 				CqrsBase: base,
 			}),
 		},

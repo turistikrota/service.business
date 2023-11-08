@@ -11,14 +11,31 @@ import (
 
 type Events interface {
 	Invite(event InviteEvent)
+	Delete(event InviteDeleteEvent)
+	Use(event InviteUseEvent)
 }
 
-type InviteEvent struct {
-	Locale     string
-	Email      string
-	InviteUUID string
-	OwnerName  string
-}
+type (
+	InviteEvent struct {
+		Locale     string
+		Email      string
+		InviteUUID string
+		OwnerName  string
+		UserUUID   string
+		UserName   string
+	}
+	InviteDeleteEvent struct {
+		InviteUUID string
+		UserUUID   string
+		UserName   string
+	}
+	InviteUseEvent struct {
+		InviteUUID string
+		UserEmail  string
+		UserUUID   string
+		UserName   string
+	}
+)
 
 type inviteEvents struct {
 	publisher events.Publisher
@@ -50,4 +67,13 @@ func (e inviteEvents) Invite(event InviteEvent) {
 		"OwnerName":  event.OwnerName,
 		"InviteUUID": event.InviteUUID,
 	}, event.Email, template))
+	_ = e.publisher.Publish(e.topics.Owner.InviteCreate, event)
+}
+
+func (e inviteEvents) Delete(event InviteDeleteEvent) {
+	_ = e.publisher.Publish(e.topics.Owner.InviteDelete, event)
+}
+
+func (e inviteEvents) Use(event InviteUseEvent) {
+	_ = e.publisher.Publish(e.topics.Owner.InviteUse, event)
 }
