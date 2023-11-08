@@ -11,6 +11,7 @@ type Request interface {
 	Pagination() *PaginationRequest
 	InviteCreate() *InviteCreateRequest
 	InviteDetail() *InviteDetailRequest
+	OwnershipReject() *OwnershipRejectRequest
 }
 
 type request struct{}
@@ -53,4 +54,8 @@ func (r *request) InviteCreate() *InviteCreateRequest {
 
 func (r *request) InviteDetail() *InviteDetailRequest {
 	return &InviteDetailRequest{}
+}
+
+func (r *request) OwnershipReject() *OwnershipRejectRequest {
+	return &OwnershipRejectRequest{}
 }

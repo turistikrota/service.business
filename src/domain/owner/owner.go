@@ -3,21 +3,22 @@ package owner
 import "time"
 
 type Entity struct {
-	UUID        string      `json:"uuid"`
-	NickName    string      `json:"nickName"`
-	RealName    string      `json:"realName"`
-	AvatarURL   string      `json:"avatarURL"`
-	CoverURL    string      `json:"coverURL"`
-	OwnerType   Type        `json:"ownerType"`
-	Individual  Individual  `json:"individual"`
-	Corporation Corporation `json:"corporation"`
-	Users       []User      `json:"users"`
-	IsEnabled   bool        `json:"isEnabled"`
-	IsVerified  bool        `json:"isVerified"`
-	IsDeleted   bool        `json:"isDeleted"`
-	VerifiedAt  *time.Time  `json:"verifiedAt"`
-	CreatedAt   *time.Time  `json:"createdAt"`
-	UpdatedAt   *time.Time  `json:"updatedAt"`
+	UUID         string      `json:"uuid"`
+	NickName     string      `json:"nickName"`
+	RealName     string      `json:"realName"`
+	AvatarURL    string      `json:"avatarURL"`
+	CoverURL     string      `json:"coverURL"`
+	OwnerType    Type        `json:"ownerType"`
+	Individual   Individual  `json:"individual"`
+	Corporation  Corporation `json:"corporation"`
+	Users        []User      `json:"users"`
+	RejectReason *string     `json:"rejectReason,omitempty"`
+	IsEnabled    bool        `json:"isEnabled"`
+	IsVerified   bool        `json:"isVerified"`
+	IsDeleted    bool        `json:"isDeleted"`
+	VerifiedAt   *time.Time  `json:"verifiedAt"`
+	CreatedAt    *time.Time  `json:"createdAt"`
+	UpdatedAt    *time.Time  `json:"updatedAt"`
 }
 
 type AdminListDto struct {
@@ -28,7 +29,7 @@ type AdminListDto struct {
 	IsEnabled  bool   `json:"isEnabled"`
 	IsVerified bool   `json:"isVerified"`
 	IsDeleted  bool   `json:"isDeleted"`
-	VerifiedAt string `json:"verifiedAt"`
+	VerifiedAt string `json:"verifiedAt,omitempty"`
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`
 }

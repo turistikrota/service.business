@@ -11,7 +11,6 @@ import (
 type AdminOwnershipVerifyCommand struct {
 	OwnerNickName string
 	AdminUUID     string
-	Reason        string
 }
 
 type AdminOwnershipVerifyResult struct{}
@@ -49,7 +48,6 @@ func (h *adminOwnershipVerifyHandler) Handle(ctx context.Context, cmd AdminOwner
 	}
 	h.events.VerifiedByAdmin(&owner.EventOwnerVerifiedByAdmin{
 		OwnerNickName: cmd.OwnerNickName,
-		Reason:        cmd.Reason,
 		AdminUUID:     cmd.AdminUUID,
 	})
 	return &AdminOwnershipVerifyResult{}, nil

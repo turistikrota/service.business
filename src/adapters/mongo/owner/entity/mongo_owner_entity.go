@@ -7,21 +7,22 @@ import (
 )
 
 type MongoOwner struct {
-	UUID        string                 `bson:"_id,omitempty"`
-	NickName    string                 `bson:"nick_name"`
-	RealName    string                 `bson:"real_name"`
-	AvatarURL   string                 `bson:"avatar_url"`
-	CoverURL    string                 `bson:"cover_url"`
-	OwnerType   string                 `bson:"owner_type"`
-	Individual  *MongoOwnerIndividual  `bson:"individual"`
-	Corporation *MongoOwnerCorporation `bson:"corporation"`
-	Users       []*MongoOwnerUser      `bson:"users"`
-	IsEnabled   bool                   `bson:"is_enabled"`
-	IsVerified  bool                   `bson:"is_verified"`
-	IsDeleted   bool                   `bson:"is_deleted"`
-	VerifiedAt  *time.Time             `bson:"verified_at"`
-	CreatedAt   *time.Time             `bson:"created_at"`
-	UpdatedAt   *time.Time             `bson:"updated_at"`
+	UUID         string                 `bson:"_id,omitempty"`
+	NickName     string                 `bson:"nick_name"`
+	RealName     string                 `bson:"real_name"`
+	AvatarURL    string                 `bson:"avatar_url"`
+	CoverURL     string                 `bson:"cover_url"`
+	OwnerType    string                 `bson:"owner_type"`
+	Individual   *MongoOwnerIndividual  `bson:"individual"`
+	Corporation  *MongoOwnerCorporation `bson:"corporation"`
+	Users        []*MongoOwnerUser      `bson:"users"`
+	RejectReason *string                `bson:"reject_reason,omitempty"`
+	IsEnabled    bool                   `bson:"is_enabled"`
+	IsVerified   bool                   `bson:"is_verified"`
+	IsDeleted    bool                   `bson:"is_deleted"`
+	VerifiedAt   *time.Time             `bson:"verified_at"`
+	CreatedAt    *time.Time             `bson:"created_at"`
+	UpdatedAt    *time.Time             `bson:"updated_at"`
 }
 
 type MongoOwnerIndividual struct {
@@ -79,6 +80,7 @@ func (m *MongoOwner) FromOwner(owner *owner.Entity) *MongoOwner {
 		Title:     owner.Corporation.Title,
 	}
 	m.Users = m.fromOwnerUsers(owner.Users)
+	m.RejectReason = owner.RejectReason
 	m.IsEnabled = owner.IsEnabled
 	m.IsVerified = owner.IsVerified
 	m.VerifiedAt = owner.VerifiedAt
@@ -89,17 +91,18 @@ func (m *MongoOwner) FromOwner(owner *owner.Entity) *MongoOwner {
 
 func (m *MongoOwner) ToOwner() *owner.Entity {
 	e := &owner.Entity{
-		UUID:       m.UUID,
-		NickName:   m.NickName,
-		RealName:   m.RealName,
-		AvatarURL:  m.AvatarURL,
-		CoverURL:   m.CoverURL,
-		OwnerType:  owner.Type(m.OwnerType),
-		IsEnabled:  m.IsEnabled,
-		IsVerified: m.IsVerified,
-		VerifiedAt: m.VerifiedAt,
-		CreatedAt:  m.CreatedAt,
-		UpdatedAt:  m.UpdatedAt,
+		UUID:         m.UUID,
+		NickName:     m.NickName,
+		RealName:     m.RealName,
+		AvatarURL:    m.AvatarURL,
+		CoverURL:     m.CoverURL,
+		OwnerType:    owner.Type(m.OwnerType),
+		IsEnabled:    m.IsEnabled,
+		RejectReason: m.RejectReason,
+		IsVerified:   m.IsVerified,
+		VerifiedAt:   m.VerifiedAt,
+		CreatedAt:    m.CreatedAt,
+		UpdatedAt:    m.UpdatedAt,
 	}
 	if m.Individual != nil {
 		e.Individual = m.Individual.ToOwnerIndividual()

@@ -28,6 +28,7 @@ type Repository interface {
 	AddUserPermission(ctx context.Context, nickName string, user UserDetail, permission string) *i18np.Error
 	Enable(ctx context.Context, nickName string) *i18np.Error
 	Verify(ctx context.Context, nickName string) *i18np.Error
+	Reject(ctx context.Context, nickName string, reason string) *i18np.Error
 	Disable(ctx context.Context, nickName string) *i18np.Error
 	Delete(ctx context.Context, nickName string) *i18np.Error
 	Recover(ctx context.Context, nickName string) *i18np.Error

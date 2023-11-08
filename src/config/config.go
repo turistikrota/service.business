@@ -88,6 +88,7 @@ type OwnerTopics struct {
 	VerifiedByAdmin       string `env:"STREAMING_TOPIC_OWNER_VERIFIED_BY_ADMIN"`
 	DeletedByAdmin        string `env:"STREAMING_TOPIC_OWNER_DELETED_BY_ADMIN"`
 	RecoverByAdmin        string `env:"STREAMING_TOPIC_OWNER_RECOVER_BY_ADMIN"`
+	RejectedByAdmin       string `env:"STREAMING_TOPIC_OWNER_REJECTED_BY_ADMIN"`
 	Disabled              string `env:"STREAMING_TOPIC_OWNER_DISABLED"`
 	Enabled               string `env:"STREAMING_TOPIC_OWNER_ENABLED"`
 }

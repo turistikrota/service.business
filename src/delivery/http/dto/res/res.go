@@ -16,6 +16,7 @@ type Response interface {
 	SelectOwnership(res *query.GetWithUserOwnershipResult) *SelectOwnershipResponse
 	OwnershipSelectNotFound() *OwnershipSelectNotSelectedResponse
 	AdminListAll(res *query.AdminListOwnershipResult) *list.Result[*owner.AdminListDto]
+	AdminView(res *query.AdminViewOwnershipResult) *AdminViewRes
 }
 
 type response struct{}

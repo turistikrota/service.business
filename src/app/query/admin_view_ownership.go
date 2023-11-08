@@ -42,7 +42,7 @@ func NewAdminViewOwnershipHandler(config AdminViewOwnershipHandlerConfig) AdminV
 func (h *adminViewOwnershipHandler) Handle(ctx context.Context, cmd AdminViewOwnershipQuery) (*AdminViewOwnershipResult, *i18np.Error) {
 	ownership, err := h.repo.GetByNickName(ctx, cmd.NickName)
 	if err != nil {
-		return nil, h.factory.Errors.Failed("failed to view ownership")
+		return nil, err
 	}
 	return &AdminViewOwnershipResult{Ownership: ownership}, nil
 }
