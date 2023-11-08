@@ -101,6 +101,7 @@ func (m *MongoOwner) ToOwner() *owner.Entity {
 		RejectReason: m.RejectReason,
 		IsVerified:   m.IsVerified,
 		VerifiedAt:   m.VerifiedAt,
+		IsDeleted:    m.IsDeleted,
 		CreatedAt:    m.CreatedAt,
 		UpdatedAt:    m.UpdatedAt,
 	}
