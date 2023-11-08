@@ -1,40 +1,51 @@
-name: Deploy to Server
+name: Go Application Release and Deploy
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
     steps:
-      - name: Deploying and Running Docker Swarm
+      - uses: actions/checkout@v2
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '1.16'
+      - name: Build and push Docker image
+        env:
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          GIT_USER: ${{ secrets.GIT_USER }}
+        run: |
+          IMAGE_TAG=${GITHUB_REF#refs/tags/}
+          docker build . --file Dockerfile --tag turistikrota/service.owner:$IMAGE_TAG --build-arg GITHUB_TOKEN=$GIT_TOKEN --build-arg GITHUB_USER=$GIT_USER
+          echo ${{ secrets.DOCKER_PASSWORD }} | docker login my-registry.com --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+          docker push turistikrota/service.owner:$IMAGE_TAG
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull and run the Docker image on the server
         uses: appleboy/ssh-action@master
         env:
           DIR: ${{ secrets.DIR }}
-          TOKEN: ${{ secrets.TOKEN }}
-          USER: ${{ secrets.USER }}
-          IMAGE_NAME: ${{ secrets.IMAGE_NAME }}
-          CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
-          NETWORK_NAME: ${{ secrets.NETWORK_NAME }}
           SECRET_NAME_1: ${{ secrets.SECRET_NAME_1 }}
           SECRET_NAME_2: ${{ secrets.SECRET_NAME_2 }}
+          NETWORK_NAME: ${{ secrets.NETWORK_NAME }}
           APP_PORT: ${{ secrets.APP_PORT }}
           HOST_ALIAS: ${{ secrets.HOST_ALIAS }}
           REDIS_HOST_ALIAS: ${{ secrets.REDIS_HOST_ALIAS }}
           HOST_IP: ${{ secrets.HOST_IP }}
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          envs: DIR,TOKEN,USER,IMAGE_NAME,CONTAINER_NAME,NETWORK_NAME,SECRET_NAME_1,SECRET_NAME_2,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS
           script: |
+            IMAGE_TAG=${GITHUB_REF#refs/tags/}
+            docker pull turistikrota/service.owner:$IMAGE_TAG
+            docker service rm service.owner || true
             cd $DIR
-            git checkout main
-            git pull origin main
-            docker build --build-arg GITHUB_TOKEN=$TOKEN --build-arg GITHUB_USER=$USER -t $IMAGE_NAME .
-            docker service rm $CONTAINER_NAME
-            docker service create --name $CONTAINER_NAME --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT $IMAGE_NAME
+            docker service create --name service.owner --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT turistikrota/service.owner:$IMAGE_TAG 
