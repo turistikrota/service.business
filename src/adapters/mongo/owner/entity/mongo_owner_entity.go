@@ -80,6 +80,7 @@ func (m *MongoOwner) FromOwner(owner *owner.Entity) *MongoOwner {
 		Title:     owner.Corporation.Title,
 	}
 	m.Users = m.fromOwnerUsers(owner.Users)
+	m.RejectReason = owner.RejectReason
 	m.IsEnabled = owner.IsEnabled
 	m.IsVerified = owner.IsVerified
 	m.VerifiedAt = owner.VerifiedAt
@@ -90,17 +91,18 @@ func (m *MongoOwner) FromOwner(owner *owner.Entity) *MongoOwner {
 
 func (m *MongoOwner) ToOwner() *owner.Entity {
 	e := &owner.Entity{
-		UUID:       m.UUID,
-		NickName:   m.NickName,
-		RealName:   m.RealName,
-		AvatarURL:  m.AvatarURL,
-		CoverURL:   m.CoverURL,
-		OwnerType:  owner.Type(m.OwnerType),
-		IsEnabled:  m.IsEnabled,
-		IsVerified: m.IsVerified,
-		VerifiedAt: m.VerifiedAt,
-		CreatedAt:  m.CreatedAt,
-		UpdatedAt:  m.UpdatedAt,
+		UUID:         m.UUID,
+		NickName:     m.NickName,
+		RealName:     m.RealName,
+		AvatarURL:    m.AvatarURL,
+		CoverURL:     m.CoverURL,
+		OwnerType:    owner.Type(m.OwnerType),
+		IsEnabled:    m.IsEnabled,
+		RejectReason: m.RejectReason,
+		IsVerified:   m.IsVerified,
+		VerifiedAt:   m.VerifiedAt,
+		CreatedAt:    m.CreatedAt,
+		UpdatedAt:    m.UpdatedAt,
 	}
 	if m.Individual != nil {
 		e.Individual = m.Individual.ToOwnerIndividual()
