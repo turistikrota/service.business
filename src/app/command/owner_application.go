@@ -252,7 +252,9 @@ func (h ownerApplicationHandler) save(ctx context.Context, chain *ownerApplicati
 
 func (h ownerApplicationHandler) end(ctx context.Context, chain *ownerApplicationChain) (*OwnerApplicationResult, *i18np.Error) {
 	h.events.Created(&owner.EventOwnerCreated{
-		Owner: chain.entity,
+		Owner:    chain.entity,
+		UserUUID: chain.command.UserUUID,
+		UserName: chain.command.UserName,
 	})
 	return &OwnerApplicationResult{
 		OwnerUUID: chain.ownerUUID,
