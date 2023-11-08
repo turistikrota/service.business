@@ -61,12 +61,6 @@ func NewApplication(config Config) app.Application {
 				Events:          ownerEvents,
 				CqrsBase:        base,
 			}),
-			OwnershipUserAdd: command.NewOwnershipUserAddHandler(command.OwnershipUserAddHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
-				CqrsBase: base,
-			}),
 			OwnershipUserRemove: command.NewOwnershipUserRemoveHandler(command.OwnershipUserRemoveHandlerConfig{
 				Repo:     ownerRepo,
 				Factory:  ownerFactory,
@@ -132,11 +126,13 @@ func NewApplication(config Config) app.Application {
 				Factory:      inviteFactory,
 				CqrsBase:     base,
 				OwnerRepo:    ownerRepo,
+				Events:       inviteEvents,
 				OwnerFactory: ownerFactory,
 			}),
 			InviteDelete: command.NewInviteDeleteHandler(command.InviteDeleteConfig{
 				Repo:     inviteRepo,
 				Factory:  inviteFactory,
+				Events:   inviteEvents,
 				CqrsBase: base,
 			}),
 		},

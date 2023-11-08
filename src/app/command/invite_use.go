@@ -26,6 +26,7 @@ type inviteUseHandler struct {
 	ownerFactory owner.Factory
 	repo         invite.Repository
 	factory      invite.Factory
+	events       invite.Events
 }
 
 type InviteUseConfig struct {
@@ -33,6 +34,7 @@ type InviteUseConfig struct {
 	OwnerRepo    owner.Repository
 	OwnerFactory owner.Factory
 	Factory      invite.Factory
+	Events       invite.Events
 	CqrsBase     decorator.Base
 }
 
@@ -42,6 +44,7 @@ func NewInviteUseHandler(config InviteUseConfig) InviteUseHandler {
 			repo:         config.Repo,
 			factory:      config.Factory,
 			ownerRepo:    config.OwnerRepo,
+			events:       config.Events,
 			ownerFactory: config.OwnerFactory,
 		},
 		config.CqrsBase,
@@ -73,5 +76,11 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 	if err != nil {
 		return nil, err
 	}
+	h.events.Use(invite.InviteUseEvent{
+		InviteUUID: cmd.InviteUUID,
+		UserUUID:   cmd.UserUUID,
+		UserName:   cmd.UserName,
+		UserEmail:  cmd.UserEmail,
+	})
 	return &InviteUseResult{}, nil
 }

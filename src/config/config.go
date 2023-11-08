@@ -91,6 +91,10 @@ type OwnerTopics struct {
 	RejectedByAdmin       string `env:"STREAMING_TOPIC_OWNER_REJECTED_BY_ADMIN"`
 	Disabled              string `env:"STREAMING_TOPIC_OWNER_DISABLED"`
 	Enabled               string `env:"STREAMING_TOPIC_OWNER_ENABLED"`
+
+	InviteCreate string `env:"STREAMING_TOPIC_INVITE_CREATE"`
+	InviteDelete string `env:"STREAMING_TOPIC_INVITE_DELETE"`
+	InviteUse    string `env:"STREAMING_TOPIC_INVITE_USE"`
 }
 
 type Nats struct {

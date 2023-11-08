@@ -12,7 +12,6 @@ type Application struct {
 
 type Commands struct {
 	OwnerApplication        command.OwnerApplicationHandler
-	OwnershipUserAdd        command.OwnershipUserAddHandler
 	OwnershipUserRemove     command.OwnershipUserRemoveHandler
 	OwnershipUserPermAdd    command.OwnershipUserPermAddHandler
 	OwnershipUserPermRemove command.OwnershipUserPermRemoveHandler

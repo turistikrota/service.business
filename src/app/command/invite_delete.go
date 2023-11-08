@@ -10,6 +10,8 @@ import (
 
 type InviteDeleteCommand struct {
 	InviteUUID string
+	UserUUID   string
+	UserName   string
 }
 
 type InviteDeleteResult struct{}
@@ -19,12 +21,14 @@ type InviteDeleteHandler decorator.CommandHandler[InviteDeleteCommand, *InviteDe
 type inviteDeleteHandler struct {
 	repo    invite.Repository
 	factory invite.Factory
+	events  invite.Events
 }
 
 type InviteDeleteConfig struct {
 	Repo     invite.Repository
 	Factory  invite.Factory
 	CqrsBase decorator.Base
+	Events   invite.Events
 }
 
 func NewInviteDeleteHandler(config InviteDeleteConfig) InviteDeleteHandler {
@@ -32,6 +36,7 @@ func NewInviteDeleteHandler(config InviteDeleteConfig) InviteDeleteHandler {
 		&inviteDeleteHandler{
 			repo:    config.Repo,
 			factory: config.Factory,
+			events:  config.Events,
 		},
 		config.CqrsBase,
 	)
@@ -42,5 +47,10 @@ func (h *inviteDeleteHandler) Handle(ctx context.Context, cmd InviteDeleteComman
 	if err != nil {
 		return nil, err
 	}
+	h.events.Delete(invite.InviteDeleteEvent{
+		InviteUUID: cmd.InviteUUID,
+		UserUUID:   cmd.UserUUID,
+		UserName:   cmd.UserName,
+	})
 	return &InviteDeleteResult{}, nil
 }

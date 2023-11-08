@@ -23,14 +23,6 @@ func (o *OwnerShipDetailUserRequest) ToViewQuery() query.ViewOwnershipQuery {
 	}
 }
 
-func (o *OwnerShipDetailUserRequest) ToAddUserCommand(userUUID string) command.OwnershipUserAddCommand {
-	return command.OwnershipUserAddCommand{
-		OwnerNickName:  o.NickName,
-		AccessUserUUID: userUUID,
-		UserName:       o.UserName,
-	}
-}
-
 func (o *OwnerShipDetailUserRequest) ToAddUserPermCommand(userUUID string) command.OwnershipUserPermAddCommand {
 	return command.OwnershipUserPermAddCommand{
 		OwnerNickName:  o.NickName,

@@ -14,6 +14,7 @@ type InviteCreateCommand struct {
 	CreatorUserName string
 	Email           string
 	Locale          string
+	UserUUID        string
 }
 
 type InviteCreateResult struct{}
@@ -54,6 +55,8 @@ func (h *inviteCreateHandler) Handle(ctx context.Context, cmd InviteCreateComman
 		Email:      cmd.Email,
 		InviteUUID: res.UUID,
 		OwnerName:  cmd.OwnerNickName,
+		UserUUID:   cmd.UserUUID,
+		UserName:   cmd.CreatorUserName,
 	})
 	return &InviteCreateResult{}, nil
 }
