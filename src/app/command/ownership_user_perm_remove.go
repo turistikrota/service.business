@@ -53,7 +53,7 @@ func (h *ownershipUserPermRemoveHandler) Handle(ctx context.Context, cmd Ownersh
 		Name: cmd.UserName,
 	}, cmd.PermissionName)
 	if err != nil {
-		return nil, h.factory.Errors.Failed("failed to remove user permission from ownership")
+		return nil, err
 	}
 	h.events.UserPermissionRemoved(&owner.EventOwnerPermissionRemoved{
 		OwnerUUID:      res.Entity.UUID,
