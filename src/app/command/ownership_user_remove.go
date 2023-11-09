@@ -12,6 +12,7 @@ type OwnershipUserRemoveCommand struct {
 	OwnerNickName  string
 	UserName       string
 	AccessUserUUID string
+	AccessUserName string
 }
 
 type OwnershipUserRemoveResult struct{}
@@ -43,7 +44,7 @@ func NewOwnershipUserRemoveHandler(config OwnershipUserRemoveHandlerConfig) Owne
 }
 
 func (h *ownershipUserRemoveHandler) Handle(ctx context.Context, cmd OwnershipUserRemoveCommand) (*OwnershipUserRemoveResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	res, _err := h.repo.GetWithUserName(ctx, cmd.OwnerNickName, cmd.UserName)
 	if _err != nil {
 		return nil, _err
 	}
@@ -54,10 +55,12 @@ func (h *ownershipUserRemoveHandler) Handle(ctx context.Context, cmd OwnershipUs
 		return nil, h.factory.Errors.Failed("failed to remove user from ownership")
 	}
 	h.events.UserRemoved(&owner.EventOwnerUserRemoved{
-		OwnerUUID:      res.UUID,
+		OwnerUUID:      res.Entity.UUID,
 		AccessUserUUID: cmd.AccessUserUUID,
+		AccessUserName: cmd.AccessUserName,
 		User: owner.EventUser{
 			Name: cmd.UserName,
+			UUID: res.User.UUID,
 		},
 	})
 	return &OwnershipUserRemoveResult{}, nil

@@ -35,6 +35,7 @@ type (
 	}
 	EventOwnerUserRemoved struct {
 		OwnerUUID      string    `json:"ownerUUID"`
+		AccessUserName string    `json:"accessUserName"`
 		AccessUserUUID string    `json:"accessUserUUID"`
 		User           EventUser `json:"user"`
 	}

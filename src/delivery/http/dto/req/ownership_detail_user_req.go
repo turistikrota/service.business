@@ -39,10 +39,11 @@ func (o *OwnerShipDetailUserRequest) ToRemoveUserPermCommand(userUUID string) co
 	}
 }
 
-func (o *OwnerShipDetailUserRequest) ToRemoveUserCommand(userUUID string) command.OwnershipUserRemoveCommand {
+func (o *OwnerShipDetailUserRequest) ToRemoveUserCommand(userUUID string, userName string) command.OwnershipUserRemoveCommand {
 	return command.OwnershipUserRemoveCommand{
 		OwnerNickName:  o.NickName,
 		AccessUserUUID: userUUID,
+		AccessUserName: userName,
 		UserName:       o.UserName,
 	}
 }
