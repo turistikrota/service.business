@@ -63,11 +63,11 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	owner := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.CurrentOwner())
 	owner.Get("/", h.OwnerPermissions(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.OwnershipAdminView))
 	owner.Get("/user", h.OwnerPermissions(config.Roles.Owner.UserList), h.wrapWithTimeout(h.OwnershipUserList))
-	owner.Post("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermAdd), h.wrapWithTimeout(h.OwnershipUserPermAdd))
-	owner.Delete("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermRemove), h.wrapWithTimeout(h.OwnershipUserPermRemove))
-	owner.Delete("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserRemove), h.wrapWithTimeout(h.OwnershipUserRemove))
-	owner.Put("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
-	owner.Put("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
+	owner.Patch("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermAdd), h.wrapWithTimeout(h.OwnershipUserPermAdd))
+	owner.Patch("/user/@:userName/role", h.OwnerPermissions(config.Roles.Owner.UserPermRemove), h.wrapWithTimeout(h.OwnershipUserPermRemove))
+	owner.Patch("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserRemove), h.wrapWithTimeout(h.OwnershipUserRemove))
+	owner.Patch("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
+	owner.Patch("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
 	owner.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
 
 	// invite owner routes
