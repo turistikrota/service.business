@@ -96,6 +96,23 @@ func (r *repo) GetWithUser(ctx context.Context, nickName string, user owner.User
 	return o.ToOwnerWithUser(user), nil
 }
 
+func (r *repo) GetWithUserName(ctx context.Context, nickName string, userName string) (*owner.EntityWithUser, *i18np.Error) {
+	filter := bson.M{
+		entity.Fields.NickName:                   nickName,
+		entity.UserField(entity.UserFields.Name): userName,
+	}
+	o, exist, err := r.helper.GetFilter(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+	if !exist {
+		return nil, r.factory.Errors.NotFound()
+	}
+	return o.ToOwnerWithUser(owner.UserDetail{
+		Name: userName,
+	}), nil
+}
+
 func (r *repo) ProfileView(ctx context.Context, nickName string) (*owner.Entity, *i18np.Error) {
 	filter := bson.M{
 		entity.Fields.NickName:  nickName,

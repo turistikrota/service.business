@@ -93,7 +93,7 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	router.Get("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByUUID))
 	router.Get("/invites", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByEmail))
 
-	router.Get("/~:nickName", h.wrapWithTimeout(h.ViewOwnership))
+	router.Get("/:nickName", h.wrapWithTimeout(h.ViewOwnership))
 	return router
 }
 

@@ -12,6 +12,7 @@ type OwnershipUserPermAddCommand struct {
 	OwnerNickName  string
 	UserName       string
 	AccessUserUUID string
+	AccessUserName string
 	PermissionName string
 }
 
@@ -44,7 +45,7 @@ func NewOwnershipUserPermAddHandler(config OwnershipUserPermAddHandlerConfig) Ow
 }
 
 func (h *ownershipUserPermAddHandler) Handle(ctx context.Context, cmd OwnershipUserPermAddCommand) (*OwnershipUserPermAddResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.OwnerNickName)
+	res, _err := h.repo.GetWithUserName(ctx, cmd.OwnerNickName, cmd.UserName)
 	if _err != nil {
 		return nil, _err
 	}
@@ -55,11 +56,13 @@ func (h *ownershipUserPermAddHandler) Handle(ctx context.Context, cmd OwnershipU
 		return nil, h.factory.Errors.Failed(err.Error())
 	}
 	h.events.UserPermissionAdded(&owner.EventOwnerPermissionAdded{
-		OwnerUUID:      res.UUID,
+		OwnerUUID:      res.Entity.UUID,
 		AccessUserUUID: cmd.AccessUserUUID,
+		AccessUserName: cmd.AccessUserName,
 		PermissionName: cmd.PermissionName,
 		User: owner.EventUser{
 			Name: cmd.UserName,
+			UUID: res.User.UUID,
 		},
 	})
 	return &OwnershipUserPermAddResult{}, nil

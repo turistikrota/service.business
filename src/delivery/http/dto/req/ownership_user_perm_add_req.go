@@ -14,11 +14,12 @@ func (r *OwnershipUserPermAddRequest) LoadDetail(detail *OwnerShipDetailUserRequ
 	return r
 }
 
-func (r *OwnershipUserPermAddRequest) ToCommand(userUUID string) command.OwnershipUserPermAddCommand {
+func (r *OwnershipUserPermAddRequest) ToCommand(userUUID string, userName string) command.OwnershipUserPermAddCommand {
 	return command.OwnershipUserPermAddCommand{
 		OwnerNickName:  r.NickName,
 		UserName:       r.UserName,
 		AccessUserUUID: userUUID,
+		AccessUserName: userName,
 		PermissionName: r.Permission,
 	}
 }
