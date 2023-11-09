@@ -204,7 +204,7 @@ func (h Server) InviteUse(ctx *fiber.Ctx) error {
 	h.parseParams(ctx, d)
 	u := current_user.Parse(ctx)
 	account := current_account.Parse(ctx)
-	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.ID, u.Email, account.Name))
+	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.UUID, u.Email, account.Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})
