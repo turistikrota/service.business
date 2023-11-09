@@ -19,6 +19,7 @@ type Repository interface {
 	GetByNickName(ctx context.Context, nickName string) (*Entity, *i18np.Error)
 	CheckNickName(ctx context.Context, nickName string) (bool, *i18np.Error)
 	GetWithUser(ctx context.Context, nickName string, user UserDetail) (*EntityWithUser, *i18np.Error)
+	GetWithUserName(ctx context.Context, nickName string, userName string) (*EntityWithUser, *i18np.Error)
 	ProfileView(ctx context.Context, nickName string) (*Entity, *i18np.Error)
 	ListByUserUUID(ctx context.Context, user UserDetail) ([]*Entity, *i18np.Error)
 	ListOwnershipUsers(ctx context.Context, nickName string, user UserDetail) ([]User, *i18np.Error)

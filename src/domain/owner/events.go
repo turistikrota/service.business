@@ -41,12 +41,14 @@ type (
 	EventOwnerPermissionRemoved struct {
 		OwnerUUID      string    `json:"ownerUUID"`
 		AccessUserUUID string    `json:"accessUserUUID"`
+		AccessUserName string    `json:"accessUserName"`
 		User           EventUser `json:"user"`
 		PermissionName string    `json:"permission"`
 	}
 	EventOwnerPermissionAdded struct {
 		OwnerUUID      string    `json:"ownerUUID"`
 		AccessUserUUID string    `json:"accessUserUUID"`
+		AccessUserName string    `json:"accessUserName"`
 		User           EventUser `json:"user"`
 		PermissionName string    `json:"permission"`
 	}
