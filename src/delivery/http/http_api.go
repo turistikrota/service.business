@@ -23,7 +23,7 @@ func (h Server) OwnerApplication(ctx *fiber.Ctx) error {
 func (h Server) OwnershipUserRemove(ctx *fiber.Ctx) error {
 	d := dto.Request.OwnerShipDetailUser()
 	h.parseParams(ctx, d)
-	_, err := h.app.Commands.OwnershipUserRemove.Handle(ctx.UserContext(), d.ToRemoveUserCommand(current_user.Parse(ctx).UUID))
+	_, err := h.app.Commands.OwnershipUserRemove.Handle(ctx.UserContext(), d.ToRemoveUserCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserRemove)
 }
 
