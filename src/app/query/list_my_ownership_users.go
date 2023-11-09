@@ -79,14 +79,14 @@ func (h *listMyOwnershipUsersQueryHandler) Handle(ctx context.Context, query Lis
 			Uuid: user.UUID,
 			Name: user.Name,
 		})
-		ownerUsers[user.UUID] = user
+		ownerUsers[user.Name] = user
 	}
 	accounts, error := h.callRpc(ctx, _users)
 	if error != nil {
 		return nil, h.ownerFactory.Errors.Failed("failed to get account" + error.Error())
 	}
 	for _, user := range accounts.Entities {
-		ownerUser := ownerUsers[user.UserUuid]
+		ownerUser := ownerUsers[user.UserName]
 		e := ListMyOwnershipUserType{
 			Name:       user.UserName,
 			FullName:   user.FullName,

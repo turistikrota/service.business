@@ -61,8 +61,8 @@ func (h Server) OwnershipUserPermAdd(ctx *fiber.Ctx) error {
 	detail := dto.Request.OwnerShipDetailUser()
 	d := dto.Request.OwnerPermissionAdd()
 	h.parseParams(ctx, detail)
-	d.LoadDetail(detail)
 	h.parseBody(ctx, d)
+	d.LoadDetail(detail)
 	_, err := h.app.Commands.OwnershipUserPermAdd.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserPermAdd)
 }
@@ -71,8 +71,8 @@ func (h Server) OwnershipUserPermRemove(ctx *fiber.Ctx) error {
 	detail := dto.Request.OwnerShipDetailUser()
 	d := dto.Request.OwnerPermissionRemove()
 	h.parseParams(ctx, detail)
-	d.LoadDetail(detail)
 	h.parseBody(ctx, d)
+	d.LoadDetail(detail)
 	_, err := h.app.Commands.OwnershipUserPermRemove.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserPermRemove)
 }
@@ -204,7 +204,7 @@ func (h Server) InviteUse(ctx *fiber.Ctx) error {
 	h.parseParams(ctx, d)
 	u := current_user.Parse(ctx)
 	account := current_account.Parse(ctx)
-	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.ID, u.Email, account.Name))
+	res, err := h.app.Commands.InviteUse.Handle(ctx.UserContext(), d.ToUse(u.UUID, u.Email, account.Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})
