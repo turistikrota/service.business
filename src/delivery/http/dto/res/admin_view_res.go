@@ -5,11 +5,14 @@ import (
 
 	"github.com/turistikrota/service.owner/src/app/query"
 	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.shared/helper"
 )
 
 type AdminViewRes struct {
 	UUID         string                `json:"uuid"`
 	NickName     string                `json:"nickName"`
+	CoverURL     string                `json:"coverURL"`
+	AvatarURL    string                `json:"avatarURL"`
 	RealName     string                `json:"realName"`
 	OwnerType    string                `json:"ownerType"`
 	Individual   *AdminViewIndividual  `json:"individual,omitempty"`
@@ -47,6 +50,8 @@ func (r *response) AdminView(res *query.AdminViewOwnershipResult) *AdminViewRes 
 		UUID:         res.Ownership.UUID,
 		NickName:     res.Ownership.NickName,
 		RealName:     res.Ownership.RealName,
+		AvatarURL:    helper.CDN.DressOwnerAvatar(res.Ownership.NickName),
+		CoverURL:     helper.CDN.DressOwnerCover(res.Ownership.NickName),
 		OwnerType:    string(res.Ownership.OwnerType),
 		Users:        res.Ownership.Users,
 		RejectReason: res.Ownership.RejectReason,

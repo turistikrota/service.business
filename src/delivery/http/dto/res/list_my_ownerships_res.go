@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/turistikrota/service.owner/src/app/query"
+	"github.com/turistikrota/service.shared/helper"
 )
 
 type ListMyOwnershipsResponse struct {
@@ -14,6 +15,8 @@ type ListMyOwnershipsResponse struct {
 type ListMyOwnershipsItem struct {
 	NickName   string    `json:"nickName"`
 	RealName   string    `json:"realName"`
+	CoverURL   string    `json:"coverURL"`
+	AvatarURL  string    `json:"avatarURL"`
 	OwnerType  string    `json:"ownerType"`
 	IsVerified bool      `json:"isVerified"`
 	IsEnabled  bool      `json:"isEnabled"`
@@ -27,6 +30,8 @@ func (r *response) ListMyOwnerships(res *query.ListMyOwnershipsResult) *ListMyOw
 		list = append(list, ListMyOwnershipsItem{
 			NickName:   ownership.NickName,
 			RealName:   ownership.RealName,
+			AvatarURL:  helper.CDN.DressOwnerAvatar(ownership.NickName),
+			CoverURL:   helper.CDN.DressOwnerCover(ownership.NickName),
 			OwnerType:  string(ownership.OwnerType),
 			IsVerified: ownership.IsVerified,
 			IsEnabled:  ownership.IsEnabled,
