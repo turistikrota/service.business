@@ -8,7 +8,6 @@ import (
 	"github.com/mixarchitecture/microp/types/list"
 	"github.com/turistikrota/service.owner/src/adapters/mongo/owner/entity"
 	"github.com/turistikrota/service.owner/src/domain/owner"
-	"github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -159,17 +158,10 @@ func (r *repo) ListByUserUUID(ctx context.Context, user owner.UserDetail) ([]*ow
 	}, opts)
 }
 
-func (r *repo) AddUser(ctx context.Context, ownerUUID string, user *owner.User) *i18np.Error {
-	id, err := mongo.TransformId(ownerUUID)
-	if err != nil {
-		return r.factory.Errors.Failed("add user" + ownerUUID)
-	}
+func (r *repo) AddUser(ctx context.Context, ownerName string, user *owner.User) *i18np.Error {
 	filter := bson.M{
-		entity.Fields.UUID: id,
-		"$or": []bson.M{
-			{entity.UserField(entity.UserFields.Name): bson.M{"$ne": user.Name}},
-			{entity.UserField(entity.UserFields.UUID): bson.M{"$ne": user.UUID}},
-		},
+		entity.Fields.NickName:                   ownerName,
+		entity.UserField(entity.UserFields.Name): bson.M{"$ne": user.Name},
 	}
 	setter := bson.M{
 		"$addToSet": bson.M{

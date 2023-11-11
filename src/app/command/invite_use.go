@@ -68,7 +68,7 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 	if res.CreatedAt.Add(24 * time.Hour).Before(time.Now()) {
 		return nil, h.factory.Errors.Timeout()
 	}
-	err = h.ownerRepo.AddUser(ctx, res.OwnerUUID, h.ownerFactory.NewUser(cmd.UserUUID, cmd.UserName))
+	err = h.ownerRepo.AddUser(ctx, res.OwnerNickName, h.ownerFactory.NewUser(cmd.UserUUID, cmd.UserName))
 	if err != nil {
 		return nil, err
 	}
