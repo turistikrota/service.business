@@ -10,8 +10,6 @@ type MongoOwner struct {
 	UUID         string                 `bson:"_id,omitempty"`
 	NickName     string                 `bson:"nick_name"`
 	RealName     string                 `bson:"real_name"`
-	AvatarURL    string                 `bson:"avatar_url"`
-	CoverURL     string                 `bson:"cover_url"`
 	OwnerType    string                 `bson:"owner_type"`
 	Individual   *MongoOwnerIndividual  `bson:"individual"`
 	Corporation  *MongoOwnerCorporation `bson:"corporation"`
@@ -49,7 +47,6 @@ type MongoOwnerCorporation struct {
 type MongoOwnerUser struct {
 	UUID   string    `bson:"uuid"`
 	Name   string    `bson:"name"`
-	Code   string    `bson:"code"`
 	Roles  []string  `bson:"roles"`
 	JoinAt time.Time `bson:"join_at"`
 }
@@ -57,8 +54,6 @@ type MongoOwnerUser struct {
 func (m *MongoOwner) FromOwner(owner *owner.Entity) *MongoOwner {
 	m.NickName = owner.NickName
 	m.RealName = owner.RealName
-	m.AvatarURL = owner.AvatarURL
-	m.CoverURL = owner.CoverURL
 	m.OwnerType = string(owner.OwnerType)
 	m.Individual = &MongoOwnerIndividual{
 		FirstName:      owner.Individual.FirstName,
@@ -94,8 +89,6 @@ func (m *MongoOwner) ToOwner() *owner.Entity {
 		UUID:         m.UUID,
 		NickName:     m.NickName,
 		RealName:     m.RealName,
-		AvatarURL:    m.AvatarURL,
-		CoverURL:     m.CoverURL,
 		OwnerType:    owner.Type(m.OwnerType),
 		IsEnabled:    m.IsEnabled,
 		RejectReason: m.RejectReason,

@@ -46,8 +46,6 @@ func (f Factory) NewOwner(params NewOwnerParams) *Entity {
 	e := &Entity{
 		NickName:  params.NickName,
 		RealName:  params.RealName,
-		AvatarURL: "",
-		CoverURL:  "",
 		OwnerType: params.OwnerType,
 		Users: []User{
 			{

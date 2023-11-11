@@ -9,8 +9,6 @@ import (
 type OwnershipAdminViewResponse struct {
 	NickName   string      `json:"nickName"`
 	RealName   string      `json:"realName"`
-	AvatarURL  string      `json:"avatarURL"`
-	CoverURL   string      `json:"coverURL"`
 	OwnerType  string      `json:"ownerType"`
 	Details    interface{} `json:"details"`
 	IsVerified bool        `json:"isVerified"`
@@ -39,8 +37,6 @@ func (r *response) OwnershipAdminView(ownership *owner.Entity) *OwnershipAdminVi
 	e := &OwnershipAdminViewResponse{
 		NickName:   ownership.NickName,
 		RealName:   ownership.RealName,
-		AvatarURL:  ownership.AvatarURL,
-		CoverURL:   ownership.CoverURL,
 		OwnerType:  string(ownership.OwnerType),
 		IsVerified: ownership.IsVerified,
 		UpdatedAt:  *ownership.UpdatedAt,

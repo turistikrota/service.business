@@ -14,8 +14,6 @@ type ListMyOwnershipsResponse struct {
 type ListMyOwnershipsItem struct {
 	NickName   string    `json:"nickName"`
 	RealName   string    `json:"realName"`
-	AvatarURL  string    `json:"avatarURL"`
-	CoverURL   string    `json:"coverURL"`
 	OwnerType  string    `json:"ownerType"`
 	IsVerified bool      `json:"isVerified"`
 	IsEnabled  bool      `json:"isEnabled"`
@@ -29,8 +27,6 @@ func (r *response) ListMyOwnerships(res *query.ListMyOwnershipsResult) *ListMyOw
 		list = append(list, ListMyOwnershipsItem{
 			NickName:   ownership.NickName,
 			RealName:   ownership.RealName,
-			AvatarURL:  ownership.AvatarURL,
-			CoverURL:   ownership.CoverURL,
 			OwnerType:  string(ownership.OwnerType),
 			IsVerified: ownership.IsVerified,
 			IsEnabled:  ownership.IsEnabled,

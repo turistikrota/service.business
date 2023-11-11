@@ -68,13 +68,13 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 	if res.CreatedAt.Add(24 * time.Hour).Before(time.Now()) {
 		return nil, h.factory.Errors.Timeout()
 	}
-	err = h.ownerRepo.AddUser(ctx, res.OwnerNickName, h.ownerFactory.NewUser(cmd.UserUUID, cmd.UserName))
-	if err != nil {
-		return nil, err
+	_err := h.ownerRepo.AddUser(ctx, res.OwnerNickName, h.ownerFactory.NewUser(cmd.UserUUID, cmd.UserName))
+	if _err != nil {
+		return nil, _err
 	}
-	err = h.repo.Use(ctx, cmd.InviteUUID)
-	if err != nil {
-		return nil, err
+	error := h.repo.Use(ctx, cmd.InviteUUID)
+	if error != nil {
+		return nil, error
 	}
 	h.events.Use(invite.InviteUseEvent{
 		InviteUUID: cmd.InviteUUID,

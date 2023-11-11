@@ -11,8 +11,6 @@ type AdminViewRes struct {
 	UUID         string                `json:"uuid"`
 	NickName     string                `json:"nickName"`
 	RealName     string                `json:"realName"`
-	AvatarURL    string                `json:"avatarURL"`
-	CoverURL     string                `json:"coverURL"`
 	OwnerType    string                `json:"ownerType"`
 	Individual   *AdminViewIndividual  `json:"individual,omitempty"`
 	Corporation  *AdminViewCorporation `json:"corporation,omitempty"`
@@ -49,8 +47,6 @@ func (r *response) AdminView(res *query.AdminViewOwnershipResult) *AdminViewRes 
 		UUID:         res.Ownership.UUID,
 		NickName:     res.Ownership.NickName,
 		RealName:     res.Ownership.RealName,
-		AvatarURL:    res.Ownership.AvatarURL,
-		CoverURL:     res.Ownership.CoverURL,
 		OwnerType:    string(res.Ownership.OwnerType),
 		Users:        res.Ownership.Users,
 		RejectReason: res.Ownership.RejectReason,
