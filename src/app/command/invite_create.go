@@ -46,7 +46,7 @@ func NewInviteCreateHandler(config InviteCreateConfig) InviteCreateHandler {
 }
 
 func (h *inviteCreateHandler) Handle(ctx context.Context, cmd InviteCreateCommand) (*InviteCreateResult, *i18np.Error) {
-	res, err := h.repo.Create(ctx, h.factory.New(cmd.Email, cmd.OwnerUUID, cmd.CreatorUserName))
+	res, err := h.repo.Create(ctx, h.factory.New(cmd.Email, cmd.OwnerUUID, cmd.OwnerNickName, cmd.CreatorUserName))
 	if err != nil {
 		return nil, err
 	}

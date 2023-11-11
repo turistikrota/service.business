@@ -14,11 +14,12 @@ func (f Factory) IsZero() bool {
 	return f.Errors == nil
 }
 
-func (f Factory) New(email string, ownerUUID string, userName string) *Entity {
+func (f Factory) New(email string, ownerUUID string, ownerName string, userName string) *Entity {
 	t := time.Now()
 	return &Entity{
 		Email:           email,
 		OwnerUUID:       ownerUUID,
+		OwnerNickName:   ownerName,
 		CreatorUserName: userName,
 		IsUsed:          false,
 		IsDeleted:       false,
