@@ -8,7 +8,7 @@ require (
 	github.com/golang/protobuf v1.5.3
 	github.com/mixarchitecture/chain v0.0.2
 	github.com/mixarchitecture/i18np v0.0.0-20230822003812-2969b27e32d7
-	github.com/mixarchitecture/microp v0.0.1
+	github.com/mixarchitecture/microp v0.0.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/ssibrahimbas/KPSPublic v1.0.0
 	github.com/turistikrota/service.shared v0.0.27-0.20231111234045-e8388790aa58

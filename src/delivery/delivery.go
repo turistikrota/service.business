@@ -61,10 +61,11 @@ func (d *delivery) Load() {
 
 func (d *delivery) loadHTTP() *delivery {
 	sharedHttp.RunServer(sharedHttp.Config{
-		Host:  d.config.Server.Host,
-		Port:  d.config.Server.Port,
-		I18n:  d.i18n,
-		Group: d.config.Server.Group,
+		Host:      d.config.Server.Host,
+		Port:      d.config.Server.Port,
+		I18n:      d.i18n,
+		Group:     d.config.Server.Group,
+		BodyLimit: 10 * 1024 * 1024,
 		CreateHandler: func(router fiber.Router) fiber.Router {
 			return http.New(http.Config{
 				App:         d.app,
