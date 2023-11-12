@@ -23,7 +23,7 @@ type Repository interface {
 	ProfileView(ctx context.Context, nickName string) (*Entity, *i18np.Error)
 	ListByUserUUID(ctx context.Context, user UserDetail) ([]*Entity, *i18np.Error)
 	ListOwnershipUsers(ctx context.Context, nickName string, user UserDetail) ([]User, *i18np.Error)
-	AddUser(ctx context.Context, ownerUUID string, user *User) *i18np.Error
+	AddUser(ctx context.Context, ownerName string, user *User) *i18np.Error
 	RemoveUser(ctx context.Context, nickName string, user UserDetail) *i18np.Error
 	RemoveUserPermission(ctx context.Context, nickName string, user UserDetail, permission string) *i18np.Error
 	AddUserPermission(ctx context.Context, nickName string, user UserDetail, permission string) *i18np.Error

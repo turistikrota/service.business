@@ -4,8 +4,6 @@ type fields struct {
 	UUID         string
 	NickName     string
 	RealName     string
-	AvatarURL    string
-	CoverURL     string
 	OwnerType    string
 	Individual   string
 	Corporation  string
@@ -53,8 +51,6 @@ var Fields = fields{
 	UUID:         "_id",
 	NickName:     "nick_name",
 	RealName:     "real_name",
-	AvatarURL:    "avatar_url",
-	CoverURL:     "cover_url",
 	OwnerType:    "owner_type",
 	Individual:   "individual",
 	Corporation:  "corporation",
