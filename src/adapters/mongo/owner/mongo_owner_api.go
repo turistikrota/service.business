@@ -217,9 +217,9 @@ func (r *repo) RemoveUserPermission(ctx context.Context, nickName string, user o
 
 func (r *repo) AddUserPermission(ctx context.Context, nickName string, user owner.UserDetail, permission string) *i18np.Error {
 	filter := bson.M{
-		entity.Fields.NickName:                    nickName,
-		entity.UserField(entity.UserFields.Name):  user.Name,
-		entity.UserField(entity.UserFields.Roles): bson.M{"$ne": permission},
+		entity.Fields.NickName:                           nickName,
+		entity.UserField(entity.UserFields.Name):         user.Name,
+		entity.UserFieldInArray(entity.UserFields.Roles): bson.M{"$ne": permission},
 	}
 	t := time.Now()
 	setter := bson.M{

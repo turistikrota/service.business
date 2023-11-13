@@ -47,7 +47,7 @@ http_error_required_account_select = "Bu işlem için hesap seçimi gerekiyor."
 http_error_account_not_found = "Hesap bulunamadı."
 
 # Owner Module Messages
-error_owner_failed = "Sahiplik oluşturulamadı."
+error_owner_failed = "Bir hata oluştu."
 error_owner_nickname_already_exists = "Bu takma ad zaten kullanılıyor."
 error_owner_identity_number_already_exists = "Bu kimlik numarası zaten kullanılıyor."
 error_owner_tax_number_already_exists = "Bu vergi numarası zaten kullanılıyor."
