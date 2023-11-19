@@ -3,8 +3,8 @@ package res
 import (
 	"time"
 
-	"github.com/turistikrota/service.owner/src/app/query"
-	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.business/src/app/query"
+	"github.com/turistikrota/service.business/src/domain/business"
 	"github.com/turistikrota/service.shared/helper"
 )
 
@@ -14,10 +14,10 @@ type AdminViewRes struct {
 	CoverURL     string                `json:"coverURL"`
 	AvatarURL    string                `json:"avatarURL"`
 	RealName     string                `json:"realName"`
-	OwnerType    string                `json:"ownerType"`
+	BusinessType string                `json:"businessType"`
 	Individual   *AdminViewIndividual  `json:"individual,omitempty"`
 	Corporation  *AdminViewCorporation `json:"corporation,omitempty"`
-	Users        []owner.User          `json:"users"`
+	Users        []business.User       `json:"users"`
 	RejectReason *string               `json:"rejectReason,omitempty"`
 	IsEnabled    bool                  `json:"isEnabled"`
 	IsVerified   bool                  `json:"isVerified"`
@@ -45,40 +45,40 @@ type AdminViewCorporation struct {
 	Type      string `json:"type"`
 }
 
-func (r *response) AdminView(res *query.AdminViewOwnershipResult) *AdminViewRes {
+func (r *response) AdminView(res *query.AdminViewBusinessResult) *AdminViewRes {
 	rs := &AdminViewRes{
-		UUID:         res.Ownership.UUID,
-		NickName:     res.Ownership.NickName,
-		RealName:     res.Ownership.RealName,
-		AvatarURL:    helper.CDN.DressOwnerAvatar(res.Ownership.NickName),
-		CoverURL:     helper.CDN.DressOwnerCover(res.Ownership.NickName),
-		OwnerType:    string(res.Ownership.OwnerType),
-		Users:        res.Ownership.Users,
-		RejectReason: res.Ownership.RejectReason,
-		IsEnabled:    res.Ownership.IsEnabled,
-		IsVerified:   res.Ownership.IsVerified,
-		IsDeleted:    res.Ownership.IsDeleted,
-		VerifiedAt:   res.Ownership.VerifiedAt,
-		CreatedAt:    res.Ownership.CreatedAt,
-		UpdatedAt:    res.Ownership.UpdatedAt,
+		UUID:         res.Business.UUID,
+		NickName:     res.Business.NickName,
+		RealName:     res.Business.RealName,
+		AvatarURL:    helper.CDN.DressBusinessAvatar(res.Business.NickName),
+		CoverURL:     helper.CDN.DressBusinessCover(res.Business.NickName),
+		BusinessType: string(res.Business.BusinessType),
+		Users:        res.Business.Users,
+		RejectReason: res.Business.RejectReason,
+		IsEnabled:    res.Business.IsEnabled,
+		IsVerified:   res.Business.IsVerified,
+		IsDeleted:    res.Business.IsDeleted,
+		VerifiedAt:   res.Business.VerifiedAt,
+		CreatedAt:    res.Business.CreatedAt,
+		UpdatedAt:    res.Business.UpdatedAt,
 	}
-	if res.Ownership.OwnerType == owner.Types.Individual {
+	if res.Business.BusinessType == business.Types.Individual {
 		rs.Individual = &AdminViewIndividual{
-			FirstName:   res.Ownership.Individual.FirstName,
-			LastName:    res.Ownership.Individual.LastName,
-			Province:    res.Ownership.Individual.Province,
-			District:    res.Ownership.Individual.District,
-			Address:     res.Ownership.Individual.Address,
-			DateOfBirth: res.Ownership.Individual.DateOfBirth,
+			FirstName:   res.Business.Individual.FirstName,
+			LastName:    res.Business.Individual.LastName,
+			Province:    res.Business.Individual.Province,
+			District:    res.Business.Individual.District,
+			Address:     res.Business.Individual.Address,
+			DateOfBirth: res.Business.Individual.DateOfBirth,
 		}
 	} else {
 		rs.Corporation = &AdminViewCorporation{
-			Province:  res.Ownership.Corporation.Province,
-			District:  res.Ownership.Corporation.District,
-			Address:   res.Ownership.Corporation.Address,
-			TaxOffice: res.Ownership.Corporation.TaxOffice,
-			Title:     res.Ownership.Corporation.Title,
-			Type:      string(res.Ownership.Corporation.Type),
+			Province:  res.Business.Corporation.Province,
+			District:  res.Business.Corporation.District,
+			Address:   res.Business.Corporation.Address,
+			TaxOffice: res.Business.Corporation.TaxOffice,
+			Title:     res.Business.Corporation.Title,
+			Type:      string(res.Business.Corporation.Type),
 		}
 	}
 	return rs

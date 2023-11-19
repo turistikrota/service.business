@@ -1,13 +1,13 @@
 package config
 
-type MongoOwner struct {
-	Host       string `env:"MONGO_OWNER_HOST" envDefault:"localhost"`
-	Port       string `env:"MONGO_OWNER_PORT" envDefault:"27017"`
-	Username   string `env:"MONGO_OWNER_USERNAME" envDefault:""`
-	Password   string `env:"MONGO_OWNER_PASSWORD" envDefault:""`
-	Database   string `env:"MONGO_OWNER_DATABASE" envDefault:"empty"`
-	Collection string `env:"MONGO_OWNER_COLLECTION" envDefault:"empties"`
-	Query      string `env:"MONGO_OWNER_QUERY" envDefault:""`
+type MongoBusiness struct {
+	Host       string `env:"MONGO_BUSINESS_HOST" envDefault:"localhost"`
+	Port       string `env:"MONGO_BUSINESS_PORT" envDefault:"27017"`
+	Username   string `env:"MONGO_BUSINESS_USERNAME" envDefault:""`
+	Password   string `env:"MONGO_BUSINESS_PASSWORD" envDefault:""`
+	Database   string `env:"MONGO_BUSINESS_DATABASE" envDefault:"empty"`
+	Collection string `env:"MONGO_BUSINESS_COLLECTION" envDefault:"empties"`
+	Query      string `env:"MONGO_BUSINESS_QUERY" envDefault:""`
 }
 type MongoInvite struct {
 	Collection string `env:"MONGO_INVITE_COLLECTION" envDefault:"invite"`
@@ -45,9 +45,9 @@ type Cors struct {
 }
 
 type Topics struct {
-	Owner   OwnerTopics
-	Account AccountEvents
-	Notify  NotifyTopics
+	Business BusinessTopics
+	Account  AccountEvents
+	Notify   NotifyTopics
 }
 
 type AccountEvents struct {
@@ -79,18 +79,18 @@ type NotifyTopics struct {
 	SendMail string `env:"STREAMING_TOPIC_NOTIFY_EMAIL"`
 }
 
-type OwnerTopics struct {
-	Created               string `env:"STREAMING_TOPIC_OWNER_CREATED"`
-	UserRemoved           string `env:"STREAMING_TOPIC_OWNER_USER_REMOVED"`
-	UserAdded             string `env:"STREAMING_TOPIC_OWNER_USER_ADDED"`
-	UserPermissionRemoved string `env:"STREAMING_TOPIC_OWNER_USER_PERMISSION_REMOVED"`
-	UserPermissionAdded   string `env:"STREAMING_TOPIC_OWNER_USER_PERMISSION_ADDED"`
-	VerifiedByAdmin       string `env:"STREAMING_TOPIC_OWNER_VERIFIED_BY_ADMIN"`
-	DeletedByAdmin        string `env:"STREAMING_TOPIC_OWNER_DELETED_BY_ADMIN"`
-	RecoverByAdmin        string `env:"STREAMING_TOPIC_OWNER_RECOVER_BY_ADMIN"`
-	RejectedByAdmin       string `env:"STREAMING_TOPIC_OWNER_REJECTED_BY_ADMIN"`
-	Disabled              string `env:"STREAMING_TOPIC_OWNER_DISABLED"`
-	Enabled               string `env:"STREAMING_TOPIC_OWNER_ENABLED"`
+type BusinessTopics struct {
+	Created               string `env:"STREAMING_TOPIC_BUSINESS_CREATED"`
+	UserRemoved           string `env:"STREAMING_TOPIC_BUSINESS_USER_REMOVED"`
+	UserAdded             string `env:"STREAMING_TOPIC_BUSINESS_USER_ADDED"`
+	UserPermissionRemoved string `env:"STREAMING_TOPIC_BUSINESS_USER_PERMISSION_REMOVED"`
+	UserPermissionAdded   string `env:"STREAMING_TOPIC_BUSINESS_USER_PERMISSION_ADDED"`
+	VerifiedByAdmin       string `env:"STREAMING_TOPIC_BUSINESS_VERIFIED_BY_ADMIN"`
+	DeletedByAdmin        string `env:"STREAMING_TOPIC_BUSINESS_DELETED_BY_ADMIN"`
+	RecoverByAdmin        string `env:"STREAMING_TOPIC_BUSINESS_RECOVER_BY_ADMIN"`
+	RejectedByAdmin       string `env:"STREAMING_TOPIC_BUSINESS_REJECTED_BY_ADMIN"`
+	Disabled              string `env:"STREAMING_TOPIC_BUSINESS_DISABLED"`
+	Enabled               string `env:"STREAMING_TOPIC_BUSINESS_ENABLED"`
 
 	InviteCreate string `env:"STREAMING_TOPIC_INVITE_CREATE"`
 	InviteDelete string `env:"STREAMING_TOPIC_INVITE_DELETE"`
@@ -119,8 +119,8 @@ type Urls struct {
 type App struct {
 	Protocol string `env:"PROTOCOL" envDefault:"http"`
 	DB       struct {
-		MongoOwner  MongoOwner
-		MongoInvite MongoInvite
+		MongoBusiness MongoBusiness
+		MongoInvite   MongoInvite
 	}
 	Rpc         Rpc
 	Vkn         Vkn

@@ -5,9 +5,9 @@ import (
 
 	"github.com/mixarchitecture/microp/events"
 	"github.com/sirupsen/logrus"
-	"github.com/turistikrota/service.owner/src/app"
-	"github.com/turistikrota/service.owner/src/config"
-	"github.com/turistikrota/service.owner/src/delivery/event_stream/dto"
+	"github.com/turistikrota/service.business/src/app"
+	"github.com/turistikrota/service.business/src/config"
+	"github.com/turistikrota/service.business/src/delivery/event_stream/dto"
 )
 
 type Server struct {

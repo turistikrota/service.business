@@ -2,7 +2,7 @@ package config
 
 import "github.com/turistikrota/service.shared/base_roles"
 
-type ownerRoles struct {
+type businessRoles struct {
 	Member         string
 	AdminView      string
 	AdminList      string
@@ -25,29 +25,29 @@ type ownerRoles struct {
 
 type roles struct {
 	base_roles.Roles
-	Owner ownerRoles
+	Business businessRoles
 }
 
 var Roles = roles{
 	Roles: base_roles.BaseRoles,
-	Owner: ownerRoles{
-		Super:          "owner.super",
-		Member:         "owner.member",
-		AdminView:      "owner.admin_view",
-		AdminList:      "owner.admin_list",
-		AdminReject:    "owner.admin_reject",
-		AdminVerify:    "owner.admin_verify",
-		AdminDelete:    "owner.admin_delete",
-		AdminRecover:   "owner.admin_recover",
-		UserAdd:        "owner.user_add",
-		UserRemove:     "owner.user_remove",
-		UserPermAdd:    "owner.user_perm_add",
-		UserPermRemove: "owner.user_perm_remove",
-		Enable:         "owner.enable",
-		Disable:        "owner.disable",
-		UserList:       "owner.user_list",
-		InviteCreate:   "owner.invite_create",
-		InviteDelete:   "owner.invite_delete",
-		InviteView:     "owner.invite_view",
+	Business: businessRoles{
+		Super:          "business.super",
+		Member:         "business.member",
+		AdminView:      "business.admin_view",
+		AdminList:      "business.admin_list",
+		AdminReject:    "business.admin_reject",
+		AdminVerify:    "business.admin_verify",
+		AdminDelete:    "business.admin_delete",
+		AdminRecover:   "business.admin_recover",
+		UserAdd:        "business.user_add",
+		UserRemove:     "business.user_remove",
+		UserPermAdd:    "business.user_perm_add",
+		UserPermRemove: "business.user_perm_remove",
+		Enable:         "business.enable",
+		Disable:        "business.disable",
+		UserList:       "business.user_list",
+		InviteCreate:   "business.invite_create",
+		InviteDelete:   "business.invite_delete",
+		InviteView:     "business.invite_view",
 	},
 }

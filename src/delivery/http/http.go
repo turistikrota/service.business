@@ -9,7 +9,7 @@ import (
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/server/http"
 	"github.com/mixarchitecture/microp/server/http/parser"
-	"github.com/turistikrota/service.owner/src/config"
+	"github.com/turistikrota/service.business/src/config"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 	"github.com/turistikrota/service.shared/server/http/auth"
@@ -22,7 +22,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/timeout"
 	"github.com/mixarchitecture/microp/validator"
-	"github.com/turistikrota/service.owner/src/app"
+	"github.com/turistikrota/service.business/src/app"
 )
 
 type Server struct {
@@ -60,40 +60,40 @@ func New(config Config) Server {
 func (h Server) Load(router fiber.Router) fiber.Router {
 	router.Use(h.cors(), h.deviceUUID())
 
-	owner := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.CurrentOwner())
-	owner.Get("/", h.OwnerPermissions(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.OwnershipAdminView))
-	owner.Get("/user", h.OwnerPermissions(config.Roles.Owner.UserList), h.wrapWithTimeout(h.OwnershipUserList))
-	owner.Patch("/user/@:userName/add-role", h.OwnerPermissions(config.Roles.Owner.UserPermAdd), h.wrapWithTimeout(h.OwnershipUserPermAdd))
-	owner.Patch("/user/@:userName/rm-role", h.OwnerPermissions(config.Roles.Owner.UserPermRemove), h.wrapWithTimeout(h.OwnershipUserPermRemove))
-	owner.Patch("/user/@:userName", h.OwnerPermissions(config.Roles.Owner.UserRemove), h.wrapWithTimeout(h.OwnershipUserRemove))
-	owner.Patch("/enable", h.OwnerPermissions(config.Roles.Owner.Enable), h.wrapWithTimeout(h.OwnershipEnable))
-	owner.Patch("/disable", h.OwnerPermissions(config.Roles.Owner.Disable), h.wrapWithTimeout(h.OwnershipDisable))
-	owner.Put("/select", h.wrapWithTimeout(h.OwnershipSelect))
+	business := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.CurrentBusiness())
+	business.Get("/", h.BusinessPermissions(config.Roles.Business.AdminView), h.wrapWithTimeout(h.BusinessAdminView))
+	business.Get("/user", h.BusinessPermissions(config.Roles.Business.UserList), h.wrapWithTimeout(h.BusinessUserList))
+	business.Patch("/user/@:userName/add-role", h.BusinessPermissions(config.Roles.Business.UserPermAdd), h.wrapWithTimeout(h.BusinessUserPermAdd))
+	business.Patch("/user/@:userName/rm-role", h.BusinessPermissions(config.Roles.Business.UserPermRemove), h.wrapWithTimeout(h.BusinessUserPermRemove))
+	business.Patch("/user/@:userName", h.BusinessPermissions(config.Roles.Business.UserRemove), h.wrapWithTimeout(h.BusinessUserRemove))
+	business.Patch("/enable", h.BusinessPermissions(config.Roles.Business.Enable), h.wrapWithTimeout(h.BusinessEnable))
+	business.Patch("/disable", h.BusinessPermissions(config.Roles.Business.Disable), h.wrapWithTimeout(h.BusinessDisable))
+	business.Put("/select", h.wrapWithTimeout(h.BusinessSelect))
 
-	// invite owner routes
-	owner.Post("/invite", h.OwnerPermissions(config.Roles.Owner.InviteCreate), h.wrapWithTimeout(h.InviteCreate))
-	owner.Delete("/invite/:uuid", h.OwnerPermissions(config.Roles.Owner.InviteDelete), h.wrapWithTimeout(h.InviteDelete))
-	owner.Get("/invite", h.OwnerPermissions(config.Roles.Owner.InviteView), h.wrapWithTimeout(h.InviteGetByOwnerUUID))
+	// invite business routes
+	business.Post("/invite", h.BusinessPermissions(config.Roles.Business.InviteCreate), h.wrapWithTimeout(h.InviteCreate))
+	business.Delete("/invite/:uuid", h.BusinessPermissions(config.Roles.Business.InviteDelete), h.wrapWithTimeout(h.InviteDelete))
+	business.Get("/invite", h.BusinessPermissions(config.Roles.Business.InviteView), h.wrapWithTimeout(h.InviteGetByBusinessUUID))
 
 	admin := router.Group("/admin", h.currentUserAccess(), h.requiredAccess())
-	admin.Get("/", h.adminRoute(config.Roles.Owner.AdminList), h.wrapWithTimeout(h.AdminListAll))
-	admin.Patch("/:nickName/verify", h.adminRoute(config.Roles.Owner.AdminVerify), h.wrapWithTimeout(h.AdminOwnershipVerify))
-	admin.Patch("/:nickName/reject", h.adminRoute(config.Roles.Owner.AdminReject), h.wrapWithTimeout(h.AdminOwnershipReject))
-	admin.Delete("/:nickName", h.adminRoute(config.Roles.Owner.AdminDelete), h.wrapWithTimeout(h.AdminOwnershipDelete))
-	admin.Patch("/:nickName/recover", h.adminRoute(config.Roles.Owner.AdminRecover), h.wrapWithTimeout(h.AdminOwnershipRecover))
-	admin.Get("/:nickName", h.adminRoute(config.Roles.Owner.AdminView), h.wrapWithTimeout(h.AdminView))
-	admin.Get("/invites/:uuid", h.adminRoute(config.Roles.Owner.InviteView), h.wrapWithTimeout(h.InviteGetByUUID))
+	admin.Get("/", h.adminRoute(config.Roles.Business.AdminList), h.wrapWithTimeout(h.AdminListAll))
+	admin.Patch("/:nickName/verify", h.adminRoute(config.Roles.Business.AdminVerify), h.wrapWithTimeout(h.AdminBusinessVerify))
+	admin.Patch("/:nickName/reject", h.adminRoute(config.Roles.Business.AdminReject), h.wrapWithTimeout(h.AdminBusinessReject))
+	admin.Delete("/:nickName", h.adminRoute(config.Roles.Business.AdminDelete), h.wrapWithTimeout(h.AdminBusinessDelete))
+	admin.Patch("/:nickName/recover", h.adminRoute(config.Roles.Business.AdminRecover), h.wrapWithTimeout(h.AdminBusinessRecover))
+	admin.Get("/:nickName", h.adminRoute(config.Roles.Business.AdminView), h.wrapWithTimeout(h.AdminView))
+	admin.Get("/invites/:uuid", h.adminRoute(config.Roles.Business.InviteView), h.wrapWithTimeout(h.InviteGetByUUID))
 
-	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnershipGetSelected))
-	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.OwnerApplication))
-	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.ListMyOwnerships))
+	router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.BusinessGetSelected))
+	router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.BusinessApplication))
+	router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.ListMyBusinesses))
 
 	// invite public routes
 	router.Post("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteUse))
 	router.Get("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByUUID))
 	router.Get("/invites", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByEmail))
 
-	router.Get("/:nickName", h.wrapWithTimeout(h.ViewOwnership))
+	router.Get("/:nickName", h.wrapWithTimeout(h.ViewBusiness))
 	return router
 }
 

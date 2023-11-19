@@ -6,8 +6,8 @@ import (
 
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
-	"github.com/turistikrota/service.owner/src/domain/invite"
-	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.business/src/domain/business"
+	"github.com/turistikrota/service.business/src/domain/invite"
 )
 
 type InviteUseCommand struct {
@@ -22,30 +22,30 @@ type InviteUseResult struct{}
 type InviteUseHandler decorator.CommandHandler[InviteUseCommand, *InviteUseResult]
 
 type inviteUseHandler struct {
-	ownerRepo    owner.Repository
-	ownerFactory owner.Factory
-	repo         invite.Repository
-	factory      invite.Factory
-	events       invite.Events
+	businessRepo    business.Repository
+	businessFactory business.Factory
+	repo            invite.Repository
+	factory         invite.Factory
+	events          invite.Events
 }
 
 type InviteUseConfig struct {
-	Repo         invite.Repository
-	OwnerRepo    owner.Repository
-	OwnerFactory owner.Factory
-	Factory      invite.Factory
-	Events       invite.Events
-	CqrsBase     decorator.Base
+	Repo            invite.Repository
+	BusinessRepo    business.Repository
+	BusinessFactory business.Factory
+	Factory         invite.Factory
+	Events          invite.Events
+	CqrsBase        decorator.Base
 }
 
 func NewInviteUseHandler(config InviteUseConfig) InviteUseHandler {
 	return decorator.ApplyCommandDecorators[InviteUseCommand, *InviteUseResult](
 		&inviteUseHandler{
-			repo:         config.Repo,
-			factory:      config.Factory,
-			ownerRepo:    config.OwnerRepo,
-			events:       config.Events,
-			ownerFactory: config.OwnerFactory,
+			repo:            config.Repo,
+			factory:         config.Factory,
+			businessRepo:    config.BusinessRepo,
+			events:          config.Events,
+			businessFactory: config.BusinessFactory,
 		},
 		config.CqrsBase,
 	)
@@ -68,7 +68,7 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 	if res.CreatedAt.Add(24 * time.Hour).Before(time.Now()) {
 		return nil, h.factory.Errors.Timeout()
 	}
-	_err := h.ownerRepo.AddUser(ctx, res.OwnerNickName, h.ownerFactory.NewUser(cmd.UserUUID, cmd.UserName))
+	_err := h.businessRepo.AddUser(ctx, res.BusinessNickName, h.businessFactory.NewUser(cmd.UserUUID, cmd.UserName))
 	if _err != nil {
 		return nil, _err
 	}
@@ -77,11 +77,11 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 		return nil, error
 	}
 	h.events.Use(invite.InviteUseEvent{
-		InviteUUID: cmd.InviteUUID,
-		UserUUID:   cmd.UserUUID,
-		UserName:   cmd.UserName,
-		UserEmail:  cmd.UserEmail,
-		OwnerUUID:  res.OwnerUUID,
+		InviteUUID:   cmd.InviteUUID,
+		UserUUID:     cmd.UserUUID,
+		UserName:     cmd.UserName,
+		UserEmail:    cmd.UserEmail,
+		BusinessUUID: res.BusinessUUID,
 	})
 	return &InviteUseResult{}, nil
 }

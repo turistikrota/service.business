@@ -3,13 +3,13 @@ package entity
 import (
 	"time"
 
-	"github.com/turistikrota/service.owner/src/domain/invite"
+	"github.com/turistikrota/service.business/src/domain/invite"
 )
 
 type MongoInvite struct {
 	UUID            string     `bson:"_id,omitempty"`
-	OwnerUUID       string     `bson:"owner_uuid"`
-	OwnerName       string     `bson:"owner_name"`
+	BusinessUUID    string     `bson:"business_uuid"`
+	BusinessName    string     `bson:"business_name"`
 	CreatorUserName string     `bson:"creator_user_name"`
 	Email           string     `bson:"email"`
 	IsUsed          bool       `bson:"is_used"`
@@ -20,8 +20,8 @@ type MongoInvite struct {
 
 func (m *MongoInvite) FromInvite(invite *invite.Entity) *MongoInvite {
 	m.UUID = invite.UUID
-	m.OwnerUUID = invite.OwnerUUID
-	m.OwnerName = invite.OwnerNickName
+	m.BusinessUUID = invite.BusinessUUID
+	m.BusinessName = invite.BusinessNickName
 	m.CreatorUserName = invite.CreatorUserName
 	m.Email = invite.Email
 	m.IsUsed = invite.IsUsed
@@ -33,14 +33,14 @@ func (m *MongoInvite) FromInvite(invite *invite.Entity) *MongoInvite {
 
 func (m *MongoInvite) ToInvite() *invite.Entity {
 	return &invite.Entity{
-		UUID:            m.UUID,
-		OwnerNickName:   m.OwnerName,
-		OwnerUUID:       m.OwnerUUID,
-		Email:           m.Email,
-		IsUsed:          m.IsUsed,
-		CreatorUserName: m.CreatorUserName,
-		IsDeleted:       m.IsDeleted,
-		CreatedAt:       m.CreatedAt,
-		UpdatedAt:       m.UpdatedAt,
+		UUID:             m.UUID,
+		BusinessNickName: m.BusinessName,
+		BusinessUUID:     m.BusinessUUID,
+		Email:            m.Email,
+		IsUsed:           m.IsUsed,
+		CreatorUserName:  m.CreatorUserName,
+		IsDeleted:        m.IsDeleted,
+		CreatedAt:        m.CreatedAt,
+		UpdatedAt:        m.UpdatedAt,
 	}
 }

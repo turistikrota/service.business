@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"github.com/mixarchitecture/i18np"
-	"github.com/turistikrota/service.owner/src/adapters/mongo/invite/entity"
-	"github.com/turistikrota/service.owner/src/domain/invite"
+	"github.com/turistikrota/service.business/src/adapters/mongo/invite/entity"
+	"github.com/turistikrota/service.business/src/domain/invite"
 	"github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -40,9 +40,9 @@ func (r *repo) GetByUUID(ctx context.Context, uuid string) (*invite.Entity, *i18
 	return o.ToInvite(), nil
 }
 
-func (r *repo) GetByOwnerUUID(ctx context.Context, ownerUUID string) ([]*invite.Entity, *i18np.Error) {
+func (r *repo) GetByBusinessUUID(ctx context.Context, businessUUID string) ([]*invite.Entity, *i18np.Error) {
 	filter := bson.M{
-		entity.Fields.OwnerUUID: ownerUUID,
+		entity.Fields.BusinessUUID: businessUUID,
 	}
 	return r.helper.GetListFilterTransform(ctx, filter, func(o *entity.MongoInvite) *invite.Entity {
 		return o.ToInvite()

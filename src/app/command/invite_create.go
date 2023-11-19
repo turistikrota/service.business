@@ -5,16 +5,16 @@ import (
 
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
-	"github.com/turistikrota/service.owner/src/domain/invite"
+	"github.com/turistikrota/service.business/src/domain/invite"
 )
 
 type InviteCreateCommand struct {
-	OwnerNickName   string
-	OwnerUUID       string
-	CreatorUserName string
-	Email           string
-	Locale          string
-	UserUUID        string
+	BusinessNickName string
+	BusinessUUID     string
+	CreatorUserName  string
+	Email            string
+	Locale           string
+	UserUUID         string
 }
 
 type InviteCreateResult struct{}
@@ -46,18 +46,18 @@ func NewInviteCreateHandler(config InviteCreateConfig) InviteCreateHandler {
 }
 
 func (h *inviteCreateHandler) Handle(ctx context.Context, cmd InviteCreateCommand) (*InviteCreateResult, *i18np.Error) {
-	res, err := h.repo.Create(ctx, h.factory.New(cmd.Email, cmd.OwnerUUID, cmd.OwnerNickName, cmd.CreatorUserName))
+	res, err := h.repo.Create(ctx, h.factory.New(cmd.Email, cmd.BusinessUUID, cmd.BusinessNickName, cmd.CreatorUserName))
 	if err != nil {
 		return nil, err
 	}
 	h.events.Invite(invite.InviteEvent{
-		Locale:     cmd.Locale,
-		Email:      cmd.Email,
-		InviteUUID: res.UUID,
-		OwnerName:  cmd.OwnerNickName,
-		OwnerUUID:  cmd.OwnerUUID,
-		UserUUID:   cmd.UserUUID,
-		UserName:   cmd.CreatorUserName,
+		Locale:       cmd.Locale,
+		Email:        cmd.Email,
+		InviteUUID:   res.UUID,
+		BusinessName: cmd.BusinessNickName,
+		BusinessUUID: cmd.BusinessUUID,
+		UserUUID:     cmd.UserUUID,
+		UserName:     cmd.CreatorUserName,
 	})
 	return &InviteCreateResult{}, nil
 }

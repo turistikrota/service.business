@@ -1,8 +1,8 @@
 package invite
 
 import (
-	"github.com/turistikrota/service.owner/src/adapters/mongo/invite/entity"
-	"github.com/turistikrota/service.owner/src/domain/invite"
+	"github.com/turistikrota/service.business/src/adapters/mongo/invite/entity"
+	"github.com/turistikrota/service.business/src/domain/invite"
 	mongo2 "github.com/turistikrota/service.shared/db/mongo"
 	"go.mongodb.org/mongo-driver/mongo"
 )

@@ -1,4 +1,4 @@
-module github.com/turistikrota/service.owner
+module github.com/turistikrota/service.business
 
 go 1.20
 
@@ -11,10 +11,10 @@ require (
 	github.com/mixarchitecture/microp v0.0.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/ssibrahimbas/KPSPublic v1.0.0
-	github.com/turistikrota/service.shared v0.0.27-0.20231111234045-e8388790aa58
+	github.com/turistikrota/service.shared v0.0.27-0.20231119143300-e176ca37956f
 	go.mongodb.org/mongo-driver v1.12.1
-	google.golang.org/grpc v1.56.1
-	google.golang.org/protobuf v1.30.0
+	google.golang.org/grpc v1.57.0
+	google.golang.org/protobuf v1.31.0
 )
 
 require (
@@ -37,10 +37,9 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/mgutz/ansi v0.0.0-20200706080929-d51e80ef957d // indirect
-	github.com/minio/highwayhash v1.0.2 // indirect
 	github.com/montanaflynn/stats v0.7.0 // indirect
-	github.com/nats-io/jwt/v2 v2.4.1 // indirect
-	github.com/nats-io/nats.go v1.27.1 // indirect
+	github.com/nats-io/nats-server/v2 v2.9.21 // indirect
+	github.com/nats-io/nats.go v1.28.0 // indirect
 	github.com/nats-io/nkeys v0.4.4 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.2.1 // indirect
@@ -60,6 +59,5 @@ require (
 	golang.org/x/sys v0.10.0 // indirect
 	golang.org/x/term v0.10.0 // indirect
 	golang.org/x/text v0.12.0 // indirect
-	golang.org/x/time v0.3.0 // indirect
-	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20230525234030-28d5490b6b19 // indirect
 )

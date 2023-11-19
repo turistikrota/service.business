@@ -1,17 +1,17 @@
 package req
 
 type Request interface {
-	OwnerShipDetail() *OwnerShipDetailRequest
-	Ownership() *OwnershipRequest
-	OwnerApplication() *OwnerApplicationRequest
-	OwnerShipDetailUser() *OwnerShipDetailUserRequest
-	OwnerPermissionAdd() *OwnershipUserPermAddRequest
-	OwnerPermissionRemove() *OwnershipUserPermRemoveRequest
-	OwnerSelect() *OwnershipSelectRequest
+	BusinessShipDetail() *BusinessShipDetailRequest
+	Business() *BusinessRequest
+	BusinessApplication() *BusinessApplicationRequest
+	BusinessShipDetailUser() *BusinessShipDetailUserRequest
+	BusinessPermissionAdd() *BusinessUserPermAddRequest
+	BusinessPermissionRemove() *BusinessUserPermRemoveRequest
+	BusinessSelect() *BusinessSelectRequest
 	Pagination() *PaginationRequest
 	InviteCreate() *InviteCreateRequest
 	InviteDetail() *InviteDetailRequest
-	OwnershipReject() *OwnershipRejectRequest
+	BusinessReject() *BusinessRejectRequest
 }
 
 type request struct{}
@@ -20,32 +20,32 @@ func New() Request {
 	return &request{}
 }
 
-func (r *request) OwnerShipDetail() *OwnerShipDetailRequest {
-	return &OwnerShipDetailRequest{}
+func (r *request) BusinessShipDetail() *BusinessShipDetailRequest {
+	return &BusinessShipDetailRequest{}
 }
 
-func (r *request) OwnerApplication() *OwnerApplicationRequest {
-	return &OwnerApplicationRequest{}
+func (r *request) BusinessApplication() *BusinessApplicationRequest {
+	return &BusinessApplicationRequest{}
 }
 
-func (r *request) OwnerShipDetailUser() *OwnerShipDetailUserRequest {
-	return &OwnerShipDetailUserRequest{}
+func (r *request) BusinessShipDetailUser() *BusinessShipDetailUserRequest {
+	return &BusinessShipDetailUserRequest{}
 }
 
-func (r *request) Ownership() *OwnershipRequest {
-	return &OwnershipRequest{}
+func (r *request) Business() *BusinessRequest {
+	return &BusinessRequest{}
 }
 
-func (r *request) OwnerPermissionAdd() *OwnershipUserPermAddRequest {
-	return &OwnershipUserPermAddRequest{}
+func (r *request) BusinessPermissionAdd() *BusinessUserPermAddRequest {
+	return &BusinessUserPermAddRequest{}
 }
 
-func (r *request) OwnerPermissionRemove() *OwnershipUserPermRemoveRequest {
-	return &OwnershipUserPermRemoveRequest{}
+func (r *request) BusinessPermissionRemove() *BusinessUserPermRemoveRequest {
+	return &BusinessUserPermRemoveRequest{}
 }
 
-func (r *request) OwnerSelect() *OwnershipSelectRequest {
-	return &OwnershipSelectRequest{}
+func (r *request) BusinessSelect() *BusinessSelectRequest {
+	return &BusinessSelectRequest{}
 }
 
 func (r *request) InviteCreate() *InviteCreateRequest {
@@ -56,6 +56,6 @@ func (r *request) InviteDetail() *InviteDetailRequest {
 	return &InviteDetailRequest{}
 }
 
-func (r *request) OwnershipReject() *OwnershipRejectRequest {
-	return &OwnershipRejectRequest{}
+func (r *request) BusinessReject() *BusinessRejectRequest {
+	return &BusinessRejectRequest{}
 }

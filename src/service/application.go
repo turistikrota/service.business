@@ -7,13 +7,13 @@ import (
 	"github.com/mixarchitecture/microp/events"
 	"github.com/mixarchitecture/microp/validator"
 	"github.com/ssibrahimbas/KPSPublic"
-	"github.com/turistikrota/service.owner/src/adapters"
-	"github.com/turistikrota/service.owner/src/app"
-	"github.com/turistikrota/service.owner/src/app/command"
-	"github.com/turistikrota/service.owner/src/app/query"
-	"github.com/turistikrota/service.owner/src/config"
-	"github.com/turistikrota/service.owner/src/domain/invite"
-	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.business/src/adapters"
+	"github.com/turistikrota/service.business/src/app"
+	"github.com/turistikrota/service.business/src/app/command"
+	"github.com/turistikrota/service.business/src/app/query"
+	"github.com/turistikrota/service.business/src/config"
+	"github.com/turistikrota/service.business/src/domain/business"
+	"github.com/turistikrota/service.business/src/domain/invite"
 	"github.com/turistikrota/service.shared/db/mongo"
 )
 
@@ -26,9 +26,9 @@ type Config struct {
 }
 
 func NewApplication(config Config) app.Application {
-	ownerFactory := owner.NewFactory()
-	ownerRepo := adapters.Mongo.NewOwner(ownerFactory, config.Mongo.GetCollection(config.App.DB.MongoOwner.Collection))
-	ownerEvents := owner.NewEvents(owner.EventConfig{
+	businessFactory := business.NewFactory()
+	businessRepo := adapters.Mongo.NewBusiness(businessFactory, config.Mongo.GetCollection(config.App.DB.MongoBusiness.Collection))
+	businessEvents := business.NewEvents(business.EventConfig{
 		Topics:    config.App.Topics,
 		Publisher: config.EventEngine,
 	})
@@ -53,66 +53,66 @@ func NewApplication(config Config) app.Application {
 
 	return app.Application{
 		Commands: app.Commands{
-			OwnerApplication: command.NewOwnerApplicationHandler(command.OwnerApplicationHandlerConfig{
-				Repo:            ownerRepo,
-				Factory:         ownerFactory,
+			BusinessApplication: command.NewBusinessApplicationHandler(command.BusinessApplicationHandlerConfig{
+				Repo:            businessRepo,
+				Factory:         businessFactory,
 				IdentityService: identitySrv,
 				VknService:      vknSrv,
-				Events:          ownerEvents,
+				Events:          businessEvents,
 				CqrsBase:        base,
 			}),
-			OwnershipUserRemove: command.NewOwnershipUserRemoveHandler(command.OwnershipUserRemoveHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessUserRemove: command.NewBusinessUserRemoveHandler(command.BusinessUserRemoveHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipUserPermAdd: command.NewOwnershipUserPermAddHandler(command.OwnershipUserPermAddHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessUserPermAdd: command.NewBusinessUserPermAddHandler(command.BusinessUserPermAddHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipUserPermRemove: command.NewOwnershipUserPermRemoveHandler(command.OwnershipUserPermRemoveHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessUserPermRemove: command.NewBusinessUserPermRemoveHandler(command.BusinessUserPermRemoveHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipEnable: command.NewOwnershipEnableHandler(command.OwnershipEnableConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessEnable: command.NewBusinessEnableHandler(command.BusinessEnableConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipDisable: command.NewOwnershipDisableHandler(command.OwnershipDisableConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessDisable: command.NewBusinessDisableHandler(command.BusinessDisableConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipDeleteByAdmin: command.NewAdminOwnershipDeleteHandler(command.AdminOwnershipDeleteConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessDeleteByAdmin: command.NewAdminBusinessDeleteHandler(command.AdminBusinessDeleteConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipRecoverByAdmin: command.NewAdminOwnershipRecoverHandler(command.AdminOwnershipRecoverConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessRecoverByAdmin: command.NewAdminBusinessRecoverHandler(command.AdminBusinessRecoverConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipVerifyByAdmin: command.NewAdminOwnershipVerifyHandler(command.AdminOwnershipVerifyConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessVerifyByAdmin: command.NewAdminBusinessVerifyHandler(command.AdminBusinessVerifyConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
-			OwnershipRejectByAdmin: command.NewAdminOwnershipRejectHandler(command.AdminOwnershipRejectConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
-				Events:   ownerEvents,
+			BusinessRejectByAdmin: command.NewAdminBusinessRejectHandler(command.AdminBusinessRejectConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
 				CqrsBase: base,
 			}),
 			InviteCreate: command.NewInviteCreateHandler(command.InviteCreateConfig{
@@ -122,12 +122,12 @@ func NewApplication(config Config) app.Application {
 				CqrsBase: base,
 			}),
 			InviteUse: command.NewInviteUseHandler(command.InviteUseConfig{
-				Repo:         inviteRepo,
-				Factory:      inviteFactory,
-				CqrsBase:     base,
-				OwnerRepo:    ownerRepo,
-				Events:       inviteEvents,
-				OwnerFactory: ownerFactory,
+				Repo:            inviteRepo,
+				Factory:         inviteFactory,
+				CqrsBase:        base,
+				BusinessRepo:    businessRepo,
+				Events:          inviteEvents,
+				BusinessFactory: businessFactory,
 			}),
 			InviteDelete: command.NewInviteDeleteHandler(command.InviteDeleteConfig{
 				Repo:     inviteRepo,
@@ -137,36 +137,36 @@ func NewApplication(config Config) app.Application {
 			}),
 		},
 		Queries: app.Queries{
-			AdminViewOwnership: query.NewAdminViewOwnershipHandler(query.AdminViewOwnershipHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
+			AdminViewBusiness: query.NewAdminViewBusinessHandler(query.AdminViewBusinessHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
 				CqrsBase: base,
 			}),
-			AdminListAll: query.NewAdminListOwnershipHandler(query.AdminListOwnershipHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
+			AdminListAll: query.NewAdminListBusinessHandler(query.AdminListBusinessHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
 				CqrsBase: base,
 			}),
-			ListMyOwnerships: query.NewListMyOwnershipsHandler(query.ListMyOwnershipsHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
+			ListMyBusinesses: query.NewListMyBusinessesHandler(query.ListMyBusinessesHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
 				CqrsBase: base,
 			}),
-			ViewOwnership: query.NewViewOwnershipHandler(query.ViewOwnershipHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
+			ViewBusiness: query.NewViewBusinessHandler(query.ViewBusinessHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
 				CqrsBase: base,
 			}),
-			GetWithUserOwnership: query.NewGetWithUserOwnershipHandler(query.GetWithUserOwnershipHandlerConfig{
-				Repo:     ownerRepo,
-				Factory:  ownerFactory,
+			GetWithUserBusiness: query.NewGetWithUserBusinessHandler(query.GetWithUserBusinessHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
 				CqrsBase: base,
 			}),
-			ListMyOwnershipUsers: query.NewListMyOwnershipUsersQueryHandler(query.ListMyOwnershipUsersQueryHandlerConfig{
-				OwnerRepo:    ownerRepo,
-				OwnerFactory: ownerFactory,
-				CqrsBase:     base,
-				Rpc:          config.App.Rpc,
+			ListMyBusinessUsers: query.NewListMyBusinessUsersQueryHandler(query.ListMyBusinessUsersQueryHandlerConfig{
+				BusinessRepo:    businessRepo,
+				BusinessFactory: businessFactory,
+				CqrsBase:        base,
+				Rpc:             config.App.Rpc,
 			}),
 			InviteGetByEmail: query.NewInviteGetByEmailHandler(query.InviteGetByEmailHandlerConfig{
 				Repo:     inviteRepo,
@@ -178,7 +178,7 @@ func NewApplication(config Config) app.Application {
 				Factory:  inviteFactory,
 				CqrsBase: base,
 			}),
-			InviteGetByOwnerUUID: query.NewInviteGetByOwnerUUIDHandler(query.InviteGetByOwnerUUIDHandlerConfig{
+			InviteGetByBusinessUUID: query.NewInviteGetByBusinessUUIDHandler(query.InviteGetByBusinessUUIDHandlerConfig{
 				Repo:     inviteRepo,
 				Factory:  inviteFactory,
 				CqrsBase: base,

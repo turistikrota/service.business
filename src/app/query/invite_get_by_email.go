@@ -5,7 +5,7 @@ import (
 
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
-	"github.com/turistikrota/service.owner/src/domain/invite"
+	"github.com/turistikrota/service.business/src/domain/invite"
 )
 
 type InviteGetByEmailQuery struct {
