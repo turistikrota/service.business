@@ -18,6 +18,7 @@ type ListMyBusinessesItem struct {
 	CoverURL     string    `json:"coverURL"`
 	AvatarURL    string    `json:"avatarURL"`
 	BusinessType string    `json:"businessType"`
+	RejectReason string    `json:"rejectReason,omitempty"`
 	IsVerified   bool      `json:"isVerified"`
 	IsEnabled    bool      `json:"isEnabled"`
 	IsDeleted    bool      `json:"isDeleted"`
@@ -33,6 +34,7 @@ func (r *response) ListMyBusinesses(res *query.ListMyBusinessesResult) *ListMyBu
 			AvatarURL:    helper.CDN.DressBusinessAvatar(business.NickName),
 			CoverURL:     helper.CDN.DressBusinessCover(business.NickName),
 			BusinessType: string(business.BusinessType),
+			RejectReason: *business.RejectReason,
 			IsVerified:   business.IsVerified,
 			IsEnabled:    business.IsEnabled,
 			IsDeleted:    business.IsDeleted,
