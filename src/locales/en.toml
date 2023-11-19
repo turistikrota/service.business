@@ -76,7 +76,7 @@ error_invite_used = "Invite already used."
 error_invite_deleted = "Invite deleted."
 error_invite_timeout = "Invite timeout."
 
-invite_subject = "Organization Invitation"
+invite_subject = "Business Invitation"
 error_invite_email_mismatch = "Email mismatch."
 
 update_query_not_found = "Data not found."
