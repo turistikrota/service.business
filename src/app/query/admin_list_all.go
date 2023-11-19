@@ -6,34 +6,34 @@ import (
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
 	"github.com/mixarchitecture/microp/types/list"
-	"github.com/turistikrota/service.owner/src/domain/owner"
+	"github.com/turistikrota/service.business/src/domain/business"
 )
 
-type AdminListOwnershipQuery struct {
+type AdminListBusinessQuery struct {
 	Offset int64
 	Limit  int64
 }
 
-type AdminListOwnershipResult struct {
-	List *list.Result[*owner.AdminListDto]
+type AdminListBusinessResult struct {
+	List *list.Result[*business.AdminListDto]
 }
 
-type AdminListOwnershipHandler decorator.QueryHandler[AdminListOwnershipQuery, *AdminListOwnershipResult]
+type AdminListBusinessHandler decorator.QueryHandler[AdminListBusinessQuery, *AdminListBusinessResult]
 
-type adminListOwnershipHandler struct {
-	repo    owner.Repository
-	factory owner.Factory
+type adminListBusinessHandler struct {
+	repo    business.Repository
+	factory business.Factory
 }
 
-type AdminListOwnershipHandlerConfig struct {
-	Repo     owner.Repository
-	Factory  owner.Factory
+type AdminListBusinessHandlerConfig struct {
+	Repo     business.Repository
+	Factory  business.Factory
 	CqrsBase decorator.Base
 }
 
-func NewAdminListOwnershipHandler(config AdminListOwnershipHandlerConfig) AdminListOwnershipHandler {
-	return decorator.ApplyQueryDecorators[AdminListOwnershipQuery, *AdminListOwnershipResult](
-		&adminListOwnershipHandler{
+func NewAdminListBusinessHandler(config AdminListBusinessHandlerConfig) AdminListBusinessHandler {
+	return decorator.ApplyQueryDecorators[AdminListBusinessQuery, *AdminListBusinessResult](
+		&adminListBusinessHandler{
 			repo:    config.Repo,
 			factory: config.Factory,
 		},
@@ -41,7 +41,7 @@ func NewAdminListOwnershipHandler(config AdminListOwnershipHandlerConfig) AdminL
 	)
 }
 
-func (h *adminListOwnershipHandler) Handle(ctx context.Context, query AdminListOwnershipQuery) (*AdminListOwnershipResult, *i18np.Error) {
+func (h *adminListBusinessHandler) Handle(ctx context.Context, query AdminListBusinessQuery) (*AdminListBusinessResult, *i18np.Error) {
 	res, err := h.repo.AdminListAll(ctx, list.Config{
 		Offset: query.Offset,
 		Limit:  query.Limit,
@@ -49,7 +49,7 @@ func (h *adminListOwnershipHandler) Handle(ctx context.Context, query AdminListO
 	if err != nil {
 		return nil, err
 	}
-	return &AdminListOwnershipResult{
+	return &AdminListBusinessResult{
 		List: res,
 	}, nil
 }

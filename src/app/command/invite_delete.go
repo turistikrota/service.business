@@ -5,7 +5,7 @@ import (
 
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/decorator"
-	"github.com/turistikrota/service.owner/src/domain/invite"
+	"github.com/turistikrota/service.business/src/domain/invite"
 )
 
 type InviteDeleteCommand struct {
@@ -52,10 +52,10 @@ func (h *inviteDeleteHandler) Handle(ctx context.Context, cmd InviteDeleteComman
 		return nil, _err
 	}
 	h.events.Delete(invite.InviteDeleteEvent{
-		InviteUUID: cmd.InviteUUID,
-		UserUUID:   cmd.UserUUID,
-		UserName:   cmd.UserName,
-		OwnerUUID:  res.OwnerUUID,
+		InviteUUID:   cmd.InviteUUID,
+		UserUUID:     cmd.UserUUID,
+		UserName:     cmd.UserName,
+		BusinessUUID: res.BusinessUUID,
 	})
 	return &InviteDeleteResult{}, nil
 }

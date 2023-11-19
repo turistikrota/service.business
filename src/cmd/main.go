@@ -8,9 +8,9 @@ import (
 	"github.com/mixarchitecture/microp/events/nats"
 	"github.com/mixarchitecture/microp/logs"
 	"github.com/mixarchitecture/microp/validator"
-	"github.com/turistikrota/service.owner/src/config"
-	"github.com/turistikrota/service.owner/src/delivery"
-	"github.com/turistikrota/service.owner/src/service"
+	"github.com/turistikrota/service.business/src/config"
+	"github.com/turistikrota/service.business/src/delivery"
+	"github.com/turistikrota/service.business/src/service"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 	"github.com/turistikrota/service.shared/db/mongo"
@@ -31,7 +31,7 @@ func main() {
 	valid := validator.New(i18n)
 	valid.ConnectCustom()
 	valid.RegisterTagName()
-	mongo := loadOwnerMongo(config)
+	mongo := loadBusinessMongo(config)
 	app := service.NewApplication(service.Config{
 		App:         config,
 		EventEngine: eventEngine,
@@ -70,16 +70,16 @@ func main() {
 	delivery.Load()
 }
 
-func loadOwnerMongo(cnf config.App) *mongo.DB {
+func loadBusinessMongo(cnf config.App) *mongo.DB {
 	uri := mongo.CalcMongoUri(mongo.UriParams{
-		Host:  cnf.DB.MongoOwner.Host,
-		Port:  cnf.DB.MongoOwner.Port,
-		User:  cnf.DB.MongoOwner.Username,
-		Pass:  cnf.DB.MongoOwner.Password,
-		Db:    cnf.DB.MongoOwner.Database,
-		Query: cnf.DB.MongoOwner.Query,
+		Host:  cnf.DB.MongoBusiness.Host,
+		Port:  cnf.DB.MongoBusiness.Port,
+		User:  cnf.DB.MongoBusiness.Username,
+		Pass:  cnf.DB.MongoBusiness.Password,
+		Db:    cnf.DB.MongoBusiness.Database,
+		Query: cnf.DB.MongoBusiness.Query,
 	})
-	d, err := mongo.New(uri, cnf.DB.MongoOwner.Database)
+	d, err := mongo.New(uri, cnf.DB.MongoBusiness.Database)
 	if err != nil {
 		panic(err)
 	}

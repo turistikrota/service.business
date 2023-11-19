@@ -1,8 +1,8 @@
 package req
 
 import (
-	"github.com/turistikrota/service.owner/src/app/command"
-	"github.com/turistikrota/service.owner/src/app/query"
+	"github.com/turistikrota/service.business/src/app/command"
+	"github.com/turistikrota/service.business/src/app/query"
 )
 
 type InviteDetailRequest struct {

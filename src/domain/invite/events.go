@@ -5,7 +5,7 @@ import (
 
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/events"
-	"github.com/turistikrota/service.owner/src/config"
+	"github.com/turistikrota/service.business/src/config"
 	"github.com/turistikrota/service.shared/helper"
 )
 
@@ -17,26 +17,26 @@ type Events interface {
 
 type (
 	InviteEvent struct {
-		Locale     string `json:"locale"`
-		Email      string `json:"email"`
-		InviteUUID string `json:"inviteUUID"`
-		OwnerUUID  string `json:"ownerUUID"`
-		OwnerName  string `json:"ownerName"`
-		UserUUID   string `json:"userUUID"`
-		UserName   string `json:"userName"`
+		Locale       string `json:"locale"`
+		Email        string `json:"email"`
+		InviteUUID   string `json:"inviteUUID"`
+		BusinessUUID string `json:"businessUUID"`
+		BusinessName string `json:"businessName"`
+		UserUUID     string `json:"userUUID"`
+		UserName     string `json:"userName"`
 	}
 	InviteDeleteEvent struct {
-		InviteUUID string `json:"inviteUUID"`
-		OwnerUUID  string `json:"ownerUUID"`
-		UserUUID   string `json:"userUUID"`
-		UserName   string `json:"userName"`
+		InviteUUID   string `json:"inviteUUID"`
+		BusinessUUID string `json:"businessUUID"`
+		UserUUID     string `json:"userUUID"`
+		UserName     string `json:"userName"`
 	}
 	InviteUseEvent struct {
-		InviteUUID string `json:"inviteUUID"`
-		OwnerUUID  string `json:"ownerUUID"`
-		UserEmail  string `json:"userEmail"`
-		UserUUID   string `json:"userUUID"`
-		UserName   string `json:"userName"`
+		InviteUUID   string `json:"inviteUUID"`
+		BusinessUUID string `json:"businessUUID"`
+		UserEmail    string `json:"userEmail"`
+		UserUUID     string `json:"userUUID"`
+		UserName     string `json:"userName"`
 	}
 )
 
@@ -65,18 +65,18 @@ func NewEvents(cnf EventConfig) Events {
 
 func (e inviteEvents) Invite(event InviteEvent) {
 	subject := e.i18n.Translate(I18nMessages.InviteSubject, event.Locale)
-	template := fmt.Sprintf("owner/invite.%s", event.Locale)
+	template := fmt.Sprintf("business/invite.%s", event.Locale)
 	_ = e.publisher.Publish(e.topics.Notify.SendMail, helper.Notify.BuildEmail(event.Email, subject, i18np.P{
-		"OwnerName":  event.OwnerName,
-		"InviteUUID": event.InviteUUID,
+		"BusinessName": event.BusinessName,
+		"InviteUUID":   event.InviteUUID,
 	}, event.Email, template))
-	_ = e.publisher.Publish(e.topics.Owner.InviteCreate, event)
+	_ = e.publisher.Publish(e.topics.Business.InviteCreate, event)
 }
 
 func (e inviteEvents) Delete(event InviteDeleteEvent) {
-	_ = e.publisher.Publish(e.topics.Owner.InviteDelete, event)
+	_ = e.publisher.Publish(e.topics.Business.InviteDelete, event)
 }
 
 func (e inviteEvents) Use(event InviteUseEvent) {
-	_ = e.publisher.Publish(e.topics.Owner.InviteUse, event)
+	_ = e.publisher.Publish(e.topics.Business.InviteUse, event)
 }

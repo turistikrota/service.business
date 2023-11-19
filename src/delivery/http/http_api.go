@@ -4,103 +4,103 @@ import (
 	"github.com/gofiber/fiber/v2"
 	httpI18n "github.com/mixarchitecture/microp/server/http/i18n"
 	"github.com/mixarchitecture/microp/server/http/result"
-	"github.com/turistikrota/service.owner/src/app/query"
-	"github.com/turistikrota/service.owner/src/delivery/http/dto"
+	"github.com/turistikrota/service.business/src/app/query"
+	"github.com/turistikrota/service.business/src/delivery/http/dto"
 	"github.com/turistikrota/service.shared/server/http/auth/current_account"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 )
 
-func (h Server) OwnerApplication(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerApplication()
+func (h Server) BusinessApplication(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessApplication()
 	h.parseBody(ctx, d)
 	account := current_account.Parse(ctx)
-	res, err := h.app.Commands.OwnerApplication.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, account.Name))
-	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.OwnerApplication, func() interface{} {
-		return dto.Response.OwnerApplication(res)
+	res, err := h.app.Commands.BusinessApplication.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, account.Name))
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.BusinessApplication, func() interface{} {
+		return dto.Response.BusinessApplication(res)
 	})
 }
 
-func (h Server) OwnershipUserRemove(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetailUser()
+func (h Server) BusinessUserRemove(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetailUser()
 	h.parseParams(ctx, d)
-	_, err := h.app.Commands.OwnershipUserRemove.Handle(ctx.UserContext(), d.ToRemoveUserCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
-	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserRemove)
+	_, err := h.app.Commands.BusinessUserRemove.Handle(ctx.UserContext(), d.ToRemoveUserCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.BusinessUserRemove)
 }
 
-func (h Server) AdminOwnershipVerify(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+func (h Server) AdminBusinessVerify(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
-	_, err := h.app.Commands.OwnershipVerifyByAdmin.Handle(ctx.UserContext(), d.ToVerifyCommand(current_user.Parse(ctx).UUID))
+	_, err := h.app.Commands.BusinessVerifyByAdmin.Handle(ctx.UserContext(), d.ToVerifyCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.Ok)
 }
 
-func (h Server) AdminOwnershipDelete(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+func (h Server) AdminBusinessDelete(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
-	_, err := h.app.Commands.OwnershipDeleteByAdmin.Handle(ctx.UserContext(), d.ToDeleteCommand(current_user.Parse(ctx).UUID))
+	_, err := h.app.Commands.BusinessDeleteByAdmin.Handle(ctx.UserContext(), d.ToDeleteCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.Ok)
 }
 
-func (h Server) AdminOwnershipRecover(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+func (h Server) AdminBusinessRecover(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
-	_, err := h.app.Commands.OwnershipRecoverByAdmin.Handle(ctx.UserContext(), d.ToRecoverCommand(current_user.Parse(ctx).UUID))
+	_, err := h.app.Commands.BusinessRecoverByAdmin.Handle(ctx.UserContext(), d.ToRecoverCommand(current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.Ok)
 }
 
-func (h Server) AdminOwnershipReject(ctx *fiber.Ctx) error {
-	detail := dto.Request.OwnerShipDetail()
+func (h Server) AdminBusinessReject(ctx *fiber.Ctx) error {
+	detail := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, detail)
-	d := dto.Request.OwnershipReject()
+	d := dto.Request.BusinessReject()
 	h.parseBody(ctx, d)
-	_, err := h.app.Commands.OwnershipRejectByAdmin.Handle(ctx.UserContext(), d.ToCommand(detail.NickName, current_user.Parse(ctx).UUID))
+	_, err := h.app.Commands.BusinessRejectByAdmin.Handle(ctx.UserContext(), d.ToCommand(detail.NickName, current_user.Parse(ctx).UUID))
 	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.Ok)
 }
 
-func (h Server) OwnershipUserPermAdd(ctx *fiber.Ctx) error {
-	detail := dto.Request.OwnerShipDetailUser()
-	d := dto.Request.OwnerPermissionAdd()
-	h.parseParams(ctx, detail)
-	h.parseBody(ctx, d)
-	d.LoadDetail(detail)
-	_, err := h.app.Commands.OwnershipUserPermAdd.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
-	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserPermAdd)
-}
-
-func (h Server) OwnershipUserPermRemove(ctx *fiber.Ctx) error {
-	detail := dto.Request.OwnerShipDetailUser()
-	d := dto.Request.OwnerPermissionRemove()
+func (h Server) BusinessUserPermAdd(ctx *fiber.Ctx) error {
+	detail := dto.Request.BusinessShipDetailUser()
+	d := dto.Request.BusinessPermissionAdd()
 	h.parseParams(ctx, detail)
 	h.parseBody(ctx, d)
 	d.LoadDetail(detail)
-	_, err := h.app.Commands.OwnershipUserPermRemove.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
-	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipUserPermRemove)
+	_, err := h.app.Commands.BusinessUserPermAdd.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.BusinessUserPermAdd)
 }
 
-func (h Server) OwnershipAdminView(ctx *fiber.Ctx) error {
-	ownership := h.parseOwner(ctx)
+func (h Server) BusinessUserPermRemove(ctx *fiber.Ctx) error {
+	detail := dto.Request.BusinessShipDetailUser()
+	d := dto.Request.BusinessPermissionRemove()
+	h.parseParams(ctx, detail)
+	h.parseBody(ctx, d)
+	d.LoadDetail(detail)
+	_, err := h.app.Commands.BusinessUserPermRemove.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, current_account.Parse(ctx).Name))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.BusinessUserPermRemove)
+}
+
+func (h Server) BusinessAdminView(ctx *fiber.Ctx) error {
+	business := h.parseBusiness(ctx)
 	l, a := httpI18n.GetLanguagesInContext(*h.i18n, ctx)
-	return result.SuccessDetail(h.i18n.Translate(Messages.Success.OwnershipAdminView, l, a), dto.Response.OwnershipAdminView(&ownership.Entity))
+	return result.SuccessDetail(h.i18n.Translate(Messages.Success.BusinessAdminView, l, a), dto.Response.BusinessAdminView(&business.Entity))
 }
 
-func (h Server) OwnershipUserList(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+func (h Server) BusinessUserList(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
 	account := current_account.Parse(ctx)
-	res, err := h.app.Queries.ListMyOwnershipUsers.Handle(ctx.UserContext(), d.ToUserListQuery(account.Name))
-	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.OwnershipUserList, func() interface{} {
-		return dto.Response.ListMyOwnershipUsers(res)
+	res, err := h.app.Queries.ListMyBusinessUsers.Handle(ctx.UserContext(), d.ToUserListQuery(account.Name))
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.BusinessUserList, func() interface{} {
+		return dto.Response.ListMyBusinessUsers(res)
 	})
 }
 
-func (h Server) ListMyOwnerships(ctx *fiber.Ctx) error {
+func (h Server) ListMyBusinesses(ctx *fiber.Ctx) error {
 	account := current_account.Parse(ctx)
-	res, err := h.app.Queries.ListMyOwnerships.Handle(ctx.UserContext(), query.ListMyOwnershipsQuery{
+	res, err := h.app.Queries.ListMyBusinesses.Handle(ctx.UserContext(), query.ListMyBusinessesQuery{
 		UserName: account.Name,
 		UserUUID: current_user.Parse(ctx).UUID,
 	})
-	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.ListMyOwnerships, func() interface{} {
-		return dto.Response.ListMyOwnerships(res)
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.ListMyBusinesses, func() interface{} {
+		return dto.Response.ListMyBusinesses(res)
 	})
 }
 
@@ -108,7 +108,7 @@ func (h Server) AdminListAll(ctx *fiber.Ctx) error {
 	d := dto.Request.Pagination()
 	h.parseQuery(ctx, d)
 	d.Default()
-	res, err := h.app.Queries.AdminListAll.Handle(ctx.UserContext(), query.AdminListOwnershipQuery{
+	res, err := h.app.Queries.AdminListAll.Handle(ctx.UserContext(), query.AdminListBusinessQuery{
 		Offset: (*d.Page - 1) * *d.Limit,
 		Limit:  *d.Limit,
 	})
@@ -118,64 +118,64 @@ func (h Server) AdminListAll(ctx *fiber.Ctx) error {
 }
 
 func (h Server) AdminView(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
-	res, err := h.app.Queries.AdminViewOwnership.Handle(ctx.UserContext(), d.ToAdminViewQuery())
+	res, err := h.app.Queries.AdminViewBusiness.Handle(ctx.UserContext(), d.ToAdminViewQuery())
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return dto.Response.AdminView(res)
 	})
 }
 
-func (h Server) ViewOwnership(ctx *fiber.Ctx) error {
-	d := dto.Request.Ownership()
+func (h Server) ViewBusiness(ctx *fiber.Ctx) error {
+	d := dto.Request.Business()
 	h.parseParams(ctx, d)
-	res, err := h.app.Queries.ViewOwnership.Handle(ctx.UserContext(), d.ToViewQuery())
-	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.ViewOwnership, func() interface{} {
-		return dto.Response.ViewOwnership(res)
+	res, err := h.app.Queries.ViewBusiness.Handle(ctx.UserContext(), d.ToViewQuery())
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.ViewBusiness, func() interface{} {
+		return dto.Response.ViewBusiness(res)
 	})
 }
 
-func (h Server) OwnershipEnable(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+func (h Server) BusinessEnable(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
 	account := current_account.Parse(ctx)
-	_, err := h.app.Commands.OwnershipEnable.Handle(ctx.UserContext(), d.ToEnableCommand(current_user.Parse(ctx).UUID, account.Name))
-	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipEnable)
+	_, err := h.app.Commands.BusinessEnable.Handle(ctx.UserContext(), d.ToEnableCommand(current_user.Parse(ctx).UUID, account.Name))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.BusinessEnable)
 }
 
-func (h Server) OwnershipDisable(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerShipDetail()
+func (h Server) BusinessDisable(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessShipDetail()
 	h.parseParams(ctx, d)
 	account := current_account.Parse(ctx)
-	_, err := h.app.Commands.OwnershipDisable.Handle(ctx.UserContext(), d.ToDisableCommand(current_user.Parse(ctx).UUID, account.Name))
-	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.OwnershipDisable)
+	_, err := h.app.Commands.BusinessDisable.Handle(ctx.UserContext(), d.ToDisableCommand(current_user.Parse(ctx).UUID, account.Name))
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.BusinessDisable)
 }
 
-func (h Server) OwnershipSelect(ctx *fiber.Ctx) error {
-	d := dto.Request.OwnerSelect()
+func (h Server) BusinessSelect(ctx *fiber.Ctx) error {
+	d := dto.Request.BusinessSelect()
 	h.parseParams(ctx, d)
 	account := current_account.Parse(ctx)
-	res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID, account.Name))
+	res, err := h.app.Queries.GetWithUserBusiness.Handle(ctx.UserContext(), d.ToGetQuery(current_user.Parse(ctx).UUID, account.Name))
 	if err != nil {
 		return err
 	}
-	ctx.Cookie(h.CreateServerSideCookie(".s.o.n", res.Ownership.Entity.NickName))
-	return result.Success(Messages.Success.OwnershipSelect)
+	ctx.Cookie(h.CreateServerSideCookie(".s.o.n", res.Business.Entity.NickName))
+	return result.Success(Messages.Success.BusinessSelect)
 }
 
-func (h Server) OwnershipGetSelected(ctx *fiber.Ctx) error {
+func (h Server) BusinessGetSelected(ctx *fiber.Ctx) error {
 	nickName := ctx.Cookies(".s.o.n")
 	if nickName == "" {
-		return result.ErrorDetail(Messages.Error.OwnerNotSelected, dto.Response.OwnershipSelectNotFound())
+		return result.ErrorDetail(Messages.Error.BusinessNotSelected, dto.Response.BusinessSelectNotFound())
 	}
 	account := current_account.Parse(ctx)
-	res, err := h.app.Queries.GetWithUserOwnership.Handle(ctx.UserContext(), query.GetWithUserOwnershipQuery{
+	res, err := h.app.Queries.GetWithUserBusiness.Handle(ctx.UserContext(), query.GetWithUserBusinessQuery{
 		NickName: nickName,
 		UserName: account.Name,
 		UserUUID: current_user.Parse(ctx).UUID,
 	})
-	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.OwnershipGetSelected, func() interface{} {
-		return dto.Response.SelectOwnership(res)
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.BusinessGetSelected, func() interface{} {
+		return dto.Response.SelectBusiness(res)
 	})
 }
 
@@ -183,8 +183,8 @@ func (h Server) InviteCreate(ctx *fiber.Ctx) error {
 	d := dto.Request.InviteCreate()
 	h.parseBody(ctx, d)
 	account := current_account.Parse(ctx)
-	ownership := h.parseOwner(ctx)
-	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(ownership.Entity.NickName, ownership.Entity.UUID, current_user.Parse(ctx).UUID, account.Name))
+	business := h.parseBusiness(ctx)
+	res, err := h.app.Commands.InviteCreate.Handle(ctx.UserContext(), d.ToCommand(business.Entity.NickName, business.Entity.UUID, current_user.Parse(ctx).UUID, account.Name))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res
 	})
@@ -229,10 +229,10 @@ func (h Server) InviteGetByEmail(ctx *fiber.Ctx) error {
 	})
 }
 
-func (h Server) InviteGetByOwnerUUID(ctx *fiber.Ctx) error {
-	ownership := h.parseOwner(ctx)
-	res, err := h.app.Queries.InviteGetByOwnerUUID.Handle(ctx.UserContext(), query.InviteGetByOwnerUUIDQuery{
-		OwnerUUID: ownership.Entity.UUID,
+func (h Server) InviteGetByBusinessUUID(ctx *fiber.Ctx) error {
+	business := h.parseBusiness(ctx)
+	res, err := h.app.Queries.InviteGetByBusinessUUID.Handle(ctx.UserContext(), query.InviteGetByBusinessUUIDQuery{
+		BusinessUUID: business.Entity.UUID,
 	})
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res.Invites
