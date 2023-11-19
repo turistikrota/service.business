@@ -22,9 +22,9 @@ jobs:
           GIT_USER: ${{ secrets.GIT_USER }}
         run: |
           IMAGE_TAG=${GITHUB_REF#refs/tags/}
-          docker build . --file Dockerfile --tag turistikrota/service.owner:$IMAGE_TAG --build-arg GITHUB_TOKEN=$GIT_TOKEN --build-arg GITHUB_USER=$GIT_USER
+          docker build . --file Dockerfile --tag turistikrota/service.business:$IMAGE_TAG --build-arg GITHUB_TOKEN=$GIT_TOKEN --build-arg GITHUB_USER=$GIT_USER
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login docker.io --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
-          docker push turistikrota/service.owner:$IMAGE_TAG
+          docker push turistikrota/service.business:$IMAGE_TAG
 
   deploy:
     needs: build-and-push
@@ -48,6 +48,6 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,IMAGE_TAG
           script: |
-            docker service ls | grep -q service-owner && docker service rm service-owner || true
+            docker service ls | grep -q service-business && docker service rm service-business || true
             cd $DIR
-            docker service create --name service-owner --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT turistikrota/service.owner:$IMAGE_TAG 
+            docker service create --name service-business --network $NETWORK_NAME --secret $SECRET_NAME_1 --secret $SECRET_NAME_2 --env-file .env --host $HOST_ALIAS:$HOST_IP --host $REDIS_HOST_ALIAS:$HOST_IP --publish $APP_PORT:$APP_PORT turistikrota/service.business:$IMAGE_TAG 
