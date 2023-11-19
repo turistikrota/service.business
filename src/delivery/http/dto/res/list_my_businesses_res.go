@@ -28,18 +28,21 @@ type ListMyBusinessesItem struct {
 func (r *response) ListMyBusinesses(res *query.ListMyBusinessesResult) *ListMyBusinessesResponse {
 	list := make([]ListMyBusinessesItem, 0)
 	for _, business := range res.Businesses {
-		list = append(list, ListMyBusinessesItem{
+		item := ListMyBusinessesItem{
 			NickName:     business.NickName,
 			RealName:     business.RealName,
 			AvatarURL:    helper.CDN.DressBusinessAvatar(business.NickName),
 			CoverURL:     helper.CDN.DressBusinessCover(business.NickName),
 			BusinessType: string(business.BusinessType),
-			RejectReason: *business.RejectReason,
 			IsVerified:   business.IsVerified,
 			IsEnabled:    business.IsEnabled,
 			IsDeleted:    business.IsDeleted,
 			UpdatedAt:    *business.UpdatedAt,
-		})
+		}
+		if business.RejectReason != nil {
+			item.RejectReason = *business.RejectReason
+		}
+		list = append(list, item)
 	}
 	return &ListMyBusinessesResponse{
 		List:  list,
