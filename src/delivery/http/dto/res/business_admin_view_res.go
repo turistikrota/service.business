@@ -12,6 +12,8 @@ type BusinessAdminViewResponse struct {
 	BusinessType string      `json:"businessType"`
 	Details      interface{} `json:"details"`
 	IsVerified   bool        `json:"isVerified"`
+	IsEnabled    bool        `json:"isEnabled"`
+	IsDeleted    bool        `json:"isDeleted"`
 	UpdatedAt    time.Time   `json:"updatedAt"`
 	VerifiedAt   time.Time   `json:"verifiedAt"`
 	CreatedAt    time.Time   `json:"createdAt"`
@@ -46,13 +48,6 @@ func (r *response) BusinessAdminView(b *business.Entity) *BusinessAdminViewRespo
 		e.VerifiedAt = *b.VerifiedAt
 	}
 	if b.BusinessType == business.Types.Individual {
-		e.Details = &CorporationAdminViewResponse{
-			Province: b.Corporation.Province,
-			District: b.Corporation.District,
-			Address:  b.Corporation.Address,
-			Type:     string(b.Corporation.Type),
-		}
-	} else {
 		e.Details = &IndividualAdminViewResponse{
 			FirstName: b.Individual.FirstName,
 			LastName:  b.Individual.LastName,
@@ -60,6 +55,13 @@ func (r *response) BusinessAdminView(b *business.Entity) *BusinessAdminViewRespo
 			District:  b.Individual.District,
 			Address:   b.Individual.Address,
 			BirthDate: b.Individual.DateOfBirth,
+		}
+	} else {
+		e.Details = &CorporationAdminViewResponse{
+			Province: b.Corporation.Province,
+			District: b.Corporation.District,
+			Address:  b.Corporation.Address,
+			Type:     string(b.Corporation.Type),
 		}
 	}
 	return e

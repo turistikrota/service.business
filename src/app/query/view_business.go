@@ -40,9 +40,9 @@ func NewViewBusinessHandler(config ViewBusinessHandlerConfig) ViewBusinessHandle
 }
 
 func (h *viewBusinessHandler) Handle(ctx context.Context, cmd ViewBusinessQuery) (*ViewBusinessResult, *i18np.Error) {
-	business, err := h.repo.ProfileView(ctx, cmd.NickName)
+	b, err := h.repo.ProfileView(ctx, cmd.NickName)
 	if err != nil {
 		return nil, err
 	}
-	return &ViewBusinessResult{Business: business}, nil
+	return &ViewBusinessResult{Business: b}, nil
 }

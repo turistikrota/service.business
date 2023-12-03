@@ -2,7 +2,6 @@ package http
 
 import (
 	"github.com/gofiber/fiber/v2"
-	httpI18n "github.com/mixarchitecture/microp/server/http/i18n"
 	"github.com/mixarchitecture/microp/server/http/result"
 	"github.com/turistikrota/service.business/src/app/query"
 	"github.com/turistikrota/service.business/src/delivery/http/dto"
@@ -79,8 +78,12 @@ func (h Server) BusinessUserPermRemove(ctx *fiber.Ctx) error {
 
 func (h Server) BusinessAdminView(ctx *fiber.Ctx) error {
 	business := h.parseBusiness(ctx)
-	l, a := httpI18n.GetLanguagesInContext(*h.i18n, ctx)
-	return result.SuccessDetail(h.i18n.Translate(Messages.Success.BusinessAdminView, l, a), dto.Response.BusinessAdminView(&business.Entity))
+	res, err := h.app.Queries.AdminViewBusiness.Handle(ctx.UserContext(), query.AdminViewBusinessQuery{
+		NickName: business.Entity.NickName,
+	})
+	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.BusinessAdminView, func() interface{} {
+		return dto.Response.BusinessAdminView(res.Business)
+	})
 }
 
 func (h Server) BusinessUserList(ctx *fiber.Ctx) error {
