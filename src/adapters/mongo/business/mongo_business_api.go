@@ -239,10 +239,8 @@ func (r *repo) Enable(ctx context.Context, nickName string) *i18np.Error {
 	}
 	setter := bson.M{
 		"$set": bson.M{
-			entity.Fields.IsEnabled:  true,
-			entity.Fields.IsVerified: false,
-			entity.Fields.VerifiedAt: nil,
-			entity.Fields.UpdatedAt:  time.Now(),
+			entity.Fields.IsEnabled: true,
+			entity.Fields.UpdatedAt: time.Now(),
 		},
 	}
 	return r.helper.UpdateOne(ctx, filter, setter)
@@ -286,10 +284,8 @@ func (r *repo) Disable(ctx context.Context, nickName string) *i18np.Error {
 	}
 	setter := bson.M{
 		"$set": bson.M{
-			entity.Fields.IsEnabled:  false,
-			entity.Fields.IsVerified: false,
-			entity.Fields.VerifiedAt: nil,
-			entity.Fields.UpdatedAt:  time.Now(),
+			entity.Fields.IsEnabled: false,
+			entity.Fields.UpdatedAt: time.Now(),
 		},
 	}
 	return r.helper.UpdateOne(ctx, filter, setter)
@@ -301,10 +297,8 @@ func (r *repo) Delete(ctx context.Context, nickName string) *i18np.Error {
 	}
 	setter := bson.M{
 		"$set": bson.M{
-			entity.Fields.IsDeleted:  true,
-			entity.Fields.IsVerified: false,
-			entity.Fields.VerifiedAt: nil,
-			entity.Fields.UpdatedAt:  time.Now(),
+			entity.Fields.IsDeleted: true,
+			entity.Fields.UpdatedAt: time.Now(),
 		},
 	}
 	return r.helper.UpdateOne(ctx, filter, setter)
@@ -316,10 +310,8 @@ func (r *repo) Recover(ctx context.Context, nickName string) *i18np.Error {
 	}
 	setter := bson.M{
 		"$set": bson.M{
-			entity.Fields.IsDeleted:  false,
-			entity.Fields.IsVerified: false,
-			entity.Fields.VerifiedAt: nil,
-			entity.Fields.UpdatedAt:  time.Now(),
+			entity.Fields.IsDeleted: false,
+			entity.Fields.UpdatedAt: time.Now(),
 		},
 	}
 	return r.helper.UpdateOne(ctx, filter, setter)
