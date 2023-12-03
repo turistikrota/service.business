@@ -65,6 +65,8 @@ func (f Factory) NewBusiness(params NewBusinessParams) *Entity {
 					config.Roles.Business.InviteCreate,
 					config.Roles.Business.InviteDelete,
 					config.Roles.Business.InviteView,
+					config.Roles.Business.UploadAvatar,
+					config.Roles.Business.UploadCover,
 				},
 				JoinAt: t,
 			},

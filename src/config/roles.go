@@ -21,6 +21,8 @@ type businessRoles struct {
 	InviteCreate   string
 	InviteDelete   string
 	InviteView     string
+	UploadAvatar   string
+	UploadCover    string
 }
 
 type roles struct {
@@ -49,5 +51,7 @@ var Roles = roles{
 		InviteCreate:   "business.invite_create",
 		InviteDelete:   "business.invite_delete",
 		InviteView:     "business.invite_view",
+		UploadAvatar:   "business.upload.avatar",
+		UploadCover:    "business.upload.cover",
 	},
 }
