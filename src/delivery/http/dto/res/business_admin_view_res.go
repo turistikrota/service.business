@@ -41,6 +41,8 @@ func (r *response) BusinessAdminView(b *business.Entity) *BusinessAdminViewRespo
 		RealName:     b.RealName,
 		BusinessType: string(b.BusinessType),
 		IsVerified:   b.IsVerified,
+		IsEnabled:    b.IsEnabled,
+		IsDeleted:    b.IsDeleted,
 		UpdatedAt:    *b.UpdatedAt,
 		CreatedAt:    *b.CreatedAt,
 	}
