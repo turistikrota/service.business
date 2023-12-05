@@ -52,10 +52,10 @@ func (h *inviteDeleteHandler) Handle(ctx context.Context, cmd InviteDeleteComman
 		return nil, _err
 	}
 	h.events.Delete(invite.InviteDeleteEvent{
-		InviteUUID:   cmd.InviteUUID,
-		UserUUID:     cmd.UserUUID,
-		UserName:     cmd.UserName,
-		BusinessUUID: res.BusinessUUID,
+		InviteUUID:       cmd.InviteUUID,
+		UserUUID:         cmd.UserUUID,
+		UserName:         cmd.UserName,
+		BusinessNickName: res.BusinessNickName,
 	})
 	return &InviteDeleteResult{}, nil
 }

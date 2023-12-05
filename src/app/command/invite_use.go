@@ -77,11 +77,11 @@ func (h *inviteUseHandler) Handle(ctx context.Context, cmd InviteUseCommand) (*I
 		return nil, error
 	}
 	h.events.Use(invite.InviteUseEvent{
-		InviteUUID:   cmd.InviteUUID,
-		UserUUID:     cmd.UserUUID,
-		UserName:     cmd.UserName,
-		UserEmail:    cmd.UserEmail,
-		BusinessUUID: res.BusinessUUID,
+		InviteUUID:       cmd.InviteUUID,
+		UserUUID:         cmd.UserUUID,
+		UserName:         cmd.UserName,
+		UserEmail:        cmd.UserEmail,
+		BusinessNickName: res.BusinessNickName,
 	})
 	return &InviteUseResult{}, nil
 }

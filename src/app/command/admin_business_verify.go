@@ -42,17 +42,13 @@ func NewAdminBusinessVerifyHandler(config AdminBusinessVerifyConfig) AdminBusine
 }
 
 func (h *adminBusinessVerifyHandler) Handle(ctx context.Context, cmd AdminBusinessVerifyCommand) (*AdminBusinessVerifyResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.BusinessNickName)
-	if _err != nil {
-		return nil, _err
-	}
 	err := h.repo.Verify(ctx, cmd.BusinessNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.VerifiedByAdmin(&business.EventBusinessVerifiedByAdmin{
-		BusinessUUID: res.UUID,
-		AdminUUID:    cmd.AdminUUID,
+		BusinessNickName: cmd.BusinessNickName,
+		AdminUUID:        cmd.AdminUUID,
 	})
 	return &AdminBusinessVerifyResult{}, nil
 }

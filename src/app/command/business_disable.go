@@ -44,20 +44,16 @@ func NewBusinessDisableHandler(config BusinessDisableConfig) BusinessDisableHand
 }
 
 func (h *businessDisableHandler) Handle(ctx context.Context, cmd BusinessDisableCommand) (*BusinessDisableResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.BusinessNickName)
-	if _err != nil {
-		return nil, _err
-	}
 	err := h.repo.Disable(ctx, cmd.BusinessNickName)
 	if err != nil {
 		return nil, err
 	}
 
 	h.events.Disabled(&business.EventBusinessDisabled{
-		BusinessUUID: res.UUID,
-		UserName:     cmd.UserName,
-		UserCode:     cmd.UserCode,
-		UserUUID:     cmd.UserUUID,
+		BusinessNickName: cmd.BusinessNickName,
+		UserName:         cmd.UserName,
+		UserCode:         cmd.UserCode,
+		UserUUID:         cmd.UserUUID,
 	})
 	return &BusinessDisableResult{}, nil
 }

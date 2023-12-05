@@ -42,17 +42,13 @@ func NewAdminBusinessDeleteHandler(config AdminBusinessDeleteConfig) AdminBusine
 }
 
 func (h *adminBusinessDeleteHandler) Handle(ctx context.Context, cmd AdminBusinessDeleteCommand) (*AdminBusinessDeleteResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.BusinessNickName)
-	if _err != nil {
-		return nil, _err
-	}
 	err := h.repo.Delete(ctx, cmd.BusinessNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.DeletedByAdmin(&business.EventBusinessDeletedByAdmin{
-		AdminUUID:    cmd.AdminUUID,
-		BusinessUUID: res.UUID,
+		AdminUUID:        cmd.AdminUUID,
+		BusinessNickName: cmd.BusinessNickName,
 	})
 	return &AdminBusinessDeleteResult{}, nil
 }

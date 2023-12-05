@@ -56,10 +56,10 @@ func (h *businessUserPermRemoveHandler) Handle(ctx context.Context, cmd Business
 		return nil, err
 	}
 	h.events.UserPermissionRemoved(&business.EventBusinessPermissionRemoved{
-		BusinessUUID:   res.Entity.UUID,
-		AccessUserUUID: cmd.AccessUserUUID,
-		AccessUserName: cmd.AccessUserName,
-		PermissionName: cmd.PermissionName,
+		BusinessNickName: cmd.BusinessNickName,
+		AccessUserUUID:   cmd.AccessUserUUID,
+		AccessUserName:   cmd.AccessUserName,
+		PermissionName:   cmd.PermissionName,
 		User: business.EventUser{
 			Name: cmd.UserName,
 			UUID: res.User.UUID,

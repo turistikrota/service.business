@@ -26,17 +26,17 @@ type (
 		UserName     string `json:"userName"`
 	}
 	InviteDeleteEvent struct {
-		InviteUUID   string `json:"inviteUUID"`
-		BusinessUUID string `json:"businessUUID"`
-		UserUUID     string `json:"userUUID"`
-		UserName     string `json:"userName"`
+		InviteUUID       string `json:"inviteUUID"`
+		BusinessNickName string `json:"businessNickName"`
+		UserUUID         string `json:"userUUID"`
+		UserName         string `json:"userName"`
 	}
 	InviteUseEvent struct {
-		InviteUUID   string `json:"inviteUUID"`
-		BusinessUUID string `json:"businessUUID"`
-		UserEmail    string `json:"userEmail"`
-		UserUUID     string `json:"userUUID"`
-		UserName     string `json:"userName"`
+		InviteUUID       string `json:"inviteUUID"`
+		BusinessNickName string `json:"businessNickName"`
+		UserEmail        string `json:"userEmail"`
+		UserUUID         string `json:"userUUID"`
+		UserName         string `json:"userName"`
 	}
 )
 
