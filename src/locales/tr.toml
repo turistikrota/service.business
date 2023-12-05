@@ -79,3 +79,5 @@ invite_subject = "İşletme Daveti"
 error_invite_email_mismatch = "Davet e-postası e-posta adresiyle eşleşmiyor."
 
 update_query_not_found = "Veri bulunamadı."
+
+http_error_business_not_found = "İşletme bulunamadı."

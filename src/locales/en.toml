@@ -80,3 +80,5 @@ invite_subject = "Business Invitation"
 error_invite_email_mismatch = "Email mismatch."
 
 update_query_not_found = "Data not found."
+
+http_error_business_not_found = "Business not found."

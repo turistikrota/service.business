@@ -162,6 +162,9 @@ func (h Server) BusinessSelect(ctx *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
+	if res.Business == nil {
+		return result.ErrorDetail(Messages.Error.BusinessNotFound, dto.Response.BusinessSelectNotFound())
+	}
 	ctx.Cookie(h.CreateServerSideCookie(".s.o.n", res.Business.Entity.NickName))
 	return result.Success(Messages.Success.BusinessSelect)
 }

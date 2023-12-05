@@ -25,6 +25,7 @@ type errorMessages struct {
 	AdminRoute            string
 	RequiredAccountSelect string
 	AccountNotFound       string
+	BusinessNotFound      string
 }
 
 type messages struct {
@@ -57,5 +58,6 @@ var Messages = messages{
 		AdminRoute:            "http_error_admin_route",
 		RequiredAccountSelect: "http_error_required_account_select",
 		AccountNotFound:       "http_error_account_not_found",
+		BusinessNotFound:      "http_error_business_not_found",
 	},
 }
