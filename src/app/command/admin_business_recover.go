@@ -42,17 +42,13 @@ func NewAdminBusinessRecoverHandler(config AdminBusinessRecoverConfig) AdminBusi
 }
 
 func (h *adminBusinessRecoverHandler) Handle(ctx context.Context, cmd AdminBusinessRecoverCommand) (*AdminBusinessRecoverResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.BusinessNickName)
-	if _err != nil {
-		return nil, _err
-	}
 	err := h.repo.Recover(ctx, cmd.BusinessNickName)
 	if err != nil {
 		return nil, err
 	}
 	h.events.RecoverByAdmin(&business.EventBusinessRecoverByAdmin{
-		BusinessUUID: res.UUID,
-		AdminUUID:    cmd.AdminUUID,
+		BusinessNickName: cmd.BusinessNickName,
+		AdminUUID:        cmd.AdminUUID,
 	})
 	return &AdminBusinessRecoverResult{}, nil
 }

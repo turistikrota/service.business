@@ -30,57 +30,57 @@ type (
 		Name string `json:"name"`
 	}
 	EventBusinessUserAdded struct {
-		BusinessUUID string `json:"businessUUID"`
-		User         *User  `json:"user"`
+		BusinessNickName string `json:"businessNickName"`
+		User             *User  `json:"user"`
 	}
 	EventBusinessUserRemoved struct {
-		BusinessUUID   string    `json:"businessUUID"`
-		AccessUserName string    `json:"accessUserName"`
-		AccessUserUUID string    `json:"accessUserUUID"`
-		User           EventUser `json:"user"`
+		BusinessNickName string    `json:"businessNickName"`
+		AccessUserName   string    `json:"accessUserName"`
+		AccessUserUUID   string    `json:"accessUserUUID"`
+		User             EventUser `json:"user"`
 	}
 	EventBusinessPermissionRemoved struct {
-		BusinessUUID   string    `json:"businessUUID"`
-		AccessUserUUID string    `json:"accessUserUUID"`
-		AccessUserName string    `json:"accessUserName"`
-		User           EventUser `json:"user"`
-		PermissionName string    `json:"permission"`
+		BusinessNickName string    `json:"businessNickName"`
+		AccessUserUUID   string    `json:"accessUserUUID"`
+		AccessUserName   string    `json:"accessUserName"`
+		User             EventUser `json:"user"`
+		PermissionName   string    `json:"permission"`
 	}
 	EventBusinessPermissionAdded struct {
-		BusinessUUID   string    `json:"businessUUID"`
-		AccessUserUUID string    `json:"accessUserUUID"`
-		AccessUserName string    `json:"accessUserName"`
-		User           EventUser `json:"user"`
-		PermissionName string    `json:"permission"`
+		BusinessNickName string    `json:"businessNickName"`
+		AccessUserUUID   string    `json:"accessUserUUID"`
+		AccessUserName   string    `json:"accessUserName"`
+		User             EventUser `json:"user"`
+		PermissionName   string    `json:"permission"`
 	}
 	EventBusinessVerifiedByAdmin struct {
-		BusinessUUID string `json:"businessUUID"`
-		AdminUUID    string `json:"adminUUID"`
+		BusinessNickName string `json:"businessNickName"`
+		AdminUUID        string `json:"adminUUID"`
 	}
 	EventBusinessRejectedByAdmin struct {
-		BusinessUUID string `json:"businessUUID"`
-		Reason       string `json:"reason"`
-		AdminUUID    string `json:"adminUUID"`
+		BusinessNickName string `json:"businessNickName"`
+		Reason           string `json:"reason"`
+		AdminUUID        string `json:"adminUUID"`
 	}
 	EventBusinessDeletedByAdmin struct {
-		BusinessUUID string `json:"businessUUID"`
-		AdminUUID    string `json:"adminUUID"`
+		BusinessNickName string `json:"businessNickName"`
+		AdminUUID        string `json:"adminUUID"`
 	}
 	EventBusinessRecoverByAdmin struct {
-		BusinessUUID string `json:"businessUUID"`
-		AdminUUID    string `json:"adminUUID"`
+		BusinessNickName string `json:"businessNickName"`
+		AdminUUID        string `json:"adminUUID"`
 	}
 	EventBusinessDisabled struct {
-		UserName     string `json:"nickName"`
-		UserUUID     string `json:"userUUID"`
-		UserCode     string `json:"userCode"`
-		BusinessUUID string `json:"businessUUID"`
+		UserName         string `json:"nickName"`
+		UserUUID         string `json:"userUUID"`
+		UserCode         string `json:"userCode"`
+		BusinessNickName string `json:"businessNickName"`
 	}
 	EventBusinessEnabled struct {
-		UserName     string `json:"nickName"`
-		UserUUID     string `json:"userUUID"`
-		UserCode     string `json:"userCode"`
-		BusinessUUID string `json:"businessUUID"`
+		UserName         string `json:"nickName"`
+		UserUUID         string `json:"userUUID"`
+		UserCode         string `json:"userCode"`
+		BusinessNickName string `json:"businessNickName"`
 	}
 )
 

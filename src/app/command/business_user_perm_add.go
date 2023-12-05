@@ -56,10 +56,10 @@ func (h *businessUserPermAddHandler) Handle(ctx context.Context, cmd BusinessUse
 		return nil, h.factory.Errors.Failed(err.Error())
 	}
 	h.events.UserPermissionAdded(&business.EventBusinessPermissionAdded{
-		BusinessUUID:   res.Entity.UUID,
-		AccessUserUUID: cmd.AccessUserUUID,
-		AccessUserName: cmd.AccessUserName,
-		PermissionName: cmd.PermissionName,
+		BusinessNickName: cmd.BusinessNickName,
+		AccessUserUUID:   cmd.AccessUserUUID,
+		AccessUserName:   cmd.AccessUserName,
+		PermissionName:   cmd.PermissionName,
 		User: business.EventUser{
 			Name: cmd.UserName,
 			UUID: res.User.UUID,

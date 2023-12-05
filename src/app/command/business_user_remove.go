@@ -55,9 +55,9 @@ func (h *businessUserRemoveHandler) Handle(ctx context.Context, cmd BusinessUser
 		return nil, h.factory.Errors.Failed("failed to remove user from business")
 	}
 	h.events.UserRemoved(&business.EventBusinessUserRemoved{
-		BusinessUUID:   res.Entity.UUID,
-		AccessUserUUID: cmd.AccessUserUUID,
-		AccessUserName: cmd.AccessUserName,
+		BusinessNickName: cmd.BusinessNickName,
+		AccessUserUUID:   cmd.AccessUserUUID,
+		AccessUserName:   cmd.AccessUserName,
 		User: business.EventUser{
 			Name: cmd.UserName,
 			UUID: res.User.UUID,

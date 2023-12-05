@@ -43,18 +43,14 @@ func NewAdminBusinessRejectHandler(config AdminBusinessRejectConfig) AdminBusine
 }
 
 func (h *adminBusinessRejectHandler) Handle(ctx context.Context, cmd AdminBusinessRejectCommand) (*AdminBusinessRejectResult, *i18np.Error) {
-	res, _err := h.repo.GetByNickName(ctx, cmd.BusinessNickName)
-	if _err != nil {
-		return nil, _err
-	}
 	err := h.repo.Reject(ctx, cmd.BusinessNickName, cmd.Reason)
 	if err != nil {
 		return nil, err
 	}
 	h.events.RejectedByAdmin(&business.EventBusinessRejectedByAdmin{
-		BusinessUUID: res.UUID,
-		AdminUUID:    cmd.AdminUUID,
-		Reason:       cmd.Reason,
+		BusinessNickName: cmd.BusinessNickName,
+		AdminUUID:        cmd.AdminUUID,
+		Reason:           cmd.Reason,
 	})
 	return &AdminBusinessRejectResult{}, nil
 }
