@@ -58,6 +58,7 @@ type businessApplicationHandler struct {
 	events          business.Events
 	identityService KPSPublic.Service
 	vknService      vkn.Vkn
+	cipher          cipher.Service
 }
 
 type BusinessApplicationHandlerConfig struct {
@@ -66,6 +67,7 @@ type BusinessApplicationHandlerConfig struct {
 	Events          business.Events
 	IdentityService KPSPublic.Service
 	CqrsBase        decorator.Base
+	Cipher          cipher.Service
 	VknService      vkn.Vkn
 }
 
@@ -77,6 +79,7 @@ func NewBusinessApplicationHandler(config BusinessApplicationHandlerConfig) Busi
 			events:          config.Events,
 			identityService: config.IdentityService,
 			vknService:      config.VknService,
+			cipher:          config.Cipher,
 		},
 		config.CqrsBase,
 	)
@@ -169,11 +172,11 @@ func (h businessApplicationHandler) hash(ctx context.Context, chain *businessApp
 }
 
 func (h businessApplicationHandler) hashIndividual(ctx context.Context, chain *businessApplicationChain) (*BusinessApplicationResult, *i18np.Error) {
-	id, error := cipher.Hash(chain.command.Individual.IdentityNumber)
+	id, error := h.cipher.Encrypt(chain.command.Individual.IdentityNumber)
 	if error != nil {
 		return nil, h.factory.Errors.Failed("failed to hash identity number")
 	}
-	serial, error := cipher.Hash(chain.command.Individual.SerialNumber)
+	serial, error := h.cipher.Encrypt(chain.command.Individual.SerialNumber)
 	if error != nil {
 		return nil, h.factory.Errors.Failed("failed to hash serial number")
 	}
@@ -192,7 +195,7 @@ func (h businessApplicationHandler) hashIndividual(ctx context.Context, chain *b
 }
 
 func (h businessApplicationHandler) hashCorporation(ctx context.Context, chain *businessApplicationChain) (*BusinessApplicationResult, *i18np.Error) {
-	tax, err := cipher.Hash(chain.command.Corporation.TaxNumber)
+	tax, err := h.cipher.Encrypt(chain.command.Corporation.TaxNumber)
 	if err != nil {
 		return nil, h.factory.Errors.Failed("failed to hash tax number")
 	}

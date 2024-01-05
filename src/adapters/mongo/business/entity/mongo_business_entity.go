@@ -26,16 +26,16 @@ type MongoBusiness struct {
 type MongoBusinessIndividual struct {
 	FirstName      string    `bson:"first_name"`
 	LastName       string    `bson:"last_name"`
-	IdentityNumber []byte    `bson:"identity_number"`
+	IdentityNumber string    `bson:"identity_number"`
 	Province       string    `bson:"province"`
 	District       string    `bson:"district"`
 	Address        string    `bson:"address"`
-	SerialNumber   []byte    `bson:"serial_number"`
+	SerialNumber   string    `bson:"serial_number"`
 	DateOfBirth    time.Time `bson:"date_of_birth"`
 }
 
 type MongoBusinessCorporation struct {
-	TaxNumber []byte `bson:"tax_number"`
+	TaxNumber string `bson:"tax_number"`
 	Province  string `bson:"province"`
 	District  string `bson:"district"`
 	Address   string `bson:"address"`
