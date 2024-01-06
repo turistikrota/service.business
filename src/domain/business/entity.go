@@ -3,21 +3,20 @@ package business
 import "time"
 
 type Entity struct {
-	UUID         string       `json:"uuid"`
-	NickName     string       `json:"nickName"`
-	RealName     string       `json:"realName"`
-	BusinessType Type         `json:"businessType"`
-	Individual   Individual   `json:"individual"`
-	Corporation  Corporation  `json:"corporation"`
-	Users        []User       `json:"users"`
-	RejectReason *string      `json:"rejectReason,omitempty"`
-	Subscription Subscription `json:"subscription"`
-	IsEnabled    bool         `json:"isEnabled"`
-	IsVerified   bool         `json:"isVerified"`
-	IsDeleted    bool         `json:"isDeleted"`
-	VerifiedAt   *time.Time   `json:"verifiedAt"`
-	CreatedAt    *time.Time   `json:"createdAt"`
-	UpdatedAt    *time.Time   `json:"updatedAt"`
+	UUID         string      `json:"uuid"`
+	NickName     string      `json:"nickName"`
+	RealName     string      `json:"realName"`
+	BusinessType Type        `json:"businessType"`
+	Individual   Individual  `json:"individual"`
+	Corporation  Corporation `json:"corporation"`
+	Users        []User      `json:"users"`
+	RejectReason *string     `json:"rejectReason,omitempty"`
+	IsEnabled    bool        `json:"isEnabled"`
+	IsVerified   bool        `json:"isVerified"`
+	IsDeleted    bool        `json:"isDeleted"`
+	VerifiedAt   *time.Time  `json:"verifiedAt"`
+	CreatedAt    *time.Time  `json:"createdAt"`
+	UpdatedAt    *time.Time  `json:"updatedAt"`
 }
 
 type AdminListDto struct {
@@ -39,24 +38,6 @@ type EntityWithUser struct {
 }
 
 type Type string
-
-type Subscription struct {
-	IsEnabled bool             `json:"isEnabled"`
-	Type      SubscriptionType `json:"type"`
-	StartAt   time.Time        `json:"startAt"`
-}
-
-type SubscriptionType string
-
-type subscriptionTypes struct {
-	Monthly SubscriptionType
-	Yearly  SubscriptionType
-}
-
-var SubscriptionTypes = subscriptionTypes{
-	Monthly: "monthly",
-	Yearly:  "yearly",
-}
 
 type businessTypes struct {
 	Individual  Type
