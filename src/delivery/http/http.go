@@ -110,11 +110,7 @@ func (h Server) parseQuery(c *fiber.Ctx, d interface{}) {
 }
 
 func (h Server) currentAccountAccess() fiber.Handler {
-	return current_account.New(current_account.Config{
-		I18n:         h.i18n,
-		RequiredKey:  Messages.Error.RequiredAccountSelect,
-		ForbiddenKey: Messages.Error.AccountNotFound,
-	})
+	return current_account.New(current_account.Config{})
 }
 
 func (h Server) wrapWithTimeout(fn fiber.Handler) fiber.Handler {
@@ -128,8 +124,6 @@ func (h Server) adminRoute(extra ...string) fiber.Handler {
 	}
 	return claim_guard.New(claim_guard.Config{
 		Claims: claims,
-		I18n:   *h.i18n,
-		MsgKey: Messages.Error.AdminRoute,
 	})
 }
 
@@ -137,7 +131,6 @@ func (h Server) currentUserAccess() fiber.Handler {
 	return current_user.New(current_user.Config{
 		TokenSrv:   h.tknSrv,
 		SessionSrv: h.sessionSrv,
-		I18n:       h.i18n,
 		MsgKey:     Messages.Error.CurrentUserAccess,
 		HeaderKey:  http.Headers.Authorization,
 		CookieKey:  auth.Cookies.AccessToken,
@@ -156,7 +149,6 @@ func (h Server) deviceUUID() fiber.Handler {
 
 func (h Server) requiredAccess() fiber.Handler {
 	return required_access.New(required_access.Config{
-		I18n:   *h.i18n,
 		MsgKey: Messages.Error.RequiredAuth,
 	})
 }

@@ -102,6 +102,11 @@ type Nats struct {
 	Streams []string `env:"NATS_STREAMS" envDefault:""`
 }
 
+type Cipher struct {
+	Key string `env:"CIPHER_KEY"`
+	IV  string `env:"CIPHER_IV"`
+}
+
 type RSA struct {
 	PrivateKeyFile string `env:"RSA_PRIVATE_KEY"`
 	PublicKeyFile  string `env:"RSA_PUBLIC_KEY"`
@@ -122,6 +127,7 @@ type App struct {
 		MongoBusiness MongoBusiness
 		MongoInvite   MongoInvite
 	}
+	Cipher      Cipher
 	Rpc         Rpc
 	Vkn         Vkn
 	HttpHeaders HttpHeaders

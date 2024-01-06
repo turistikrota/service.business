@@ -14,6 +14,7 @@ import (
 	"github.com/turistikrota/service.business/src/config"
 	"github.com/turistikrota/service.business/src/domain/business"
 	"github.com/turistikrota/service.business/src/domain/invite"
+	"github.com/turistikrota/service.shared/cipher"
 	"github.com/turistikrota/service.shared/db/mongo"
 )
 
@@ -51,6 +52,8 @@ func NewApplication(config Config) app.Application {
 		Password: config.App.Vkn.Password,
 	})
 
+	cipher := cipher.New(config.App.Cipher.Key, config.App.Cipher.IV)
+
 	return app.Application{
 		Commands: app.Commands{
 			BusinessApplication: command.NewBusinessApplicationHandler(command.BusinessApplicationHandlerConfig{
@@ -60,6 +63,7 @@ func NewApplication(config Config) app.Application {
 				VknService:      vknSrv,
 				Events:          businessEvents,
 				CqrsBase:        base,
+				Cipher:          cipher,
 			}),
 			BusinessUserRemove: command.NewBusinessUserRemoveHandler(command.BusinessUserRemoveHandlerConfig{
 				Repo:     businessRepo,

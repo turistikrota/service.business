@@ -76,7 +76,7 @@ var CorporationTypes = corporationTypes{
 }
 
 type Corporation struct {
-	TaxNumber []byte
+	TaxNumber string
 	Province  string
 	District  string
 	Address   string
@@ -88,8 +88,8 @@ type Corporation struct {
 type Individual struct {
 	FirstName      string
 	LastName       string
-	IdentityNumber []byte
-	SerialNumber   []byte
+	IdentityNumber string
+	SerialNumber   string
 	Province       string
 	District       string
 	Address        string

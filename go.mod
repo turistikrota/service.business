@@ -11,7 +11,7 @@ require (
 	github.com/mixarchitecture/microp v0.0.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/ssibrahimbas/KPSPublic v1.0.0
-	github.com/turistikrota/service.shared v0.0.27-0.20231119143300-e176ca37956f
+	github.com/turistikrota/service.shared v0.0.27-0.20240105151607-d67af76987af
 	go.mongodb.org/mongo-driver v1.12.1
 	google.golang.org/grpc v1.57.0
 	google.golang.org/protobuf v1.31.0
