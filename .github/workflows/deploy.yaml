@@ -47,7 +47,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,IMAGE_TAG
+          envs: DIR,SECRET_NAME_1,SECRET_NAME_2,NETWORK_NAME,APP_PORT,HOST_ALIAS,HOST_IP,REDIS_HOST_ALIAS,IMAGE_TAG,GRPC_PORT
           script: |
             docker service ls | grep -q service-business && docker service rm service-business || true
             cd $DIR
