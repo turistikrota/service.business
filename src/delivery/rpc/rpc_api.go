@@ -8,7 +8,7 @@ import (
 	"github.com/turistikrota/service.business/src/domain/business"
 )
 
-func (h Server) ListBusinessAsClaim(ctx context.Context, req *protos.BusinessListAsClaimRequest) (*protos.BusinessListAsClaimResult, error) {
+func (h Server) ListAsClaim(ctx context.Context, req *protos.BusinessListAsClaimRequest) (*protos.BusinessListAsClaimResult, error) {
 	businesses, err := h.app.Queries.ListAsClaim.Handle(ctx, query.ListAsClaimQuery{
 		UserUUID: req.UserId,
 	})
