@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package business;
+
+option go_package = "github.com/turistikrota/service.business/protos/business";
+
+message Business {
+    string uuid = 1;
+    string account_name = 2;
+    string nick_name = 3;
+    repeated string roles = 4;
+}
+
+message BusinessListAsClaimResult {
+    repeated Business business = 1;
+}
+
+message BusinessListAsClaimRequest {
+    string user_id = 1;
+}
+
+service BusinessListService {
+    rpc ListAsClaim(BusinessListAsClaimRequest) returns (BusinessListAsClaimResult);
+}

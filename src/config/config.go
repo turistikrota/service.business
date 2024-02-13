@@ -28,6 +28,7 @@ type Server struct {
 type Rpc struct {
 	AccountHost    string `env:"RPC_ACCOUNT_HOST" envDefault:"localhost:3001"`
 	AccountUsesSsl bool   `env:"RPC_ACCOUNT_USES_SSL" envDefault:"localhost:3001"`
+	Port           int    `env:"GRPC_PORT" envDefault:"3001"`
 }
 
 type Redis struct {

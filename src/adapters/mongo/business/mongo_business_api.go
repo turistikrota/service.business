@@ -158,6 +158,16 @@ func (r *repo) ListByUserUUID(ctx context.Context, user business.UserDetail) ([]
 	}, opts)
 }
 
+func (r *repo) ListAsClaim(ctx context.Context, userUUID string) ([]*business.Entity, *i18np.Error) {
+	filter := bson.M{
+		entity.UserField(entity.UserFields.UUID): userUUID,
+	}
+	opts := options.Find()
+	return r.helper.GetListFilterTransform(ctx, filter, func(o *entity.MongoBusiness) *business.Entity {
+		return o.ToBusiness()
+	}, opts)
+}
+
 func (r *repo) AddUser(ctx context.Context, businessName string, user *business.User) *i18np.Error {
 	filter := bson.M{
 		entity.Fields.NickName:                   businessName,

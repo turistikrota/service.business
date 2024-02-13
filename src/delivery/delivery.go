@@ -12,6 +12,7 @@ import (
 	"github.com/turistikrota/service.business/src/config"
 	"github.com/turistikrota/service.business/src/delivery/event_stream"
 	"github.com/turistikrota/service.business/src/delivery/http"
+	"github.com/turistikrota/service.business/src/delivery/rpc"
 	"github.com/turistikrota/service.shared/auth/session"
 	"github.com/turistikrota/service.shared/auth/token"
 )
@@ -56,6 +57,7 @@ func New(config Config) Delivery {
 }
 
 func (d *delivery) Load() {
+	go d.loadRpc()
 	d.loadEventStream().loadHTTP()
 }
 
@@ -78,6 +80,14 @@ func (d *delivery) loadHTTP() *delivery {
 			}).Load(router)
 		},
 	})
+	return d
+}
+
+func (d *delivery) loadRpc() *delivery {
+	rpc.New(rpc.Config{
+		Port: d.config.Rpc.Port,
+		App:  d.app,
+	}).Load()
 	return d
 }
 

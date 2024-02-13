@@ -172,6 +172,11 @@ func NewApplication(config Config) app.Application {
 				CqrsBase:        base,
 				Rpc:             config.App.Rpc,
 			}),
+			ListAsClaim: query.NewListAsClaimHandler(query.ListAsClaimHandlerConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				CqrsBase: base,
+			}),
 			InviteGetByEmail: query.NewInviteGetByEmailHandler(query.InviteGetByEmailHandlerConfig{
 				Repo:     inviteRepo,
 				Factory:  inviteFactory,

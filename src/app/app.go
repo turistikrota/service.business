@@ -31,6 +31,7 @@ type Queries struct {
 	AdminViewBusiness       query.AdminViewBusinessHandler
 	ListMyBusinesses        query.ListMyBusinessesHandler
 	ListMyBusinessUsers     query.ListMyBusinessUsersQueryHandler
+	ListAsClaim             query.ListAsClaimHandler
 	ViewBusiness            query.ViewBusinessHandler
 	GetWithUserBusiness     query.GetWithUserBusinessHandler
 	InviteGetByEmail        query.InviteGetByEmailHandler
