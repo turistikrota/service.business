@@ -6,7 +6,7 @@ import (
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/events"
 	"github.com/turistikrota/service.business/src/config"
-	"github.com/turistikrota/service.shared/helper"
+	"github.com/turistikrota/service.business/src/domain/notify"
 )
 
 type Events interface {
@@ -66,10 +66,17 @@ func NewEvents(cnf EventConfig) Events {
 func (e inviteEvents) Invite(event InviteEvent) {
 	subject := e.i18n.Translate(I18nMessages.InviteSubject, event.Locale)
 	template := fmt.Sprintf("business/invite.%s", event.Locale)
-	_ = e.publisher.Publish(e.topics.Notify.SendMail, helper.Notify.BuildEmail(event.Email, subject, i18np.P{
-		"BusinessName": event.BusinessName,
-		"InviteUUID":   event.InviteUUID,
-	}, event.Email, template))
+	_ = e.publisher.Publish(e.topics.Notify.SendSpecialEmail, notify.SendSpecialEmailCmd{
+		Email:    event.Email,
+		Template: template,
+		Subject:  subject,
+		TemplateParams: i18np.P{
+			"BusinessName": event.BusinessName,
+			"InviteUUID":   event.InviteUUID,
+		},
+		Locale:    event.Locale,
+		Translate: false,
+	})
 	_ = e.publisher.Publish(e.topics.Business.InviteCreate, event)
 }
 
