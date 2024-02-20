@@ -37,6 +37,20 @@ func (r *repo) GetByNickName(ctx context.Context, nickName string) (*business.En
 	return o.ToBusiness(), nil
 }
 
+func (r *repo) SetPreferredLocale(ctx context.Context, nickName string, locale string) *i18np.Error {
+	filter := bson.M{
+		entity.Fields.NickName: nickName,
+	}
+	setter := bson.M{
+		"$set": bson.M{
+			entity.Fields.PreferredLocale: locale,
+			entity.Fields.UpdatedAt:       time.Now(),
+		},
+	}
+	return r.helper.UpdateOne(ctx, filter, setter)
+
+}
+
 func (r *repo) GetByIndividual(ctx context.Context, individual business.Individual) (*business.Entity, bool, *i18np.Error) {
 	filter := bson.M{
 		entity.IndividualField(entity.IndividualFields.FirstName):   individual.FirstName,
@@ -364,15 +378,17 @@ func (r *repo) AdminListAll(ctx context.Context, listConfig list.Config) (*list.
 	li := make([]*business.AdminListDto, 0)
 	for _, o := range l {
 		dto := &business.AdminListDto{
-			UUID:         o.UUID,
-			NickName:     o.NickName,
-			RealName:     o.RealName,
-			BusinessType: string(o.BusinessType),
-			IsEnabled:    o.IsEnabled,
-			IsVerified:   o.IsVerified,
-			IsDeleted:    o.IsDeleted,
-			CreatedAt:    o.CreatedAt.String(),
-			UpdatedAt:    o.UpdatedAt.String(),
+			UUID:            o.UUID,
+			NickName:        o.NickName,
+			RealName:        o.RealName,
+			BusinessType:    string(o.BusinessType),
+			IsEnabled:       o.IsEnabled,
+			IsVerified:      o.IsVerified,
+			IsDeleted:       o.IsDeleted,
+			Application:     string(o.Application),
+			PreferredLocale: o.PreferredLocale,
+			CreatedAt:       o.CreatedAt.String(),
+			UpdatedAt:       o.UpdatedAt.String(),
 		}
 		if o.VerifiedAt != nil {
 			dto.VerifiedAt = o.VerifiedAt.String()

@@ -14,6 +14,7 @@ validation_uuid = "Bu alan geçerli bir UUID olmalıdır."
 validation_slug = "Bu alan geçerli bir slug olmalıdır."
 validation_object_id = "Bu alan geçerli bir ObjectId olmalıdır."
 validation_datetime = "Bu alan geçerli bir tarih ve saat olmalıdır."
+validation_oneof = "Bu alan sadece şu değerlerden biri olabilir: {{.Param}}."
 validation_username_and_code = "Bu alan geçerli bir kullanıcı adı veya kod olmalıdır."
 
 error_invalid_request_body = "İstek gövdesi geçersiz."
@@ -38,6 +39,7 @@ http_success_business_disable = "İşletme başarıyla devre dışı bırakıld�
 http_success_business_select = "İşletme başarıyla seçildi."
 http_success_business_get_selected = "Seçili işletme başarıyla alındı."
 http_success_admin_list_all = "Tüm işletmeler başarıyla listelendi."
+http_success_business_set_locale = "İşletme yerel ayarları başarıyla ayarlandı."
 
 http_error_required_auth = "Bu işlem için kimlik doğrulaması gerekiyor."
 http_error_current_user_access = "Bu işlem için geçerli kullanıcı erişimi gerekiyor."
@@ -60,6 +62,10 @@ error_business_identity_verification_failed = "Kimlik doğrulaması başarısız
 error_business_corporation_verification_failed = "Kuruluş doğrulaması başarısız oldu. Lütfen vergi numarasını kontrol edin."
 error_business_individual_already_exists = "Bu kimlik numarası veya vergi numarası zaten kullanılıyor."
 error_business_corporation_already_exists = "Bu vergi numarası zaten kullanılıyor."
+error_business_application_invalid = "Geçersiz işletme başvurusu."
+error_business_must_be_corporation = "Bu işlem sadece kuruluşlar için geçerlidir."
+notify_business_subject_rejected = "İşletme Başvurunuz Reddedildi"
+notify_business_subject_verified = "İşletme Başvurunuz Onaylandı"
 
 # Account Module Settings
 error_account_failed = "Hesap oluşturulamadı."

@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/mixarchitecture/i18np"
 	"github.com/mixarchitecture/microp/server/http"
+	"github.com/mixarchitecture/microp/server/http/i18n"
 	"github.com/mixarchitecture/microp/server/http/parser"
 	"github.com/turistikrota/service.business/src/config"
 	"github.com/turistikrota/service.shared/auth/session"
@@ -58,7 +59,7 @@ func New(config Config) Server {
 }
 
 func (h Server) Load(router fiber.Router) fiber.Router {
-	router.Use(h.cors(), h.deviceUUID())
+	router.Use(i18n.New(*h.i18n), h.cors(), h.deviceUUID())
 
 	business := router.Group("/~:nickName", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.CurrentBusiness())
 	business.Get("/", h.BusinessPermissions(config.Roles.Business.AdminView), h.wrapWithTimeout(h.BusinessAdminView))
@@ -68,6 +69,7 @@ func (h Server) Load(router fiber.Router) fiber.Router {
 	business.Patch("/user/@:userName", h.BusinessPermissions(config.Roles.Business.UserRemove), h.wrapWithTimeout(h.BusinessUserRemove))
 	business.Patch("/enable", h.BusinessPermissions(config.Roles.Business.Enable), h.wrapWithTimeout(h.BusinessEnable))
 	business.Patch("/disable", h.BusinessPermissions(config.Roles.Business.Disable), h.wrapWithTimeout(h.BusinessDisable))
+	business.Patch("/locale", h.BusinessPermissions(config.Roles.Business.LocaleSet), h.wrapWithTimeout(h.BusinessSetLocale))
 	business.Put("/select", h.wrapWithTimeout(h.BusinessSelect))
 
 	// invite business routes
@@ -150,12 +152,12 @@ func (h Server) deviceUUID() fiber.Handler {
 func (h Server) requiredAccess() fiber.Handler {
 	return required_access.New(required_access.Config{
 		MsgKey: Messages.Error.RequiredAuth,
+		I18n:   *h.i18n,
 	})
 }
 
 func (h Server) cors() fiber.Handler {
 	return cors.New(cors.Config{
-		AllowOrigins:     h.httpHeaders.AllowedOrigins,
 		AllowMethods:     h.httpHeaders.AllowedMethods,
 		AllowHeaders:     h.httpHeaders.AllowedHeaders,
 		AllowCredentials: h.httpHeaders.AllowCredentials,

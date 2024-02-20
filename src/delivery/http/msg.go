@@ -16,6 +16,7 @@ type successMessages struct {
 	BusinessSelect         string
 	BusinessGetSelected    string
 	Ok                     string
+	BusinessSetLocale      string
 }
 
 type errorMessages struct {
@@ -50,6 +51,7 @@ var Messages = messages{
 		BusinessSelect:         "http_success_business_select",
 		BusinessGetSelected:    "http_success_business_get_selected",
 		Ok:                     "http_success_ok",
+		BusinessSetLocale:      "http_success_business_set_locale",
 	},
 	Error: errorMessages{
 		RequiredAuth:          "http_error_required_auth",

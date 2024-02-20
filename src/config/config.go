@@ -78,6 +78,7 @@ type HttpHeaders struct {
 
 type NotifyTopics struct {
 	SendSpecialEmail string `env:"STREAMING_TOPIC_NOTIFY_SEND_SPECIAL_EMAIL"`
+	SendNotification string `env:"STREAMING_TOPIC_NOTIFY_SEND_NOTIFICATION"`
 }
 
 type BusinessTopics struct {

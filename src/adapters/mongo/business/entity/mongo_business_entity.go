@@ -7,20 +7,22 @@ import (
 )
 
 type MongoBusiness struct {
-	UUID         string                    `bson:"_id,omitempty"`
-	NickName     string                    `bson:"nick_name"`
-	RealName     string                    `bson:"real_name"`
-	BusinessType string                    `bson:"business_type"`
-	Individual   *MongoBusinessIndividual  `bson:"individual"`
-	Corporation  *MongoBusinessCorporation `bson:"corporation"`
-	Users        []*MongoBusinessUser      `bson:"users"`
-	RejectReason *string                   `bson:"reject_reason,omitempty"`
-	IsEnabled    bool                      `bson:"is_enabled"`
-	IsVerified   bool                      `bson:"is_verified"`
-	IsDeleted    bool                      `bson:"is_deleted"`
-	VerifiedAt   *time.Time                `bson:"verified_at"`
-	CreatedAt    *time.Time                `bson:"created_at"`
-	UpdatedAt    *time.Time                `bson:"updated_at"`
+	UUID            string                    `bson:"_id,omitempty"`
+	NickName        string                    `bson:"nick_name"`
+	RealName        string                    `bson:"real_name"`
+	BusinessType    string                    `bson:"business_type"`
+	Individual      *MongoBusinessIndividual  `bson:"individual"`
+	Corporation     *MongoBusinessCorporation `bson:"corporation"`
+	Users           []*MongoBusinessUser      `bson:"users"`
+	RejectReason    *string                   `bson:"reject_reason,omitempty"`
+	Application     string                    `bson:"application"`
+	PreferredLocale string                    `bson:"preferred_locale"`
+	IsEnabled       bool                      `bson:"is_enabled"`
+	IsVerified      bool                      `bson:"is_verified"`
+	IsDeleted       bool                      `bson:"is_deleted"`
+	VerifiedAt      *time.Time                `bson:"verified_at"`
+	CreatedAt       *time.Time                `bson:"created_at"`
+	UpdatedAt       *time.Time                `bson:"updated_at"`
 }
 
 type MongoBusinessIndividual struct {
@@ -74,6 +76,8 @@ func (m *MongoBusiness) FromBusiness(business *business.Entity) *MongoBusiness {
 		TaxOffice: business.Corporation.TaxOffice,
 		Title:     business.Corporation.Title,
 	}
+	m.Application = string(business.Application)
+	m.PreferredLocale = string(business.PreferredLocale)
 	m.Users = m.fromBusinessUsers(business.Users)
 	m.RejectReason = business.RejectReason
 	m.IsEnabled = business.IsEnabled
@@ -86,17 +90,20 @@ func (m *MongoBusiness) FromBusiness(business *business.Entity) *MongoBusiness {
 
 func (m *MongoBusiness) ToBusiness() *business.Entity {
 	e := &business.Entity{
-		UUID:         m.UUID,
-		NickName:     m.NickName,
-		RealName:     m.RealName,
-		BusinessType: business.Type(m.BusinessType),
-		IsEnabled:    m.IsEnabled,
-		RejectReason: m.RejectReason,
-		IsVerified:   m.IsVerified,
-		VerifiedAt:   m.VerifiedAt,
-		IsDeleted:    m.IsDeleted,
-		CreatedAt:    m.CreatedAt,
-		UpdatedAt:    m.UpdatedAt,
+		UUID:            m.UUID,
+		NickName:        m.NickName,
+		RealName:        m.RealName,
+		BusinessType:    business.Type(m.BusinessType),
+		IsEnabled:       m.IsEnabled,
+		RejectReason:    m.RejectReason,
+		IsVerified:      m.IsVerified,
+		PreferredLocale: business.Locale(m.PreferredLocale),
+		Application:     business.Application(m.Application),
+		VerifiedAt:      m.VerifiedAt,
+		IsDeleted:       m.IsDeleted,
+		CreatedAt:       m.CreatedAt,
+		Users:           m.ToBusinessUsers(),
+		UpdatedAt:       m.UpdatedAt,
 	}
 	if m.Individual != nil {
 		e.Individual = m.Individual.ToBusinessIndividual()

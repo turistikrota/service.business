@@ -13,7 +13,7 @@ validation_e164 = "This field must be a valid E.164 phone number."
 validation_uuid = "This field must be a valid UUID."
 validation_slug = "This field must be a valid slug."
 validation_object_id = "This field must be a valid object id."
-validation_oneof = "This field cart curt {{.Param}}"
+validation_oneof = "This field must be in {{.Param}}."
 validation_datetime = "This field must be a valid datetime."
 validation_username_and_code = "This field must be a valid username and code."
 
@@ -39,6 +39,7 @@ http_success_business_disable = "Business disable success."
 http_success_business_select = "Business select success."
 http_success_business_get_selected = "Business get selected success."
 http_success_admin_list_all = "Admin list all success."
+http_success_business_set_locale = "Business set locale success."
 
 http_error_required_auth = "Authentication required."
 http_error_current_user_access = "Authorization failed."
@@ -61,6 +62,10 @@ error_business_identity_verification_failed = "Identity verification failed. Ple
 error_business_corporation_verification_failed = "Corporation verification failed. Please check your corporation information."
 error_business_individual_already_exists = "Individual business already exists."
 error_business_corporation_already_exists = "Corporation business already exists."
+error_business_application_invalid = "Business application is invalid."
+error_business_must_be_corporation = "Business must be corporation for this type."
+notify_business_subject_rejected = "Business Application Rejected"
+notify_business_subject_verified = "Business Application Verified"
 
 # Account Module Messages
 error_account_failed = "Failed to account. {{.Action}}"

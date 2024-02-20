@@ -2,9 +2,12 @@ package http
 
 import (
 	"github.com/gofiber/fiber/v2"
+	"github.com/mixarchitecture/microp/server/http/i18n"
 	"github.com/mixarchitecture/microp/server/http/result"
+	"github.com/turistikrota/service.business/src/app/command"
 	"github.com/turistikrota/service.business/src/app/query"
 	"github.com/turistikrota/service.business/src/delivery/http/dto"
+	"github.com/turistikrota/service.business/src/domain/business"
 	"github.com/turistikrota/service.shared/server/http/auth/current_account"
 	"github.com/turistikrota/service.shared/server/http/auth/current_user"
 )
@@ -13,10 +16,18 @@ func (h Server) BusinessApplication(ctx *fiber.Ctx) error {
 	d := dto.Request.BusinessApplication()
 	h.parseBody(ctx, d)
 	account := current_account.Parse(ctx)
-	res, err := h.app.Commands.BusinessApplication.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, account.Name))
+	res, err := h.app.Commands.BusinessApplication.Handle(ctx.UserContext(), d.ToCommand(current_user.Parse(ctx).UUID, account.Name, h.getCorrectLocale(ctx)))
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.BusinessApplication, func() interface{} {
 		return dto.Response.BusinessApplication(res)
 	})
+}
+
+func (h Server) BusinessSetLocale(ctx *fiber.Ctx) error {
+	cmd := command.BusinessSetLocaleCommand{}
+	cmd.BusinessNickName = h.parseBusiness(ctx).Entity.NickName
+	cmd.Locale = h.getCorrectLocale(ctx)
+	_, err := h.app.Commands.BusinessSetLocale.Handle(ctx.UserContext(), cmd)
+	return result.IfSuccess(err, ctx, *h.i18n, Messages.Success.BusinessSetLocale)
 }
 
 func (h Server) BusinessUserRemove(ctx *fiber.Ctx) error {
@@ -243,4 +254,15 @@ func (h Server) InviteGetByBusinessUUID(ctx *fiber.Ctx) error {
 	return result.IfSuccessDetail(err, ctx, *h.i18n, Messages.Success.Ok, func() interface{} {
 		return res.Invites
 	})
+}
+
+func (h Server) getCorrectLocale(ctx *fiber.Ctx) string {
+	locale, alternative := i18n.GetLanguagesInContext(*h.i18n, ctx)
+	if locale != string(business.Locales.Tr) && locale != string(business.Locales.En) {
+		if alternative == string(business.Locales.Tr) || alternative == string(business.Locales.En) {
+			return alternative
+		}
+		return string(business.Locales.Tr)
+	}
+	return locale
 }
