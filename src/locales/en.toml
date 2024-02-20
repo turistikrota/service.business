@@ -66,6 +66,8 @@ error_business_application_invalid = "Business application is invalid."
 error_business_must_be_corporation = "Business must be corporation for this type."
 notify_business_subject_rejected = "Business Application Rejected"
 notify_business_subject_verified = "Business Application Verified"
+notify_business_reject_content = "Your business application for %s has been rejected. Please contact us for more information."
+notify_business_verify_content = "Your business application for %s has been verified. You can now use our services."
 
 # Account Module Messages
 error_account_failed = "Failed to account. {{.Action}}"

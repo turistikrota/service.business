@@ -66,6 +66,8 @@ error_business_application_invalid = "Geçersiz işletme başvurusu."
 error_business_must_be_corporation = "Bu işlem sadece kuruluşlar için geçerlidir."
 notify_business_subject_rejected = "İşletme Başvurunuz Reddedildi"
 notify_business_subject_verified = "İşletme Başvurunuz Onaylandı"
+notify_business_reject_content = "%s için işletme başvurunuz reddedildi. Lütfen ayrıntılı bilgi için destek ekibimizle iletişime geçin."
+notify_business_verify_content = "%s için işletme başvurunuz onaylandı. Artık işletmenizi kullanmaya başlayabilirsiniz."
 
 # Account Module Settings
 error_account_failed = "Hesap oluşturulamadı."

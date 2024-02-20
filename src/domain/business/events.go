@@ -138,11 +138,12 @@ func (e *businessEvents) VerifiedByAdmin(event *EventBusinessVerifiedByAdmin) {
 		event.BusinessLocale = "tr"
 	}
 	subject := e.i18n.Translate(I18nMessages.NotifySubjectVerified, event.BusinessLocale)
+	smsContent := fmt.Sprintf(e.i18n.Translate(I18nMessages.NotifyVerifiedContent, event.BusinessLocale), event.BusinessNickName)
 	template := fmt.Sprintf("business/verified.%s", event.BusinessLocale)
 	for _, user := range event.Users {
 		_ = e.publisher.Publish(e.topics.Notify.SendNotification, notify.NotifySendToAllChannelsCmd{
 			ActorName: user,
-			Content:   "",
+			Content:   smsContent,
 			TemplateData: i18np.P{
 				"BusinessName": event.BusinessNickName,
 			},
@@ -164,11 +165,12 @@ func (e *businessEvents) RejectedByAdmin(event *EventBusinessRejectedByAdmin) {
 		event.BusinessLocale = "tr"
 	}
 	subject := e.i18n.Translate(I18nMessages.NotifySubjectRejected, event.BusinessLocale)
+	smsContent := fmt.Sprintf(e.i18n.Translate(I18nMessages.NotifyRejectContent, event.BusinessLocale), event.BusinessNickName)
 	template := fmt.Sprintf("business/rejected.%s", event.BusinessLocale)
 	for _, user := range event.Users {
 		_ = e.publisher.Publish(e.topics.Notify.SendNotification, notify.NotifySendToAllChannelsCmd{
 			ActorName: user,
-			Content:   event.Reason,
+			Content:   smsContent,
 			TemplateData: i18np.P{
 				"BusinessName": event.BusinessNickName,
 				"Reason":       event.Reason,

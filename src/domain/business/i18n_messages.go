@@ -18,6 +18,8 @@ type messages struct {
 	BusinessMustBeCorporation     string
 	NotifySubjectRejected         string
 	NotifySubjectVerified         string
+	NotifyRejectContent           string
+	NotifyVerifiedContent         string
 }
 
 var I18nMessages = messages{
@@ -38,4 +40,6 @@ var I18nMessages = messages{
 	BusinessMustBeCorporation:     "error_business_must_be_corporation",
 	NotifySubjectRejected:         "notify_business_subject_rejected",
 	NotifySubjectVerified:         "notify_business_subject_verified",
+	NotifyRejectContent:           "notify_business_reject_content",
+	NotifyVerifiedContent:         "notify_business_verify_content",
 }
