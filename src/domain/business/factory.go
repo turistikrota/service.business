@@ -22,12 +22,13 @@ func (f Factory) IsZero() bool {
 type NewBusinessParams struct {
 	UserUUID     string
 	UserName     string
-	UserCode     string
 	NickName     string
 	RealName     string
 	BusinessType Type
 	Individual   Individual
 	Corporation  Corporation
+	Application  Application
+	Locale       Locale
 }
 
 func (f Factory) NewUser(uuid string, name string) *User {
@@ -71,11 +72,13 @@ func (f Factory) NewBusiness(params NewBusinessParams) *Entity {
 				JoinAt: t,
 			},
 		},
-		IsEnabled:  false,
-		IsVerified: false,
-		VerifiedAt: nil,
-		CreatedAt:  &t,
-		UpdatedAt:  &t,
+		PreferredLocale: params.Locale,
+		Application:     params.Application,
+		IsEnabled:       false,
+		IsVerified:      false,
+		VerifiedAt:      nil,
+		CreatedAt:       &t,
+		UpdatedAt:       &t,
 	}
 	if params.BusinessType == Types.Individual {
 		e.Individual = params.Individual
@@ -89,7 +92,13 @@ func (f Factory) Validate(e *Entity) *i18np.Error {
 	if err := f.validateType(e); err != nil {
 		return err
 	}
-	return f.validateByType(e)
+	if err := f.validateByType(e); err != nil {
+		return err
+	}
+	if err := f.validateApplication(e); err != nil {
+		return err
+	}
+	return nil
 }
 
 func (f Factory) validateType(e *Entity) *i18np.Error {
@@ -130,4 +139,33 @@ func (f Factory) validateCorporation(e *Entity) *i18np.Error {
 		return nil
 	}
 	return f.Errors.CorporationTypeInvalid()
+}
+
+func (f Factory) validateApplication(e *Entity) *i18np.Error {
+	accommodationValidation := func(e *Entity) *i18np.Error {
+		if e.BusinessType != Types.Corporation {
+			return f.Errors.CorporationTypeRequired()
+		}
+		return nil
+	}
+
+	advertValidation := func(e *Entity) *i18np.Error {
+		return nil
+	}
+
+	placeValidation := func(e *Entity) *i18np.Error {
+		return nil
+	}
+
+	switch e.Application {
+	case Applications.Accommodation:
+		return accommodationValidation(e)
+	case Applications.Advert:
+		return advertValidation(e)
+	case Applications.Place:
+		return placeValidation(e)
+	default:
+		return f.Errors.ApplicationInvalid()
+	}
+
 }

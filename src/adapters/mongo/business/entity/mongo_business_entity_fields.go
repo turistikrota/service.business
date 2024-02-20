@@ -1,22 +1,24 @@
 package entity
 
 type fields struct {
-	UUID         string
-	NickName     string
-	RealName     string
-	BusinessType string
-	Individual   string
-	Corporation  string
-	Users        string
-	IsEnabled    string
-	IsVerified   string
-	IsDeleted    string
-	RejectReason string
-	ActivatedAt  string
-	DisabledAt   string
-	VerifiedAt   string
-	CreatedAt    string
-	UpdatedAt    string
+	UUID            string
+	NickName        string
+	RealName        string
+	BusinessType    string
+	Individual      string
+	Corporation     string
+	Users           string
+	IsEnabled       string
+	IsVerified      string
+	IsDeleted       string
+	RejectReason    string
+	Application     string
+	PreferredLocale string
+	ActivatedAt     string
+	DisabledAt      string
+	VerifiedAt      string
+	CreatedAt       string
+	UpdatedAt       string
 }
 
 type userFields struct {
@@ -48,22 +50,24 @@ type corporationFields struct {
 }
 
 var Fields = fields{
-	UUID:         "_id",
-	NickName:     "nick_name",
-	RealName:     "real_name",
-	BusinessType: "business_type",
-	Individual:   "individual",
-	Corporation:  "corporation",
-	Users:        "users",
-	IsEnabled:    "is_enabled",
-	IsVerified:   "is_verified",
-	IsDeleted:    "is_deleted",
-	VerifiedAt:   "verified_at",
-	CreatedAt:    "created_at",
-	UpdatedAt:    "updated_at",
-	ActivatedAt:  "activated_at",
-	DisabledAt:   "disabled_at",
-	RejectReason: "reject_reason",
+	UUID:            "_id",
+	NickName:        "nick_name",
+	RealName:        "real_name",
+	BusinessType:    "business_type",
+	Individual:      "individual",
+	Corporation:     "corporation",
+	Users:           "users",
+	IsEnabled:       "is_enabled",
+	IsVerified:      "is_verified",
+	IsDeleted:       "is_deleted",
+	VerifiedAt:      "verified_at",
+	Application:     "application",
+	PreferredLocale: "preferred_locale",
+	CreatedAt:       "created_at",
+	UpdatedAt:       "updated_at",
+	ActivatedAt:     "activated_at",
+	DisabledAt:      "disabled_at",
+	RejectReason:    "reject_reason",
 }
 
 var UserFields = userFields{

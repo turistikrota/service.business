@@ -21,10 +21,11 @@ type BusinessApplicationRequest struct {
 	Address         string `json:"address" validate:"required"`
 	DateOfBirth     string `json:"dateOfBirth" validate:"required_if=BusinessType individual,datetime=2006-01-02"`
 	TaxNumber       string `json:"taxNumber" validate:"required_if=BusinessType corporation"`
+	Application     string `json:"application" validate:"required,oneof=accommodation advert place"`
 	CorporationType string `json:"type" validate:"required_if=BusinessType corporation"`
 }
 
-func (r *BusinessApplicationRequest) ToCommand(userUUID string, userName string) command.BusinessApplicationCommand {
+func (r *BusinessApplicationRequest) ToCommand(userUUID string, userName string, locale string) command.BusinessApplicationCommand {
 	businessType := business.Type(r.BusinessType)
 	cmd := command.BusinessApplicationCommand{
 		UserName:     userName,
@@ -32,6 +33,8 @@ func (r *BusinessApplicationRequest) ToCommand(userUUID string, userName string)
 		NickName:     r.NickName,
 		RealName:     r.RealName,
 		BusinessType: businessType,
+		Application:  business.Application(r.Application),
+		Locale:       business.Locale(locale),
 	}
 	if businessType == business.Types.Individual {
 		birth, _ := time.Parse(formats.DateYYYYMMDD, r.DateOfBirth)

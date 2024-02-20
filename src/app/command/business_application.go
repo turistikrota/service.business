@@ -24,6 +24,8 @@ type BusinessApplicationCommand struct {
 	Corporation       BusinessApplicationCorporationCommand
 	hashedIndividual  business.Individual
 	hashedCorporation business.Corporation
+	Application       business.Application
+	Locale            business.Locale
 }
 
 type BusinessApplicationIndividualCommand struct {
@@ -135,6 +137,8 @@ func (h businessApplicationHandler) create(ctx context.Context, chain *businessA
 		BusinessType: chain.command.BusinessType,
 		Individual:   chain.command.hashedIndividual,
 		Corporation:  chain.command.hashedCorporation,
+		Application:  chain.command.Application,
+		Locale:       chain.command.Locale,
 	})
 	return nil, nil
 }

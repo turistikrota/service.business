@@ -19,6 +19,7 @@ type Commands struct {
 	BusinessDisable        command.BusinessDisableHandler
 	BusinessVerifyByAdmin  command.AdminBusinessVerifyHandler
 	BusinessDeleteByAdmin  command.AdminBusinessDeleteHandler
+	BusinessSetLocale      command.BusinessSetLocaleHandler
 	BusinessRecoverByAdmin command.AdminBusinessRecoverHandler
 	BusinessRejectByAdmin  command.AdminBusinessRejectHandler
 	InviteCreate           command.InviteCreateHandler

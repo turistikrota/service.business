@@ -28,6 +28,7 @@ type Repository interface {
 	RemoveUser(ctx context.Context, nickName string, user UserDetail) *i18np.Error
 	RemoveUserPermission(ctx context.Context, nickName string, user UserDetail, permission string) *i18np.Error
 	AddUserPermission(ctx context.Context, nickName string, user UserDetail, permission string) *i18np.Error
+	SetPreferredLocale(ctx context.Context, nickName string, locale string) *i18np.Error
 	Enable(ctx context.Context, nickName string) *i18np.Error
 	Verify(ctx context.Context, nickName string) *i18np.Error
 	Reject(ctx context.Context, nickName string, reason string) *i18np.Error

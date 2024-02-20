@@ -32,6 +32,7 @@ func NewApplication(config Config) app.Application {
 	businessEvents := business.NewEvents(business.EventConfig{
 		Topics:    config.App.Topics,
 		Publisher: config.EventEngine,
+		I18n:      config.I18n,
 	})
 
 	inviteFactory := invite.NewFactory()
@@ -96,6 +97,12 @@ func NewApplication(config Config) app.Application {
 				CqrsBase: base,
 			}),
 			BusinessDeleteByAdmin: command.NewAdminBusinessDeleteHandler(command.AdminBusinessDeleteConfig{
+				Repo:     businessRepo,
+				Factory:  businessFactory,
+				Events:   businessEvents,
+				CqrsBase: base,
+			}),
+			BusinessSetLocale: command.NewBusinessSetLocaleHandler(command.BusinessSetLocaleConfig{
 				Repo:     businessRepo,
 				Factory:  businessFactory,
 				Events:   businessEvents,

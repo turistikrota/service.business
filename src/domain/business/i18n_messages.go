@@ -14,6 +14,12 @@ type messages struct {
 	CorporationVerificationFailed string
 	IndividualAlreadyExists       string
 	CorporationAlreadyExists      string
+	ApplicationInvalid            string
+	BusinessMustBeCorporation     string
+	NotifySubjectRejected         string
+	NotifySubjectVerified         string
+	NotifyRejectContent           string
+	NotifyVerifiedContent         string
 }
 
 var I18nMessages = messages{
@@ -30,4 +36,10 @@ var I18nMessages = messages{
 	CorporationVerificationFailed: "error_business_corporation_verification_failed",
 	IndividualAlreadyExists:       "error_business_individual_already_exists",
 	CorporationAlreadyExists:      "error_business_corporation_already_exists",
+	ApplicationInvalid:            "error_business_application_invalid",
+	BusinessMustBeCorporation:     "error_business_must_be_corporation",
+	NotifySubjectRejected:         "notify_business_subject_rejected",
+	NotifySubjectVerified:         "notify_business_subject_verified",
+	NotifyRejectContent:           "notify_business_reject_content",
+	NotifyVerifiedContent:         "notify_business_verify_content",
 }

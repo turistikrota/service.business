@@ -17,6 +17,7 @@ type businessRoles struct {
 	Enable         string
 	Disable        string
 	UserList       string
+	LocaleSet      string
 	Super          string
 	InviteCreate   string
 	InviteDelete   string
@@ -43,6 +44,7 @@ var Roles = roles{
 		AdminRecover:   "business.admin_recover",
 		UserAdd:        "business.user_add",
 		UserRemove:     "business.user_remove",
+		LocaleSet:      "business.locale_set",
 		UserPermAdd:    "business.user_perm_add",
 		UserPermRemove: "business.user_perm_remove",
 		Enable:         "business.enable",

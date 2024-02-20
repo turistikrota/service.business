@@ -12,12 +12,14 @@ type Errors interface {
 	NotFound() *i18np.Error
 	TypeRequired() *i18np.Error
 	TypeInvalid() *i18np.Error
+	BusinessMustBeCorporation() *i18np.Error
 	CorporationTypeRequired() *i18np.Error
 	CorporationTypeInvalid() *i18np.Error
 	IdentityVerificationFailed() *i18np.Error
 	CorporationVerificationFailed() *i18np.Error
 	IndividualAlreadyExists() *i18np.Error
 	CorporationAlreadyExists() *i18np.Error
+	ApplicationInvalid() *i18np.Error
 }
 
 type businessErrors struct{}
@@ -76,4 +78,12 @@ func (e *businessErrors) IndividualAlreadyExists() *i18np.Error {
 
 func (e *businessErrors) CorporationAlreadyExists() *i18np.Error {
 	return i18np.NewError(I18nMessages.CorporationAlreadyExists)
+}
+
+func (e *businessErrors) ApplicationInvalid() *i18np.Error {
+	return i18np.NewError(I18nMessages.ApplicationInvalid)
+}
+
+func (e *businessErrors) BusinessMustBeCorporation() *i18np.Error {
+	return i18np.NewError(I18nMessages.BusinessMustBeCorporation)
 }
