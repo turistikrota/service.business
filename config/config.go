@@ -19,9 +19,9 @@ type I18n struct {
 	Locales  []string `env:"I18N_LOCALES" envDefault:"en,tr"`
 }
 
-type Server struct {
-	Host string `env:"SERVER_HOST" envDefault:"localhost"`
-	Port int    `env:"SERVER_PORT" envDefault:"3000"`
+type Http struct {
+	Host string `env:"HTTP_HOST" envDefault:"localhost"`
+	Port int    `env:"HTTP_PORT" envDefault:"3000"`
 }
 
 type Rpc struct {
@@ -132,7 +132,7 @@ type App struct {
 	Rpc         Rpc
 	Vkn         Vkn
 	HttpHeaders HttpHeaders
-	Server      Server
+	Http        Http
 	Session     Session
 	I18n        I18n
 	Topics      Topics
