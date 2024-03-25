@@ -3,8 +3,10 @@ module github.com/turistikrota/service.business
 go 1.20
 
 require (
+	github.com/9ssi7/vkn v0.0.2
 	github.com/cilloparch/cillop v0.1.1
 	github.com/golang/protobuf v1.5.3
+	github.com/ssibrahimbas/KPSPublic v1.0.0
 	github.com/turistikrota/service.shared v0.2.8
 	go.mongodb.org/mongo-driver v1.12.1
 	google.golang.org/grpc v1.57.0
@@ -14,6 +16,7 @@ require (
 require (
 	github.com/BurntSushi/toml v1.3.2 // indirect
 	github.com/golang/snappy v0.0.4 // indirect
+	github.com/google/uuid v1.3.1 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
 	github.com/montanaflynn/stats v0.7.0 // indirect
 	github.com/nicksnyder/go-i18n/v2 v2.2.1 // indirect
