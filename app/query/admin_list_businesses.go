@@ -10,18 +10,18 @@ import (
 	"github.com/turistikrota/service.business/pkg/paginate"
 )
 
-type AdminListAllQuery struct {
+type AdminListBusinessesQuery struct {
 	*paginate.Pagination
 }
 
-type AdminListAllRes struct {
+type AdminListBusinessesRes struct {
 	List *list.Result[*business.AdminListDto]
 }
 
-type AdminListAllHandler cqrs.HandlerFunc[AdminListAllQuery, *AdminListAllRes]
+type AdminListBusinessesHandler cqrs.HandlerFunc[AdminListBusinessesQuery, *AdminListBusinessesRes]
 
-func NewAdminListAllHandler(repo business.Repository) AdminListAllHandler {
-	return func(ctx context.Context, query AdminListAllQuery) (*AdminListAllRes, *i18np.Error) {
+func NewAdminListBusinessesHandler(repo business.Repository) AdminListBusinessesHandler {
+	return func(ctx context.Context, query AdminListBusinessesQuery) (*AdminListBusinessesRes, *i18np.Error) {
 		query.Default()
 		res, err := repo.AdminListAll(ctx, list.Config{
 			Offset: (*query.Page - 1) * *query.Limit,
@@ -30,6 +30,6 @@ func NewAdminListAllHandler(repo business.Repository) AdminListAllHandler {
 		if err != nil {
 			return nil, err
 		}
-		return &AdminListAllRes{List: res}, nil
+		return &AdminListBusinessesRes{List: res}, nil
 	}
 }

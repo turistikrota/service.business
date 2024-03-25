@@ -13,7 +13,7 @@ import (
 	"github.com/turistikrota/service.shared/cipher"
 )
 
-type AdminBusinessApplicationCmd struct {
+type BusinessApplicationCmd struct {
 	UserUUID        string
 	UserName        string
 	NickName        string `json:"nickName" validate:"required"`
@@ -33,14 +33,14 @@ type AdminBusinessApplicationCmd struct {
 	Locale          business.Locale
 }
 
-type AdminBusinessApplicationRes struct {
+type BusinessApplicationRes struct {
 	UUID string `json:"uuid"`
 }
 
-type AdminBusinessApplicationHandler cqrs.HandlerFunc[AdminBusinessApplicationCmd, *AdminBusinessApplicationRes]
+type BusinessApplicationHandler cqrs.HandlerFunc[BusinessApplicationCmd, *BusinessApplicationRes]
 
-func NewAdminBusinessApplicationHandler(repo business.Repository, factory business.Factory, events business.Events, identitySrv KPSPublic.Service, taxIdSrv vkn.Vkn, cipher cipher.Service) AdminBusinessApplicationHandler {
-	return func(ctx context.Context, cmd AdminBusinessApplicationCmd) (*AdminBusinessApplicationRes, *i18np.Error) {
+func NewBusinessApplicationHandler(repo business.Repository, factory business.Factory, events business.Events, identitySrv KPSPublic.Service, taxIdSrv vkn.Vkn, cipher cipher.Service) BusinessApplicationHandler {
+	return func(ctx context.Context, cmd BusinessApplicationCmd) (*BusinessApplicationRes, *i18np.Error) {
 		params := business.NewBusinessParams{
 			UserUUID:     cmd.UserUUID,
 			UserName:     cmd.UserName,
@@ -141,7 +141,7 @@ func NewAdminBusinessApplicationHandler(repo business.Repository, factory busine
 			UserUUID: cmd.UserUUID,
 			UserName: cmd.UserName,
 		})
-		return &AdminBusinessApplicationRes{
+		return &BusinessApplicationRes{
 			UUID: inserted.UUID,
 		}, nil
 	}
