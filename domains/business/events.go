@@ -81,13 +81,11 @@ type (
 	EventBusinessDisabled struct {
 		UserName     string `json:"nickName"`
 		UserUUID     string `json:"userUUID"`
-		UserCode     string `json:"userCode"`
 		BusinessName string `json:"businessNickName"`
 	}
 	EventBusinessEnabled struct {
 		UserName     string `json:"nickName"`
 		UserUUID     string `json:"userUUID"`
-		UserCode     string `json:"userCode"`
 		BusinessName string `json:"businessNickName"`
 	}
 )
