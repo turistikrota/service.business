@@ -5,7 +5,10 @@ import (
 	"github.com/turistikrota/service.business/app/query"
 )
 
-type Application struct{}
+type Application struct {
+	Commands Commands
+	Queries  Queries
+}
 
 type Commands struct {
 	BusinessApplication    command.BusinessApplicationHandler

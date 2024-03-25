@@ -50,7 +50,7 @@ type repo struct {
 	helper     mongo2.Helper[*Entity, *Entity]
 }
 
-func New(factory Factory, collection *mongo.Collection) Repository {
+func NewRepository(factory Factory, collection *mongo.Collection) Repository {
 	return &repo{
 		factory:    factory,
 		collection: collection,
