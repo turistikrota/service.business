@@ -34,61 +34,61 @@ type (
 		Name string `json:"name"`
 	}
 	EventBusinessUserAdded struct {
-		BusinessNickName string `json:"businessNickName"`
-		User             *User  `json:"user"`
+		BusinessName string `json:"businessNickName"`
+		User         *User  `json:"user"`
 	}
 	EventBusinessUserRemoved struct {
-		BusinessNickName string    `json:"businessNickName"`
-		AccessUserName   string    `json:"accessUserName"`
-		AccessUserUUID   string    `json:"accessUserUUID"`
-		User             EventUser `json:"user"`
+		BusinessName   string    `json:"businessNickName"`
+		AccessUserName string    `json:"accessUserName"`
+		AccessUserUUID string    `json:"accessUserUUID"`
+		User           EventUser `json:"user"`
 	}
 	EventBusinessPermissionRemoved struct {
-		BusinessNickName string    `json:"businessNickName"`
-		AccessUserUUID   string    `json:"accessUserUUID"`
-		AccessUserName   string    `json:"accessUserName"`
-		User             EventUser `json:"user"`
-		PermissionName   string    `json:"permission"`
+		BusinessName   string    `json:"businessNickName"`
+		AccessUserUUID string    `json:"accessUserUUID"`
+		AccessUserName string    `json:"accessUserName"`
+		User           EventUser `json:"user"`
+		PermissionName string    `json:"permission"`
 	}
 	EventBusinessPermissionAdded struct {
-		BusinessNickName string    `json:"businessNickName"`
-		AccessUserUUID   string    `json:"accessUserUUID"`
-		AccessUserName   string    `json:"accessUserName"`
-		User             EventUser `json:"user"`
-		PermissionName   string    `json:"permission"`
+		BusinessName   string    `json:"businessNickName"`
+		AccessUserUUID string    `json:"accessUserUUID"`
+		AccessUserName string    `json:"accessUserName"`
+		User           EventUser `json:"user"`
+		PermissionName string    `json:"permission"`
 	}
 	EventBusinessVerifiedByAdmin struct {
-		BusinessNickName string   `json:"businessNickName"`
-		BusinessLocale   string   `json:"businessLocale"`
-		Users            []string `json:"users"`
-		AdminUUID        string   `json:"adminUUID"`
+		BusinessName   string   `json:"businessNickName"`
+		BusinessLocale string   `json:"businessLocale"`
+		Users          []string `json:"users"`
+		AdminUUID      string   `json:"adminUUID"`
 	}
 	EventBusinessRejectedByAdmin struct {
-		BusinessNickName string   `json:"businessNickName"`
-		Reason           string   `json:"reason"`
-		BusinessLocale   string   `json:"businessLocale"`
-		Users            []string `json:"users"`
-		AdminUUID        string   `json:"adminUUID"`
+		BusinessName   string   `json:"businessNickName"`
+		Reason         string   `json:"reason"`
+		BusinessLocale string   `json:"businessLocale"`
+		Users          []string `json:"users"`
+		AdminUUID      string   `json:"adminUUID"`
 	}
 	EventBusinessDeletedByAdmin struct {
-		BusinessNickName string `json:"businessNickName"`
-		AdminUUID        string `json:"adminUUID"`
+		BusinessName string `json:"businessNickName"`
+		AdminUUID    string `json:"adminUUID"`
 	}
 	EventBusinessRecoverByAdmin struct {
-		BusinessNickName string `json:"businessNickName"`
-		AdminUUID        string `json:"adminUUID"`
+		BusinessName string `json:"businessNickName"`
+		AdminUUID    string `json:"adminUUID"`
 	}
 	EventBusinessDisabled struct {
-		UserName         string `json:"nickName"`
-		UserUUID         string `json:"userUUID"`
-		UserCode         string `json:"userCode"`
-		BusinessNickName string `json:"businessNickName"`
+		UserName     string `json:"nickName"`
+		UserUUID     string `json:"userUUID"`
+		UserCode     string `json:"userCode"`
+		BusinessName string `json:"businessNickName"`
 	}
 	EventBusinessEnabled struct {
-		UserName         string `json:"nickName"`
-		UserUUID         string `json:"userUUID"`
-		UserCode         string `json:"userCode"`
-		BusinessNickName string `json:"businessNickName"`
+		UserName     string `json:"nickName"`
+		UserUUID     string `json:"userUUID"`
+		UserCode     string `json:"userCode"`
+		BusinessName string `json:"businessNickName"`
 	}
 )
 
@@ -138,14 +138,14 @@ func (e *businessEvents) VerifiedByAdmin(event *EventBusinessVerifiedByAdmin) {
 		event.BusinessLocale = "tr"
 	}
 	subject := e.i18n.Translate(Messages.NotifySubjectVerified, event.BusinessLocale)
-	smsContent := fmt.Sprintf(e.i18n.Translate(Messages.NotifyVerifiedContent, event.BusinessLocale), event.BusinessNickName)
+	smsContent := fmt.Sprintf(e.i18n.Translate(Messages.NotifyVerifiedContent, event.BusinessLocale), event.BusinessName)
 	template := fmt.Sprintf("business/verified.%s", event.BusinessLocale)
 	for _, user := range event.Users {
 		_ = e.publisher.Publish(e.topics.Notify.SendNotification, notify.NotifySendToAllChannelsCmd{
 			ActorName: user,
 			Content:   smsContent,
 			TemplateData: i18np.P{
-				"BusinessName": event.BusinessNickName,
+				"BusinessName": event.BusinessName,
 			},
 			Template:  template,
 			Subject:   subject,
@@ -165,14 +165,14 @@ func (e *businessEvents) RejectedByAdmin(event *EventBusinessRejectedByAdmin) {
 		event.BusinessLocale = "tr"
 	}
 	subject := e.i18n.Translate(Messages.NotifySubjectRejected, event.BusinessLocale)
-	smsContent := fmt.Sprintf(e.i18n.Translate(Messages.NotifyRejectContent, event.BusinessLocale), event.BusinessNickName)
+	smsContent := fmt.Sprintf(e.i18n.Translate(Messages.NotifyRejectContent, event.BusinessLocale), event.BusinessName)
 	template := fmt.Sprintf("business/rejected.%s", event.BusinessLocale)
 	for _, user := range event.Users {
 		_ = e.publisher.Publish(e.topics.Notify.SendNotification, notify.NotifySendToAllChannelsCmd{
 			ActorName: user,
 			Content:   smsContent,
 			TemplateData: i18np.P{
-				"BusinessName": event.BusinessNickName,
+				"BusinessName": event.BusinessName,
 				"Reason":       event.Reason,
 			},
 			Template:  template,
