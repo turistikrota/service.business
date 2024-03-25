@@ -1,4 +1,4 @@
-package utils
+package paginate
 
 type Pagination struct {
 	Page  *int64 `query:"page" validate:"omitempty,gt=0"`
