@@ -10,8 +10,8 @@ import (
 
 type InviteDeleteCmd struct {
 	InviteUUID string `params:"uuid" validate:"required,uuid"`
-	UserUUID   string
-	UserName   string
+	UserUUID   string `params:"-"`
+	UserName   string `params:"-"`
 }
 
 type InviteDeleteRes struct{}

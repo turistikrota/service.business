@@ -9,9 +9,9 @@ import (
 )
 
 type AdminBusinessRejectCmd struct {
-	Reason       string `json:"reason" validate:"required,min=1,max=500"`
-	BusinessName string
-	AdminUUID    string
+	Reason       string `json:"reason" params:"-" validate:"required,min=1,max=500"`
+	BusinessName string `params:"nickName" json:"-" validate:"required"`
+	AdminUUID    string `params:"-" json:"-"`
 }
 
 type AdminBusinessRejectRes struct{}

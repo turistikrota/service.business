@@ -28,14 +28,14 @@ type Commands struct {
 }
 
 type Queries struct {
-	AdminListBusinesses     query.AdminListBusinessesHandler
-	AdminViewBusiness       query.AdminViewBusinessHandler
-	ListMyBusinesses        query.ListMyBusinessesHandler
-	ListMyBusinessUsers     query.ListMyBusinessUsersHandler
-	ListAsClaim             query.ListAsClaimHandler
-	ViewBusiness            query.ViewBusinessHandler
-	BusinessGetWithUser     query.BusinessGetWithUserHandler
-	InviteGetByEmail        query.InviteGetByEmailHandler
-	InviteGetByUUID         query.InviteGetByUUIDHandler
-	InviteGetByBusinessUUID query.InviteGetByBusinessUUIDHandler
+	AdminListBusinesses      query.AdminListBusinessesHandler
+	AdminViewBusiness        query.AdminViewBusinessHandler
+	ListMyBusinesses         query.ListMyBusinessesHandler
+	ListMyBusinessUsers      query.ListMyBusinessUsersHandler
+	ListAsClaim              query.ListAsClaimHandler
+	ViewBusiness             query.ViewBusinessHandler
+	BusinessGetWithUser      query.BusinessGetWithUserHandler
+	InviteListByEmail        query.InviteListByEmailHandler
+	InviteGetByUUID          query.InviteGetByUUIDHandler
+	InviteListByBusinessUUID query.InviteListByBusinessUUIDHandler
 }

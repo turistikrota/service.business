@@ -9,9 +9,9 @@ import (
 )
 
 type BusinessGetWithUserQuery struct {
-	NickName string
-	UserName string
-	UserUUID string
+	NickName string `params:"nickName" validate:"required"`
+	UserName string `params:"-"`
+	UserUUID string `params:"-"`
 }
 
 type BusinessGetWithUserRes struct {

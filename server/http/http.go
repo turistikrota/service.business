@@ -162,3 +162,15 @@ func (h srv) cors() fiber.Handler {
 func (h srv) wrapWithTimeout(fn fiber.Handler) fiber.Handler {
 	return timeout.NewWithContext(fn, 10*time.Second)
 }
+
+func (h srv) CreateServerSideCookie(key string, value string) *fiber.Cookie {
+	return &fiber.Cookie{
+		Name:     key,
+		Value:    value,
+		Path:     "/",
+		HTTPOnly: true,
+		Secure:   true,
+		SameSite: "Strict",
+		Domain:   h.httpHeaders.Domain,
+	}
+}

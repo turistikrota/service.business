@@ -9,10 +9,10 @@ import (
 )
 
 type BusinessUserRemoveCmd struct {
-	BusinessName   string
-	UserName       string
-	AccessUserUUID string
-	AccessUserName string
+	BusinessName   string `params:"-"`
+	UserName       string `params:"userName" validate:"required,username"`
+	AccessUserUUID string `params:"-"`
+	AccessUserName string `params:"-"`
 }
 
 type BusinessUserRemoveRes struct{}

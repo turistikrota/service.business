@@ -9,8 +9,8 @@ import (
 )
 
 type AdminBusinessDeleteCmd struct {
-	BusinessName string
-	AdminUUID    string
+	BusinessName string `params:"nickName" validate:"required"`
+	AdminUUID    string `params:"-"`
 }
 
 type AdminBusinessDeleteRes struct{}

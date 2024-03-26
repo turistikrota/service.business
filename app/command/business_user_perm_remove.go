@@ -10,10 +10,10 @@ import (
 
 type BusinessUserPermRemoveCmd struct {
 	Permission     string `json:"permission" validate:"required"`
-	BusinessName   string
-	UserName       string
-	AccessUserUUID string
-	AccessUserName string
+	BusinessName   string `params:"-" json:"-"`
+	UserName       string `params:"userName" validate:"required,username"`
+	AccessUserUUID string `params:"-" json:"-"`
+	AccessUserName string `params:"-" json:"-"`
 }
 
 type BusinessUserPermRemoveRes struct{}

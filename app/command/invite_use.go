@@ -12,9 +12,9 @@ import (
 
 type InviteUseCmd struct {
 	InviteUUID string `params:"uuid" validate:"required,uuid"`
-	UserEmail  string
-	UserUUID   string
-	UserName   string
+	UserEmail  string `params:"-"`
+	UserUUID   string `params:"-"`
+	UserName   string `params:"-"`
 }
 
 type InviteUseRes struct{}

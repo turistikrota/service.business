@@ -14,8 +14,8 @@ import (
 type Repository interface {
 	Create(ctx context.Context, entity *Entity) (*Entity, *i18np.Error)
 	GetByUUID(ctx context.Context, uuid string) (*Entity, *i18np.Error)
-	GetByBusinessUUID(ctx context.Context, businessUUID string) ([]*Entity, *i18np.Error)
-	GetByEmail(ctx context.Context, email string) ([]*Entity, *i18np.Error)
+	ListByBusinessUUID(ctx context.Context, businessUUID string) ([]*Entity, *i18np.Error)
+	ListByEmail(ctx context.Context, email string) ([]*Entity, *i18np.Error)
 	Use(ctx context.Context, uuid string) *i18np.Error
 	Delete(ctx context.Context, uuid string) *i18np.Error
 }
@@ -65,14 +65,14 @@ func (r *repo) GetByUUID(ctx context.Context, uuid string) (*Entity, *i18np.Erro
 	return *o, nil
 }
 
-func (r *repo) GetByBusinessUUID(ctx context.Context, businessUUID string) ([]*Entity, *i18np.Error) {
+func (r *repo) ListByBusinessUUID(ctx context.Context, businessUUID string) ([]*Entity, *i18np.Error) {
 	filter := bson.M{
 		fields.BusinessUUID: businessUUID,
 	}
 	return r.helper.GetListFilter(ctx, filter)
 }
 
-func (r *repo) GetByEmail(ctx context.Context, email string) ([]*Entity, *i18np.Error) {
+func (r *repo) ListByEmail(ctx context.Context, email string) ([]*Entity, *i18np.Error) {
 	filter := bson.M{
 		fields.Email: email,
 	}

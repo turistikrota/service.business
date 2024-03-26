@@ -12,6 +12,8 @@ type errorMessages struct {
 	ForbiddenBusinessSelect string
 	RequiredAccountSelect   string
 	ForbiddenAccountSelect  string
+	BusinessNotFound        string
+	BusinessNotSelected     string
 }
 
 type messages struct {
@@ -31,5 +33,7 @@ var Messages = messages{
 		ForbiddenBusinessSelect: "http_error_forbidden_business_select",
 		RequiredAccountSelect:   "http_error_required_account_select",
 		ForbiddenAccountSelect:  "http_error_forbidden_account_select",
+		BusinessNotFound:        "http_error_business_not_found",
+		BusinessNotSelected:     "http_error_business_not_selected",
 	},
 }
