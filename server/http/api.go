@@ -143,6 +143,17 @@ func (h srv) AdminViewBusiness(ctx *fiber.Ctx) error {
 	return result.SuccessDetail(Messages.Success.Ok, res.Business)
 }
 
+func (h srv) ViewMyBusiness(ctx *fiber.Ctx) error {
+	query := query.ViewMyBusinessQuery{}
+	query.NickName = current_business.Parse(ctx).NickName
+	res, err := h.app.Queries.ViewMyBusiness(ctx.UserContext(), query)
+	if err != nil {
+		l, a := i18n.ParseLocales(ctx)
+		return result.Error(h.i18n.TranslateFromError(*err, l, a))
+	}
+	return result.SuccessDetail(Messages.Success.Ok, res.Business)
+}
+
 func (h srv) ListMyBusinessUsers(ctx *fiber.Ctx) error {
 	query := query.ListMyBusinessUsersQuery{}
 	query.NickName = current_business.Parse(ctx).NickName

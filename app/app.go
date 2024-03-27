@@ -34,6 +34,7 @@ type Queries struct {
 	ListMyBusinessUsers      query.ListMyBusinessUsersHandler
 	ListAsClaim              query.ListAsClaimHandler
 	ViewBusiness             query.ViewBusinessHandler
+	ViewMyBusiness           query.ViewMyBusinessHandler
 	BusinessGetWithUser      query.BusinessGetWithUserHandler
 	InviteListByEmail        query.InviteListByEmailHandler
 	InviteGetByUUID          query.InviteGetByUUIDHandler

@@ -63,10 +63,45 @@ func (h srv) Listen() error {
 		Host:        h.config.Http.Host,
 		Port:        h.config.Http.Port,
 		I18n:        h.i18n,
-		AcceptLangs: []string{},
+		AcceptLangs: h.config.I18n.Locales,
 		Debug:       true,
 		CreateHandler: func(router fiber.Router) fiber.Router {
+			router.Use(h.cors(), h.deviceUUID())
+			business := router.Group("/business", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess())
+			business.Get("/", h.currentBusinessAccess(config.Roles.Business.AdminView), h.wrapWithTimeout(h.ViewMyBusiness))
+			business.Get("/user", h.currentBusinessAccess(config.Roles.Business.UserList), h.wrapWithTimeout(h.ListMyBusinessUsers))
+			business.Patch("/user/@:userName/add-role", h.currentBusinessAccess(config.Roles.Business.UserPermAdd), h.wrapWithTimeout(h.BusinessUserPermAdd))
+			business.Patch("/user/@:userName/rm-role", h.currentBusinessAccess(config.Roles.Business.UserPermRemove), h.wrapWithTimeout(h.BusinessUserPermRemove))
+			business.Patch("/user/@:userName", h.currentBusinessAccess(config.Roles.Business.UserRemove), h.wrapWithTimeout(h.BusinessUserRemove))
+			business.Patch("/enable", h.currentBusinessAccess(config.Roles.Business.Enable), h.wrapWithTimeout(h.BusinessEnable))
+			business.Patch("/disable", h.currentBusinessAccess(config.Roles.Business.Disable), h.wrapWithTimeout(h.BusinessDisable))
+			business.Patch("/locale", h.currentBusinessAccess(config.Roles.Business.LocaleSet), h.wrapWithTimeout(h.BusinessSetLocale))
+			business.Put("/select", h.wrapWithTimeout(h.BusinessSelect))
 
+			// invite business routes
+			business.Post("/invite", h.currentBusinessAccess(config.Roles.Business.InviteCreate), h.wrapWithTimeout(h.InviteCreate))
+			business.Delete("/invite/:uuid", h.currentBusinessAccess(config.Roles.Business.InviteDelete), h.wrapWithTimeout(h.InviteDelete))
+			business.Get("/invite", h.currentBusinessAccess(config.Roles.Business.InviteView), h.wrapWithTimeout(h.InviteListByBusinessUUID))
+
+			admin := router.Group("/admin", h.currentUserAccess(), h.requiredAccess())
+			admin.Get("/", h.adminRoute(config.Roles.Business.AdminList), h.wrapWithTimeout(h.AdminListBusinesses))
+			admin.Patch("/:nickName/verify", h.adminRoute(config.Roles.Business.AdminVerify), h.wrapWithTimeout(h.AdminBusinessVerify))
+			admin.Patch("/:nickName/reject", h.adminRoute(config.Roles.Business.AdminReject), h.wrapWithTimeout(h.AdminBusinessReject))
+			admin.Delete("/:nickName", h.adminRoute(config.Roles.Business.AdminDelete), h.wrapWithTimeout(h.AdminBusinessDelete))
+			admin.Patch("/:nickName/recover", h.adminRoute(config.Roles.Business.AdminRecover), h.wrapWithTimeout(h.AdminBusinessRecover))
+			admin.Get("/:nickName", h.adminRoute(config.Roles.Business.AdminView), h.wrapWithTimeout(h.AdminViewBusiness))
+			admin.Get("/invites/:uuid", h.adminRoute(config.Roles.Business.InviteView), h.wrapWithTimeout(h.InviteGetByUUID))
+
+			router.Get("/selected", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.BusinessGetSelected))
+			router.Post("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.BusinessApplication))
+			router.Get("/", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.ListMyBusinesses))
+
+			// invite 3rd user routes
+			router.Post("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteUse))
+			router.Get("/join/:uuid", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteGetByUUID))
+			router.Get("/invites", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteListByEmail))
+
+			router.Get("/:nickName", h.wrapWithTimeout(h.ViewBusiness))
 			return router
 		},
 	})
