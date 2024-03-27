@@ -3,22 +3,22 @@ package business
 import "time"
 
 type Entity struct {
-	UUID            string      `json:"uuid" bson:"_id,omitempty"`
-	NickName        string      `json:"nickName" bson:"nick_name"`
-	RealName        string      `json:"realName" bson:"real_name"`
-	BusinessType    Type        `json:"businessType" bson:"business_type"`
-	Individual      Individual  `json:"individual" bson:"individual"`
-	Corporation     Corporation `json:"corporation" bson:"corporation"`
-	Users           []User      `json:"users" bson:"users"`
-	PreferredLocale Locale      `json:"preferredLocale" bson:"preferred_locale"`
-	RejectReason    *string     `json:"rejectReason,omitempty" bson:"reject_reason,omitempty"`
-	IsEnabled       bool        `json:"isEnabled" bson:"is_enabled"`
-	IsVerified      bool        `json:"isVerified" bson:"is_verified"`
-	IsDeleted       bool        `json:"isDeleted" bson:"is_deleted"`
-	Application     Application `json:"application" bson:"application"`
-	VerifiedAt      *time.Time  `json:"verifiedAt" bson:"verified_at"`
-	CreatedAt       *time.Time  `json:"createdAt" bson:"created_at"`
-	UpdatedAt       *time.Time  `json:"updatedAt" bson:"updated_at"`
+	UUID            string       `json:"uuid" bson:"_id,omitempty"`
+	NickName        string       `json:"nickName" bson:"nick_name"`
+	RealName        string       `json:"realName" bson:"real_name"`
+	BusinessType    Type         `json:"businessType" bson:"business_type"`
+	Individual      *Individual  `json:"individual,omitempty" bson:"individual,omitempty"`
+	Corporation     *Corporation `json:"corporation,omitempty" bson:"corporation,omitempty"`
+	Users           []User       `json:"users" bson:"users"`
+	PreferredLocale Locale       `json:"preferredLocale" bson:"preferred_locale"`
+	RejectReason    *string      `json:"rejectReason,omitempty" bson:"reject_reason,omitempty"`
+	IsEnabled       bool         `json:"isEnabled" bson:"is_enabled"`
+	IsVerified      bool         `json:"isVerified" bson:"is_verified"`
+	IsDeleted       bool         `json:"isDeleted" bson:"is_deleted"`
+	Application     Application  `json:"application" bson:"application"`
+	VerifiedAt      *time.Time   `json:"verifiedAt" bson:"verified_at"`
+	CreatedAt       *time.Time   `json:"createdAt" bson:"created_at"`
+	UpdatedAt       *time.Time   `json:"updatedAt" bson:"updated_at"`
 }
 
 type Corporation struct {

@@ -81,9 +81,9 @@ func (f Factory) NewBusiness(params NewBusinessParams) *Entity {
 		UpdatedAt:       &t,
 	}
 	if params.BusinessType == Types.Individual {
-		e.Individual = params.Individual
+		e.Individual = &params.Individual
 	} else {
-		e.Corporation = params.Corporation
+		e.Corporation = &params.Corporation
 	}
 	return e
 }
