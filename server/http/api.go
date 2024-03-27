@@ -15,7 +15,7 @@ import (
 
 func (h srv) BusinessApplication(ctx *fiber.Ctx) error {
 	cmd := command.BusinessApplicationCmd{}
-	h.parseBody(ctx, cmd)
+	h.parseBody(ctx, &cmd)
 	cmd.UserName = current_account.Parse(ctx).Name
 	cmd.UserUUID = current_user.Parse(ctx).UUID
 	cmd.Locale = business.Locale(i18n.ParseLocale(ctx))
@@ -41,7 +41,7 @@ func (h srv) BusinessSetLocale(ctx *fiber.Ctx) error {
 
 func (h srv) BusinessUserRemove(ctx *fiber.Ctx) error {
 	cmd := command.BusinessUserRemoveCmd{}
-	h.parseParams(ctx, cmd)
+	h.parseParams(ctx, &cmd)
 	cmd.BusinessName = current_business.Parse(ctx).NickName
 	cmd.AccessUserUUID = current_user.Parse(ctx).UUID
 	cmd.AccessUserName = current_account.Parse(ctx).Name
@@ -55,7 +55,7 @@ func (h srv) BusinessUserRemove(ctx *fiber.Ctx) error {
 
 func (h srv) AdminBusinessVerify(ctx *fiber.Ctx) error {
 	cmd := command.AdminBusinessVerifyCmd{}
-	h.parseParams(ctx, cmd)
+	h.parseParams(ctx, &cmd)
 	cmd.AdminUUID = current_user.Parse(ctx).UUID
 	res, err := h.app.Commands.BusinessVerifyByAdmin(ctx.UserContext(), cmd)
 	if err != nil {
@@ -67,7 +67,7 @@ func (h srv) AdminBusinessVerify(ctx *fiber.Ctx) error {
 
 func (h srv) AdminBusinessDelete(ctx *fiber.Ctx) error {
 	cmd := command.AdminBusinessDeleteCmd{}
-	h.parseParams(ctx, cmd)
+	h.parseParams(ctx, &cmd)
 	cmd.AdminUUID = current_user.Parse(ctx).UUID
 	res, err := h.app.Commands.BusinessDeleteByAdmin(ctx.UserContext(), cmd)
 	if err != nil {
@@ -79,7 +79,7 @@ func (h srv) AdminBusinessDelete(ctx *fiber.Ctx) error {
 
 func (h srv) AdminBusinessRecover(ctx *fiber.Ctx) error {
 	cmd := command.AdminBusinessRecoverCmd{}
-	h.parseParams(ctx, cmd)
+	h.parseParams(ctx, &cmd)
 	cmd.AdminUUID = current_user.Parse(ctx).UUID
 	res, err := h.app.Commands.BusinessRecoverByAdmin(ctx.UserContext(), cmd)
 	if err != nil {
@@ -91,8 +91,8 @@ func (h srv) AdminBusinessRecover(ctx *fiber.Ctx) error {
 
 func (h srv) AdminBusinessReject(ctx *fiber.Ctx) error {
 	cmd := command.AdminBusinessRejectCmd{}
-	h.parseParams(ctx, cmd)
-	h.parseBody(ctx, cmd)
+	h.parseParams(ctx, &cmd)
+	h.parseBody(ctx, &cmd)
 	cmd.AdminUUID = current_user.Parse(ctx).UUID
 	res, err := h.app.Commands.BusinessRejectByAdmin(ctx.UserContext(), cmd)
 	if err != nil {
@@ -104,8 +104,8 @@ func (h srv) AdminBusinessReject(ctx *fiber.Ctx) error {
 
 func (h srv) BusinessUserPermAdd(ctx *fiber.Ctx) error {
 	cmd := command.BusinessUserPermAddCmd{}
-	h.parseParams(ctx, cmd)
-	h.parseBody(ctx, cmd)
+	h.parseParams(ctx, &cmd)
+	h.parseBody(ctx, &cmd)
 	cmd.BusinessName = current_business.Parse(ctx).NickName
 	cmd.AccessUserUUID = current_user.Parse(ctx).UUID
 	cmd.AccessUserName = current_account.Parse(ctx).Name
@@ -119,8 +119,8 @@ func (h srv) BusinessUserPermAdd(ctx *fiber.Ctx) error {
 
 func (h srv) BusinessUserPermRemove(ctx *fiber.Ctx) error {
 	cmd := command.BusinessUserPermRemoveCmd{}
-	h.parseParams(ctx, cmd)
-	h.parseBody(ctx, cmd)
+	h.parseParams(ctx, &cmd)
+	h.parseBody(ctx, &cmd)
 	cmd.BusinessName = current_business.Parse(ctx).NickName
 	cmd.AccessUserUUID = current_user.Parse(ctx).UUID
 	cmd.AccessUserName = current_account.Parse(ctx).Name
@@ -134,7 +134,7 @@ func (h srv) BusinessUserPermRemove(ctx *fiber.Ctx) error {
 
 func (h srv) AdminViewBusiness(ctx *fiber.Ctx) error {
 	query := query.AdminViewBusinessQuery{}
-	h.parseParams(ctx, query)
+	h.parseParams(ctx, &query)
 	res, err := h.app.Queries.AdminViewBusiness(ctx.UserContext(), query)
 	if err != nil {
 		l, a := i18n.ParseLocales(ctx)
@@ -180,7 +180,7 @@ func (h srv) ListMyBusinesses(ctx *fiber.Ctx) error {
 
 func (h srv) AdminListBusinesses(ctx *fiber.Ctx) error {
 	pagi := paginate.Pagination{}
-	h.parseQuery(ctx, pagi)
+	h.parseQuery(ctx, &pagi)
 	query := query.AdminListBusinessesQuery{
 		Pagination: &pagi,
 	}
@@ -194,7 +194,7 @@ func (h srv) AdminListBusinesses(ctx *fiber.Ctx) error {
 
 func (h srv) ViewBusiness(ctx *fiber.Ctx) error {
 	query := query.ViewBusinessQuery{}
-	h.parseParams(ctx, query)
+	h.parseParams(ctx, &query)
 	res, err := h.app.Queries.ViewBusiness(ctx.UserContext(), query)
 	if err != nil {
 		l, a := i18n.ParseLocales(ctx)
@@ -230,11 +230,11 @@ func (h srv) BusinessDisable(ctx *fiber.Ctx) error {
 }
 
 func (h srv) BusinessSelect(ctx *fiber.Ctx) error {
-	query := query.BusinessGetWithUserQuery{}
-	h.parseParams(ctx, query)
-	query.UserName = current_account.Parse(ctx).Name
-	query.UserUUID = current_user.Parse(ctx).UUID
-	res, err := h.app.Queries.BusinessGetWithUser(ctx.UserContext(), query)
+	q := query.BusinessGetWithUserQuery{}
+	q.UserName = current_account.Parse(ctx).Name
+	q.UserUUID = current_user.Parse(ctx).UUID
+	h.parseParams(ctx, &q)
+	res, err := h.app.Queries.BusinessGetWithUser(ctx.UserContext(), q)
 	if err != nil {
 		l, a := i18n.ParseLocales(ctx)
 		return result.Error(h.i18n.TranslateFromError(*err, l, a))
@@ -275,7 +275,7 @@ func (h srv) BusinessGetSelected(ctx *fiber.Ctx) error {
 
 func (h srv) InviteCreate(ctx *fiber.Ctx) error {
 	cmd := command.InviteCreateCmd{}
-	h.parseBody(ctx, cmd)
+	h.parseBody(ctx, &cmd)
 	bus := current_business.Parse(ctx)
 	cmd.BusinessName = bus.NickName
 	cmd.BusinessUUID = bus.UUID
@@ -291,7 +291,7 @@ func (h srv) InviteCreate(ctx *fiber.Ctx) error {
 
 func (h srv) InviteDelete(ctx *fiber.Ctx) error {
 	cmd := command.InviteDeleteCmd{}
-	h.parseParams(ctx, cmd)
+	h.parseParams(ctx, &cmd)
 	cmd.UserName = current_account.Parse(ctx).Name
 	cmd.UserUUID = current_user.Parse(ctx).UUID
 	res, err := h.app.Commands.InviteDelete(ctx.UserContext(), cmd)
@@ -304,7 +304,7 @@ func (h srv) InviteDelete(ctx *fiber.Ctx) error {
 
 func (h srv) InviteUse(ctx *fiber.Ctx) error {
 	cmd := command.InviteUseCmd{}
-	h.parseParams(ctx, cmd)
+	h.parseParams(ctx, &cmd)
 	user := current_user.Parse(ctx)
 	cmd.UserName = current_account.Parse(ctx).Name
 	cmd.UserUUID = user.UUID
@@ -319,7 +319,7 @@ func (h srv) InviteUse(ctx *fiber.Ctx) error {
 
 func (h srv) InviteGetByUUID(ctx *fiber.Ctx) error {
 	query := query.InviteGetByUUIDQuery{}
-	h.parseParams(ctx, query)
+	h.parseParams(ctx, &query)
 	res, err := h.app.Queries.InviteGetByUUID(ctx.UserContext(), query)
 	if err != nil {
 		l, a := i18n.ParseLocales(ctx)

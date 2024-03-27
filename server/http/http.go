@@ -76,7 +76,6 @@ func (h srv) Listen() error {
 			business.Patch("/enable", h.currentBusinessAccess(config.Roles.Business.Enable), h.wrapWithTimeout(h.BusinessEnable))
 			business.Patch("/disable", h.currentBusinessAccess(config.Roles.Business.Disable), h.wrapWithTimeout(h.BusinessDisable))
 			business.Patch("/locale", h.currentBusinessAccess(config.Roles.Business.LocaleSet), h.wrapWithTimeout(h.BusinessSetLocale))
-			business.Put("/select", h.wrapWithTimeout(h.BusinessSelect))
 
 			// invite business routes
 			business.Post("/invite", h.currentBusinessAccess(config.Roles.Business.InviteCreate), h.wrapWithTimeout(h.InviteCreate))
@@ -102,6 +101,7 @@ func (h srv) Listen() error {
 			router.Get("/invites", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.InviteListByEmail))
 
 			router.Get("/:nickName", h.wrapWithTimeout(h.ViewBusiness))
+			router.Put("/~:nickName/select", h.currentUserAccess(), h.requiredAccess(), h.currentAccountAccess(), h.wrapWithTimeout(h.BusinessSelect))
 			return router
 		},
 	})

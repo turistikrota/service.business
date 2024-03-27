@@ -2,6 +2,7 @@ package query
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/cilloparch/cillop/cqrs"
 	"github.com/cilloparch/cillop/i18np"
@@ -27,6 +28,7 @@ func NewBusinessGetWithUserHandler(repo business.Repository) BusinessGetWithUser
 			UUID: query.UserUUID,
 		})
 		if err != nil {
+			fmt.Println("error", err.Error())
 			return nil, err
 		}
 		return &BusinessGetWithUserRes{Dto: business}, nil
