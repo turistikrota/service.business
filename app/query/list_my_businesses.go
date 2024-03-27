@@ -14,7 +14,7 @@ type ListMyBusinessesQuery struct {
 }
 
 type ListMyBusinessesRes struct {
-	Businesses []*business.Entity
+	Businesses []business.BusinessListDto
 }
 
 type ListMyBusinessesHandler cqrs.HandlerFunc[ListMyBusinessesQuery, *ListMyBusinessesRes]

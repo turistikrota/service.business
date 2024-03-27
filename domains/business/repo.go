@@ -27,7 +27,7 @@ type Repository interface {
 	GetWithUser(ctx context.Context, nickName string, user UserDetail) (*EntityWithUserDto, *i18np.Error)
 	GetWithUserName(ctx context.Context, nickName string, userName string) (*EntityWithUserDto, *i18np.Error)
 	ProfileView(ctx context.Context, nickName string) (*Entity, *i18np.Error)
-	ListByUserUUID(ctx context.Context, user UserDetail) ([]*Entity, *i18np.Error)
+	ListByUserUUID(ctx context.Context, user UserDetail) ([]BusinessListDto, *i18np.Error)
 	ListBusinessUsers(ctx context.Context, nickName string, user UserDetail) ([]User, *i18np.Error)
 	ListAsClaim(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error)
 	AddUser(ctx context.Context, businessName string, user *User) *i18np.Error
@@ -201,7 +201,7 @@ func (r *repo) ProfileView(ctx context.Context, nickName string) (*Entity, *i18n
 	return *o, nil
 }
 
-func (r *repo) ListByUserUUID(ctx context.Context, user UserDetail) ([]*Entity, *i18np.Error) {
+func (r *repo) ListByUserUUID(ctx context.Context, user UserDetail) ([]BusinessListDto, *i18np.Error) {
 	filter := bson.M{
 		userField(userFields.Name): user.Name,
 		userField(userFields.UUID): user.UUID,
@@ -215,7 +215,24 @@ func (r *repo) ListByUserUUID(ctx context.Context, user UserDetail) ([]*Entity, 
 		fields.DisabledAt:  0,
 		fields.VerifiedAt:  0,
 	})
-	return r.helper.GetListFilter(ctx, filter, opts)
+	res, err := r.helper.GetListFilter(ctx, filter, opts)
+	if err != nil {
+		return nil, err
+	}
+	li := make([]BusinessListDto, 0)
+	for _, o := range res {
+		li = append(li, BusinessListDto{
+			NickName:     o.NickName,
+			RealName:     o.RealName,
+			BusinessType: string(o.BusinessType),
+			RejectReason: o.RejectReason,
+			IsVerified:   o.IsVerified,
+			IsEnabled:    o.IsEnabled,
+			IsDeleted:    o.IsDeleted,
+			UpdatedAt:    o.UpdatedAt,
+		})
+	}
+	return li, nil
 }
 
 func (r *repo) ListAsClaim(ctx context.Context, userUUID string) ([]*Entity, *i18np.Error) {

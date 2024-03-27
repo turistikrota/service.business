@@ -1,18 +1,31 @@
 package business
 
+import "time"
+
 type AdminListDto struct {
-	UUID            string `json:"uuid"`
-	NickName        string `json:"nickName"`
-	RealName        string `json:"realName"`
-	BusinessType    string `json:"businessType"`
-	IsEnabled       bool   `json:"isEnabled"`
-	IsVerified      bool   `json:"isVerified"`
-	IsDeleted       bool   `json:"isDeleted"`
-	Application     string `json:"application"`
-	PreferredLocale Locale `json:"preferredLocale"`
-	VerifiedAt      string `json:"verifiedAt,omitempty"`
-	CreatedAt       string `json:"createdAt"`
-	UpdatedAt       string `json:"updatedAt"`
+	UUID            string `json:"uuid"	bson:"uuid"`
+	NickName        string `json:"nickName" bson:"nick_name"`
+	RealName        string `json:"realName" bson:"real_name"`
+	BusinessType    string `json:"businessType" bson:"business_type"`
+	IsEnabled       bool   `json:"isEnabled" bson:"is_enabled"`
+	IsVerified      bool   `json:"isVerified" bson:"is_verified"`
+	IsDeleted       bool   `json:"isDeleted" bson:"is_deleted"`
+	Application     string `json:"application" bson:"application"`
+	PreferredLocale Locale `json:"preferredLocale" bson:"preferred_locale"`
+	VerifiedAt      string `json:"verifiedAt,omitempty" bson:"verified_at"`
+	CreatedAt       string `json:"createdAt" bson:"created_at"`
+	UpdatedAt       string `json:"updatedAt" bson:"updated_at"`
+}
+
+type BusinessListDto struct {
+	NickName     string     `json:"nickName" bson:"nick_name"`
+	RealName     string     `json:"realName" bson:"real_name"`
+	BusinessType string     `json:"businessType" bson:"business_type"`
+	RejectReason *string    `json:"rejectReason,omitempty" bson:"reject_reason"`
+	IsVerified   bool       `json:"isVerified" bson:"is_verified"`
+	IsEnabled    bool       `json:"isEnabled" bson:"is_enabled"`
+	IsDeleted    bool       `json:"isDeleted" bson:"is_deleted"`
+	UpdatedAt    *time.Time `json:"updatedAt" bson:"updated_at"`
 }
 
 type EntityWithUserDto struct {
