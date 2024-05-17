@@ -1,4 +1,4 @@
-FROM golang:1.20-alpine AS builder
+FROM golang:1.21.4-alpine AS builder
 ARG GITHUB_TOKEN GITHUB_USER
 RUN apk update && apk add --no-cache git 
 
@@ -14,7 +14,7 @@ RUN   --mount=type=cache,target=/go/pkg/mod \
 COPY . . 
 RUN --mount=type=cache,target=/go/pkg/mod \
     --mount=type=cache,target=/root/.cache/go-build \
-    go build -o main ./src/cmd/main.go
+    go build -o main ./cmd/main.go
 
 FROM scratch
 
@@ -22,8 +22,8 @@ ENV PORT 8080
 
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 COPY --from=builder /main .
-COPY --from=builder /src/locales ./src/locales
-COPY --from=builder /protos ./protos
+COPY --from=builder /locales ./locales
+COPY --from=builder /assets ./assets
 EXPOSE $PORT
 
 CMD ["/main"]
